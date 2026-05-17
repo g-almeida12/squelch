@@ -1,12 +1,18 @@
+export type HTTPResponse<B> = SuccessResponse<B> | ErrorResponse;
+
 export type SuccessResponse<B> = {
   success: true;
+  statusCode: HTTPStatusCode;
   body: B;
 };
 
 export type ErrorResponse = {
   success: false;
-  message: string;
-  invalidFields?: { message?: string };
+  statusCode: HTTPStatusCode;
+  body: {
+    message: string;
+    invalidFields?: { message?: string }[];
+  };
 };
 
 export type HTTPStatusCode =

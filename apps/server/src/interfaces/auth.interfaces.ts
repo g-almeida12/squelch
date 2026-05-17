@@ -1,12 +1,15 @@
 import { AuthUserDTO, LoginUser, RegisterUser, UserDTO } from "@squelch/shared";
-import { UserEntity } from "../entities/entities.js";
+import { UserEntity } from "../entities/types.entities.js";
+import { RunResult } from "better-sqlite3";
 
 export interface IAuthRepository {
-  register(newUser: RegisterUser): Promise<UserEntity>;
+  register(newUser: RegisterUser): RunResult;
+
+  findByEmail(email: string): UserEntity | null;
 }
 
 export interface IAuthService {
   register(newUser: RegisterUser): Promise<AuthUserDTO>;
 
-  login(user: LoginUser): Promise<AuthUserDTO>
+  login(user: LoginUser): Promise<AuthUserDTO>;
 }

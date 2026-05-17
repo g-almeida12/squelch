@@ -14,8 +14,14 @@ db.pragma("foreign_keys = ON");
 export function closeDBConnection(server: Server, signal: string) {
   console.log("Closing database...");
 
+  const timerId = setTimeout(() => {
+    console.warn("Forcing immediate termination.");
+    process.exit(1)
+  }, 5000);
+
   server.close(() => {
     console.log("Server closed");
+    clearTimeout(timerId);
 
     try {
       db.close();
@@ -27,6 +33,4 @@ export function closeDBConnection(server: Server, signal: string) {
 
     process.exit(0);
   });
-
-  setTimeout(() => console.warn("Forcing immediate termination."), 5000);
 }
