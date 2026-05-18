@@ -16,7 +16,7 @@ export function closeDBConnection(server: Server, signal: string) {
 
   const timerId = setTimeout(() => {
     console.warn("Forcing immediate termination.");
-    process.exit(1)
+    process.exit(1);
   }, 5000);
 
   server.close(() => {

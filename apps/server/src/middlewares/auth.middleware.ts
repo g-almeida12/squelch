@@ -3,11 +3,12 @@ import jwt from "jsonwebtoken";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { envConfig } from "../config/env.config.js";
 import AuthRepository from "../repositories/auth.repository.js";
+import UserRepository from "../repositories/user.repository.js";
 
 // TODO: trocar o authRepository.findByEmail por userRepository.findById
-const authRepository = new AuthRepository();
+const userRepository = new UserRepository();
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   userId: number;
 }
 
@@ -25,11 +26,11 @@ export function authMiddleware(
 
     const JWT_SECRET = envConfig.JWT_SECRET;
     const decoded = jwt.verify(accessToken, JWT_SECRET) as {
-      id: number;
+      sub: string;
       email: string;
     };
 
-    const user = authRepository.findByEmail(decoded.email);
+    const user = userRepository.findById(Number(decoded.sub));
     if (!user) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }

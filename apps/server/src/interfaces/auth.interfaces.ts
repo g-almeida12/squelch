@@ -4,8 +4,6 @@ import { RunResult } from "better-sqlite3";
 
 export interface IAuthRepository {
   register(newUser: RegisterUser): RunResult;
-
-  findByEmail(email: string): UserEntity | null;
 }
 
 export interface IAuthService {

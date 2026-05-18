@@ -2,7 +2,7 @@ import * as z from "zod";
 
 const BaseUserSchema = z.object({
   name: z.string().min(1, "Mínimo de 1 caractere."),
-  email: z.email("Email inválido"),
+  email: z.email("Email inválido."),
   password: z.string().min(8, "Senha deve ter no mínimo 8 caracteres."),
 });
 export const RegisterUserSchema = BaseUserSchema.required();

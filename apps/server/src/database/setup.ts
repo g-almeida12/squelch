@@ -1,6 +1,6 @@
 import { db } from "./connection.js";
 
-export function setupDatabase() {
+function setupDatabase() {
   const schemasSetup = `
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,3 +33,5 @@ export function setupDatabase() {
 
   db.exec(schemasSetup);
 }
+
+setupDatabase();

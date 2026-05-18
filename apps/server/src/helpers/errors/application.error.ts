@@ -1,4 +1,4 @@
-import { HTTPStatusCode } from "@squelch/shared";
+import { ErrorResponse, HTTPStatusCode } from "@squelch/shared";
 
 export default class ApplicationError extends Error {
   public statusCode: HTTPStatusCode;
@@ -20,17 +20,20 @@ export default class ApplicationError extends Error {
   }
 
   static repositoryError(err: unknown) {
-    // !Delete on deploy
+    // !Deletar no deploy
     console.error(err);
 
     if (err instanceof ApplicationError) {
       return err;
     }
 
-    return new ApplicationError("Unknown error", 500);
+    return new ApplicationError("Erro desconhecido.", 500);
   }
 
-  static controllerError(err: unknown) {
+  static handleControllerError(err: unknown): ErrorResponse {
+    // !Deletar no deploy
+    console.error(err);
+    
     if (err instanceof ApplicationError) {
       return {
         success: false,
@@ -45,7 +48,10 @@ export default class ApplicationError extends Error {
     return {
       success: false,
       statusCode: 500,
-      body: { message: "Ops! Infelizmente um erro ocorreu." },
+      body: {
+        message: "Ops! Infelizmente um erro ocorreu.",
+        invalidFields: [],
+      },
     };
   }
 }

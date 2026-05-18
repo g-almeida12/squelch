@@ -3,22 +3,24 @@ import {
   IAuthRepository,
   IAuthService,
 } from "../interfaces/auth.interfaces.js";
-import { IUserService } from "../interfaces/user.interfaces.js";
+import { IUserRepository } from "../interfaces/user.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
 import { envConfig } from "../config/env.config.js";
-import mapAuthUserDTO from "../entities/mappers.entities.js";
+import { mapAuthUserDTO } from "../entities/mappers.entities.js";
 import { randomUUID } from "crypto";
 
 export default class AuthService implements IAuthService {
   private authRepository: IAuthRepository;
-  constructor(authRepo: IAuthRepository) {
+  private userRepository: IUserRepository;
+  constructor(authRepo: IAuthRepository, userRepository: IUserRepository) {
     this.authRepository = authRepo;
+    this.userRepository = userRepository;
   }
 
   async register(newUser: RegisterUser): Promise<AuthUserDTO> {
-    const user = this.authRepository.findByEmail(newUser.email);
+    const user = this.userRepository.findByEmail(newUser.email);
     if (user) {
       throw new ApplicationError("Esse email já está registrado.", 409);
     }
@@ -26,13 +28,13 @@ export default class AuthService implements IAuthService {
     const hashedPassword = await hash(newUser.password);
     this.authRepository.register({ ...newUser, password: hashedPassword });
 
-    const registeredUser = this.authRepository.findByEmail(newUser.email);
+    const registeredUser = this.userRepository.findByEmail(newUser.email);
     if (!registeredUser) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }
 
     const accessToken = jwt.sign(
-      { sub: registeredUser.id, email: registeredUser.email },
+      { sub: String(registeredUser.id), email: registeredUser.email },
       envConfig.JWT_SECRET,
       {
         expiresIn: "7d",
@@ -48,7 +50,7 @@ export default class AuthService implements IAuthService {
   }
 
   async login(user: LoginUser): Promise<AuthUserDTO> {
-    const registeredUser = this.authRepository.findByEmail(user.email);
+    const registeredUser = this.userRepository.findByEmail(user.email);
     if (!registeredUser) {
       throw new ApplicationError("Email ou senha inválidos.", 422, [
         { field: "email", message: "Email inválido." },
@@ -56,7 +58,7 @@ export default class AuthService implements IAuthService {
       ]);
     }
 
-    const isValidUser = await verify(user.password, registeredUser.password);
+    const isValidUser = await verify(registeredUser.password, user.password);
     if (!isValidUser) {
       throw new ApplicationError("Email ou senha inválidos.", 422, [
         { field: "email", message: "Email inválido." },
@@ -65,7 +67,7 @@ export default class AuthService implements IAuthService {
     }
 
     const accessToken = jwt.sign(
-      { sub: registeredUser.id, email: registeredUser.email },
+      { sub: String(registeredUser.id), email: registeredUser.email },
       envConfig.JWT_SECRET,
       {
         expiresIn: "7d",

@@ -5,7 +5,7 @@ import { removeTokens, setTokens } from "../helpers/set-tokens.js";
 export const authRouter = Router({ mergeParams: true });
 
 // Register route
-authRouter.post("/auth/register", async (req, res) => {
+authRouter.post("/register", async (req, res) => {
   const { success, statusCode, body } = await authController.register(req.body);
   if (success) {
     setTokens(res, {
@@ -18,7 +18,7 @@ authRouter.post("/auth/register", async (req, res) => {
 });
 
 // Login route
-authRouter.post("/auth/login", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   const { success, statusCode, body } = await authController.login(req.body);
   if (success) {
     setTokens(res, {
@@ -31,7 +31,7 @@ authRouter.post("/auth/login", async (req, res) => {
 });
 
 // Logout route
-authRouter.post("/auth/logout", async (_req, res) => {
+authRouter.post("/logout", async (_req, res) => {
   removeTokens(res);
 
   return res.status(201);

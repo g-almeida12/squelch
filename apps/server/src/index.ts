@@ -1,11 +1,12 @@
+import "./database/setup.js";
 import { envConfig } from "./config/env.config.js";
-import { setupDatabase } from "./database/setup.js";
 import { closeDBConnection } from "./database/connection.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
-setupDatabase();
+import { authRouter } from "./routes/auth.routes.js";
+import { userRouter } from "./routes/user.routes.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 // App configurations
 const app = express();
@@ -20,11 +21,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
+
+// Error middleware
+app.use(errorMiddleware);
 
 const server = app.listen(envConfig.PORT, () => {
   console.log(`Server running at ${envConfig.API_URL}`);
 });
 
 // Event listeners to safely close the db connection
-process.on('SIGINT', () => closeDBConnection(server, 'SIGINT'));
-process.on('SIGTERM', () => closeDBConnection(server, 'SIGTERM'));
+process.on("SIGINT", () => closeDBConnection(server, "SIGINT"));
+process.on("SIGTERM", () => closeDBConnection(server, "SIGTERM"));
