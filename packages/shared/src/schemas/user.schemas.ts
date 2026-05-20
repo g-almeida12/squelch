@@ -13,6 +13,7 @@ export const UserDTOSchema = BaseUserSchema.omit({ password: true }).extend({
 });
 export const AuthUserDTOSchema = UserDTOSchema.extend({
   accessToken: z.jwt(),
+  refreshToken: z.string(),
   xsrfToken: z.string(),
 });
 

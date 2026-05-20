@@ -2,13 +2,18 @@ import { AuthUserDTO } from "@squelch/shared";
 import { UserEntity } from "./types.entities.js";
 
 export function mapAuthUserDTO(
-  user: UserEntity & { accessToken: string; xsrfToken: string },
+  user: UserEntity & {
+    accessToken: string;
+    refreshToken: string;
+    xsrfToken: string;
+  },
 ): AuthUserDTO {
   return {
     name: user.name,
     email: user.email,
     id: user.id,
     accessToken: user.accessToken,
+    refreshToken: user.refreshToken,
     xsrfToken: user.xsrfToken,
   };
 }

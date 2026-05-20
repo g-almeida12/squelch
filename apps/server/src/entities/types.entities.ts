@@ -23,3 +23,12 @@ export type SubmissionEntity = {
   expectedResult: string;
   date: string;
 }
+
+export type RefreshTokenEntity = {
+  id: number;
+  userId: number;
+  token: string;
+  expiresAt: string;
+  revokedAt: string;
+  revocationReason: 'ROTATION' | 'SECURITY_BREACH' | 'LOGOUT';
+}

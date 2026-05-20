@@ -10,6 +10,7 @@ authRouter.post("/register", async (req, res) => {
   if (success) {
     setTokens(res, {
       accessToken: body.accessToken,
+      refreshToken: body.refreshToken,
       xsrfToken: body.xsrfToken,
     });
   }
@@ -23,6 +24,21 @@ authRouter.post("/login", async (req, res) => {
   if (success) {
     setTokens(res, {
       accessToken: body.accessToken,
+      refreshToken: body.refreshToken,
+      xsrfToken: body.xsrfToken,
+    });
+  }
+
+  return res.status(statusCode).json(body);
+});
+
+// Refresh route
+authRouter.post("/refresh", (req, res) => {
+  const { success, statusCode, body } = authController.refresh(req.body);
+  if (success) {
+    setTokens(res, {
+      accessToken: body.accessToken,
+      refreshToken: body.refreshToken,
       xsrfToken: body.xsrfToken,
     });
   }

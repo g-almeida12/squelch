@@ -29,6 +29,20 @@ function setupDatabase() {
       FOREIGN KEY (user_id) REFERENCES users (id),
       FOREIGN KEY (challenge_id) REFERENCES challenges (id)
     );
+
+    CREATE INDEX idx_user_submissions ON submissions (user_id);
+
+    CREATE TABLE IF NOT EXISTS refresh_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token TEXT UNIQUE NOT NULL,
+      expired_at TEXT NOT NULL,
+      revoked_At TEXT DEFAULT NULL,
+      revocation_reason TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users (id)
+    );
+
+    CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens (user_id);
   `
 
   db.exec(schemasSetup);

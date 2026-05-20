@@ -15,8 +15,8 @@ export default class UserRepository implements IUserRepository {
     this.findByEmailStmt = db.prepare("SELECT * FROM users WHERE email = ?");
     this.updateByIdStmt = db.prepare(`
       UPDATE users 
-      SET name = COALESCE(:name, name), email = COALESCE(:email, email), password = COALESCE(:password, password)
-      WHERE id = :id
+      SET name = COALESCE(@name, name), email = COALESCE(@email, email), password = COALESCE(@password, password)
+      WHERE id = @id
     `);
     this.deleteByIdStmt = db.prepare("DELETE FROM users WHERE id = ?");
   }

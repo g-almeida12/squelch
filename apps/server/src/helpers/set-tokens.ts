@@ -2,15 +2,24 @@ import { Response } from "express";
 
 export function setTokens(
   res: Response,
-  tokens: { accessToken: string; xsrfToken: string },
+  tokens: { accessToken: string; refreshToken: string; xsrfToken: string },
 ) {
   res.cookie("access_token", tokens.accessToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 15, // 15 minutes
+    sameSite: "none",
+    secure: true,
+    partitioned: true,
+    path: "/",
+  });
+
+  res.cookie("refresh_token", tokens.refreshToken, {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     sameSite: "none",
     secure: true,
     partitioned: true,
-    path: "/",
+    path: "/auth",
   });
 
   res.cookie("xsrf_token", tokens.xsrfToken, {
@@ -24,5 +33,6 @@ export function setTokens(
 
 export function removeTokens(res: Response) {
   res.clearCookie("access_token", { path: "/" });
+  res.clearCookie("refresh_token", { path: "/auth" });
   res.clearCookie("xsrf_token", { path: "/" });
 }

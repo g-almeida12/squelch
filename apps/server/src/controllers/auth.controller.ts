@@ -61,4 +61,20 @@ export default class AuthController {
       return ApplicationError.handleControllerError(err);
     }
   }
+
+  refresh(token: string): HTTPResponse<AuthUserDTO> {
+    try {
+      if (!token || typeof token !== "string") {
+        throw new ApplicationError(
+          "Payload inválido fornecido para rotacionar um Refresh Token.",
+          400,
+        );
+      }
+
+      const refreshedUser = this.authService.refresh(token);
+      return { success: true, body: refreshedUser, statusCode: 200 };
+    } catch (err) {
+      return ApplicationError.handleControllerError(err);
+    }
+  }
 }
