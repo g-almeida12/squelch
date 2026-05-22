@@ -6,7 +6,8 @@ function setupDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL
+      password TEXT NOT NULL,
+      role TEXT NOT NULL CHECK(role IN ('USER', 'ADMIN')) DEFAULT 'USER'
     );
 
     CREATE TABLE IF NOT EXISTS challenges (
@@ -18,7 +19,7 @@ function setupDatabase() {
       affected_rows INTEGER NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS submisions (
+    CREATE TABLE IF NOT EXISTS submissions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       challenge_id INTEGER NOT NULL,
@@ -30,7 +31,7 @@ function setupDatabase() {
       FOREIGN KEY (challenge_id) REFERENCES challenges (id)
     );
 
-    CREATE INDEX idx_user_submissions ON submissions (user_id);
+    CREATE INDEX IF NOT EXISTS idx_user_submissions ON submissions (user_id);
 
     CREATE TABLE IF NOT EXISTS refresh_tokens (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,14 +39,30 @@ function setupDatabase() {
       token TEXT UNIQUE NOT NULL,
       expired_at TEXT NOT NULL,
       revoked_At TEXT DEFAULT NULL,
-      revocation_reason TEXT NOT NULL,
+      revocation_reason TEXT CHECK(revocation_reason IN ('SECURITY_BREACH', 'ROTATION', 'LOGOUT')),
       FOREIGN KEY (user_id) REFERENCES users (id)
     );
 
-    CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens (user_id);
-  `
+    CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens (user_id);
+  `;
 
   db.exec(schemasSetup);
 }
 
+function insertAdmin() {
+  const admin = {
+    name: "G. Almeida",
+    email: "almeida@gmail.com",
+    password: "$argon2id$v=19$m=65536,t=3,p=4$aGkw/IWarh7koMoRZuse7A$Fv7J9+lbM/Y2zkssxakvorV7e3CnCpkg/bNF8bor034", // 'almeida123'
+    role: "ADMIN",
+  };
+
+  db.prepare(`
+    INSERT INTO users (name, email, password, role) 
+    VALUES (@name, @email, @password, @role) 
+    ON CONFLICT(email) DO NOTHING
+  `).run(admin);
+}
+
 setupDatabase();
+insertAdmin();

@@ -1,17 +1,21 @@
+import { ChallengeDifficulties } from "@squelch/shared";
+
 export type UserEntity = {
-  id: number
+  id: number;
   name: string;
   email: string;
   password: string;
-}
+  role: "USER" | "ADMIN";
+};
 
 export type ChallengeEntity = {
   id: number;
   title: string;
   markdown: string;
+  difficulty: ChallengeDifficulties;
   validationQuery: string;
   affectedRows: number;
-}
+};
 
 export type SubmissionEntity = {
   id: number;
@@ -22,7 +26,7 @@ export type SubmissionEntity = {
   userWrongResult: string;
   expectedResult: string;
   date: string;
-}
+};
 
 export type RefreshTokenEntity = {
   id: number;
@@ -30,5 +34,5 @@ export type RefreshTokenEntity = {
   token: string;
   expiresAt: string;
   revokedAt: string;
-  revocationReason: 'ROTATION' | 'SECURITY_BREACH' | 'LOGOUT';
-}
+  revocationReason: "ROTATION" | "SECURITY_BREACH" | "LOGOUT" | null;
+};

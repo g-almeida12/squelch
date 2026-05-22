@@ -1,24 +1,25 @@
 import { Router } from "express";
 import { userController } from "../config/factory.config.js";
-import { authMiddleware, AuthRequest } from "../middlewares/auth.middleware.js";
+import {
+  authenticationMiddleware,
+  AuthRequest,
+} from "../middlewares/authentication.middleware.js";
 import { removeTokens } from "../helpers/set-tokens.js";
 
 export const userRouter = Router({ mergeParams: true });
-userRouter.use(authMiddleware);
-
+userRouter.use(authenticationMiddleware);
 // Find by ID route
-userRouter.get("/", async (req, res) => {
-  const authReq = req as AuthRequest;
-  const { statusCode, success, body } = userController.findById(authReq.userId);
+userRouter.get("/", async (req: AuthRequest, res) => {
+  const { statusCode, success, body } = userController.findById(req.user?.id);
 
   return res.status(statusCode).json({ success, body });
 });
 
 // Update route
-userRouter.patch("/", async (req, res) => {
+userRouter.patch("/", async (req: AuthRequest, res) => {
   const authReq = req as AuthRequest;
   const { statusCode, success, body } = userController.updateById(
-    authReq.userId,
+    req.user?.id,
     authReq.body,
   );
 
@@ -26,11 +27,8 @@ userRouter.patch("/", async (req, res) => {
 });
 
 // Delete route
-userRouter.delete("/", async (req, res) => {
-  const authReq = req as AuthRequest;
-  const { statusCode, success, body } = userController.deleteById(
-    authReq.userId,
-  );
+userRouter.delete("/", async (req: AuthRequest, res) => {
+  const { statusCode, success, body } = userController.deleteById(req.user?.id);
 
   removeTokens(res);
 

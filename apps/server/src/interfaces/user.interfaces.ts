@@ -1,4 +1,4 @@
-import { UpdateUser, UserDTO } from "@squelch/shared";
+import { UserUpdate, UserDTO } from "@squelch/shared";
 import { UserEntity } from "../entities/types.entities.js";
 
 export interface IUserRepository {
@@ -17,7 +17,7 @@ export interface IUserRepository {
 export interface IUserService {
   findById(userId: number): UserDTO;
 
-  updateById(userId: number, newData: UpdateUser): UserDTO;
+  updateById(userId: number, newData: UserUpdate): UserDTO;
 
   deleteById(userId: number): void;
 }

@@ -1,9 +1,10 @@
-import { RegisterUser } from "@squelch/shared";
+import { UserRegister } from "@squelch/shared";
 import { IAuthRepository } from "../interfaces/auth.interfaces.js";
 import { db } from "../database/connection.js";
 import { RunResult, Statement } from "better-sqlite3";
 import ApplicationError from "../helpers/errors/application.error.js";
-import { RefreshTokenEntity } from "../entities/types.entities.js";
+import { RefreshTokenEntity, UserEntity } from "../entities/types.entities.js";
+import { IUserRepository } from "../interfaces/user.interfaces.js";
 
 export default class AuthRepository implements IAuthRepository {
   // Prepared statments
@@ -12,7 +13,11 @@ export default class AuthRepository implements IAuthRepository {
   private findRefreshTokenByTokenStmt: Statement;
   private revokeTokenStmt: Statement;
   private invalidateRefreshTokensStmt: Statement;
-  constructor() {
+
+  // Injections
+  private userRepository: IUserRepository;
+  constructor(userRepository: IUserRepository) {
+    // Prepared statments
     this.registerUserStmt = db.prepare(
       "INSERT INTO users (name, email, password) VALUES (@name, @email, @password)",
     );
@@ -28,11 +33,18 @@ export default class AuthRepository implements IAuthRepository {
     this.invalidateRefreshTokensStmt = db.prepare(
       "UPDATE refresh_tokens SET revoked_at = @revokedAt, revocation_reason = @revocationReason WHERE user_id = @userId",
     );
+
+    // Injections
+    this.userRepository = userRepository;
   }
 
-  register(newUser: RegisterUser): RunResult {
+  register(newUser: UserRegister): UserEntity {
     try {
-      return this.registerUserStmt.run(newUser);
+      const registerResult = this.registerUserStmt.run(newUser);
+
+      return this.userRepository.findById(
+        registerResult.lastInsertRowid as number,
+      ) as UserEntity;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -73,9 +85,12 @@ export default class AuthRepository implements IAuthRepository {
     }
   }
 
-  invalidateTokensByUserId(userId: number, revocationReason: 'SECURITY_BREACH' | 'LOGOUT'): RunResult {
+  invalidateTokensByUserId(
+    userId: number,
+    revocationReason: "SECURITY_BREACH" | "LOGOUT",
+  ): RunResult {
     try {
-      return this.invalidateRefreshTokensStmt.run({userId, revocationReason});
+      return this.invalidateRefreshTokensStmt.run({ userId, revocationReason });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

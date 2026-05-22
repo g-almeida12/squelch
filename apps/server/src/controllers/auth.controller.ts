@@ -1,24 +1,21 @@
 import {
-  AuthUserDTO,
+  UserAuthDTO,
   HTTPResponse,
-  LoginUser,
-  LoginUserSchema,
-  RegisterUser,
-  RegisterUserSchema,
+  UserLoginSchema,
+  UserRegisterSchema,
 } from "@squelch/shared";
 import { IAuthService } from "../interfaces/auth.interfaces.js";
 import AuthService from "../services/auth.service.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 
 export default class AuthController {
-  private authService: IAuthService;
-  constructor(authService: AuthService) {
+  constructor(private authService: AuthService) {
     this.authService = authService;
   }
 
-  async register(newUser: unknown): Promise<HTTPResponse<AuthUserDTO>> {
+  async register(newUser: unknown): Promise<HTTPResponse<UserAuthDTO>> {
     try {
-      const validation = RegisterUserSchema.safeParse(newUser);
+      const validation = UserRegisterSchema.safeParse(newUser);
       if (!validation.success) {
         const invalidFields = validation.error.issues.map((issue) => ({
           field: issue.path.join("."),
@@ -39,9 +36,9 @@ export default class AuthController {
     }
   }
 
-  async login(user: unknown): Promise<HTTPResponse<AuthUserDTO>> {
+  async login(user: unknown): Promise<HTTPResponse<UserAuthDTO>> {
     try {
-      const validation = LoginUserSchema.safeParse(user);
+      const validation = UserLoginSchema.safeParse(user);
       if (!validation.success) {
         const invalidFields = validation.error.issues.map((issue) => ({
           field: issue.path.join("."),
@@ -62,7 +59,7 @@ export default class AuthController {
     }
   }
 
-  refresh(token: string): HTTPResponse<AuthUserDTO> {
+  refresh(token: string): HTTPResponse<UserAuthDTO> {
     try {
       if (!token || typeof token !== "string") {
         throw new ApplicationError(

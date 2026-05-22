@@ -1,16 +1,14 @@
 import {
   HTTPResponse,
   IdSchema,
-  UpdateUser,
-  UpdateUserSchema,
+  UserUpdateSchema,
   UserDTO,
 } from "@squelch/shared";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { IUserService } from "../interfaces/user.interfaces.js";
 
 export default class UserController {
-  private userService: IUserService;
-  constructor(userService: IUserService) {
+  constructor(private userService: IUserService) {
     this.userService = userService;
   }
 
@@ -35,7 +33,7 @@ export default class UserController {
         throw new ApplicationError("ID de usuário inválido fornecido.", 400);
       }
 
-      const dataValidation = UpdateUserSchema.safeParse(newData);
+      const dataValidation = UserUpdateSchema.safeParse(newData);
       if (!dataValidation.success) {
         const invalidFields = dataValidation.error.issues.map((issue) => ({
           field: issue.path.join("."),

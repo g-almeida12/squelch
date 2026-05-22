@@ -12,10 +12,10 @@ db.pragma("journal_mode = WAL");
 db.pragma("foreign_keys = ON");
 
 export function closeDBConnection(server: Server, signal: string) {
-  console.log("Closing database...");
+  console.log(`Closing database by '${signal}' command...`);
 
   const timerId = setTimeout(() => {
-    console.warn("Forcing immediate termination.");
+    console.warn("Forcing immediate termination");
     process.exit(1);
   }, 5000);
 
@@ -25,9 +25,10 @@ export function closeDBConnection(server: Server, signal: string) {
 
     try {
       db.close();
+      console.log("Database closed")
     } catch (err) {
       console.error(
-        "[connection.ts - closeDBConnection] Error in attempting to close the Databse.",
+        "[connection.ts - closeDBConnection] Error in attempting to close the database",
       );
     }
 

@@ -1,9 +1,9 @@
-import { AuthUserDTO, LoginUser, RegisterUser } from "@squelch/shared";
+import { UserAuthDTO, UserRegister, UserLogin } from "@squelch/shared";
 import { RunResult } from "better-sqlite3";
-import { RefreshTokenEntity } from "../entities/types.entities.js";
+import { RefreshTokenEntity, UserEntity } from "../entities/types.entities.js";
 
 export interface IAuthRepository {
-  register(newUser: RegisterUser): RunResult;
+  register(newUser: UserRegister): UserEntity;
 
   createRefreshToken(
     userId: number,
@@ -22,9 +22,9 @@ export interface IAuthRepository {
 }
 
 export interface IAuthService {
-  register(newUser: RegisterUser): Promise<AuthUserDTO>;
+  register(newUser: UserRegister): Promise<UserAuthDTO>;
 
-  login(user: LoginUser): Promise<AuthUserDTO>;
+  login(user: UserLogin): Promise<UserAuthDTO>;
 
-  refresh(token: string): AuthUserDTO;
+  refresh(token: string): UserAuthDTO;
 }

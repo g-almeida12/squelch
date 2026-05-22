@@ -1,5 +1,5 @@
-import { AuthUserDTO } from "@squelch/shared";
-import { UserEntity } from "./types.entities.js";
+import { ChallengeDTO, UserAuthDTO, UserDTO } from "@squelch/shared";
+import { ChallengeEntity, UserEntity } from "./types.entities.js";
 
 export function mapAuthUserDTO(
   user: UserEntity & {
@@ -7,7 +7,7 @@ export function mapAuthUserDTO(
     refreshToken: string;
     xsrfToken: string;
   },
-): AuthUserDTO {
+): UserAuthDTO {
   return {
     name: user.name,
     email: user.email,
@@ -18,10 +18,19 @@ export function mapAuthUserDTO(
   };
 }
 
-export function mapUserDTO(user: UserEntity) {
+export function mapUserDTO(user: UserEntity): UserDTO {
   return {
     name: user.name,
     email: user.email,
     id: user.id,
   };
+}
+
+export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
+  return {
+    id: challenge.id,
+    title: challenge.title,
+    difficulty: challenge.difficulty,
+    markdown: challenge.markdown,
+  }
 }

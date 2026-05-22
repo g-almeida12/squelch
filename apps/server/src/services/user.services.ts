@@ -1,4 +1,4 @@
-import { UpdateUser, UserDTO } from "@squelch/shared";
+import { UserUpdate, UserDTO } from "@squelch/shared";
 import {
   IUserRepository,
   IUserService,
@@ -7,8 +7,7 @@ import ApplicationError from "../helpers/errors/application.error.js";
 import { mapUserDTO } from "../entities/mappers.entities.js";
 
 export default class UserService implements IUserService {
-  private userRepository: IUserRepository;
-  constructor(userRepository: IUserRepository) {
+  constructor(private userRepository: IUserRepository) {
     this.userRepository = userRepository;
   }
 
@@ -21,14 +20,14 @@ export default class UserService implements IUserService {
     return mapUserDTO(user);
   }
 
-  updateById(userId: number, newData: UpdateUser): UserDTO {
+  updateById(userId: number, newData: UserUpdate): UserDTO {
     if (newData.email) {
       const user = this.userRepository.findByEmail(newData.email);
-      if (user) {
+      if (user && user.id === userId) {
         throw new ApplicationError("Email já registrado.", 409);
       }
     }
-    
+
     const updatedUser = this.userRepository.updateById(userId, newData);
     if (!updatedUser) {
       throw new ApplicationError("Usuário não encontrado.", 404);

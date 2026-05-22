@@ -1,4 +1,4 @@
-import { RegisterUser, AuthUserDTO, LoginUser } from "@squelch/shared";
+import { UserRegister, UserAuthDTO, UserLogin } from "@squelch/shared";
 import {
   IAuthRepository,
   IAuthService,
@@ -12,26 +12,19 @@ import { mapAuthUserDTO } from "../entities/mappers.entities.js";
 import { randomUUID, createHash } from "crypto";
 
 export default class AuthService implements IAuthService {
-  private authRepository: IAuthRepository;
-  private userRepository: IUserRepository;
-  constructor(authRepo: IAuthRepository, userRepository: IUserRepository) {
-    this.authRepository = authRepo;
+  constructor(private authRepository: IAuthRepository, private userRepository: IUserRepository) {
+    this.authRepository = authRepository;
     this.userRepository = userRepository;
   }
 
-  async register(newUser: RegisterUser): Promise<AuthUserDTO> {
+  async register(newUser: UserRegister): Promise<UserAuthDTO> {
     const user = this.userRepository.findByEmail(newUser.email);
     if (user) {
       throw new ApplicationError("Esse email já está registrado.", 409);
     }
 
     const hashedPassword = await hash(newUser.password);
-    this.authRepository.register({ ...newUser, password: hashedPassword });
-
-    const registeredUser = this.userRepository.findByEmail(newUser.email);
-    if (!registeredUser) {
-      throw new ApplicationError("Usuário não encontrado.", 404);
-    }
+    const registeredUser =this.authRepository.register({ ...newUser, password: hashedPassword });
 
     const refreshToken = randomUUID();
     const hashedRefreshToken = createHash("sha256")
@@ -47,7 +40,11 @@ export default class AuthService implements IAuthService {
     );
 
     const accessToken = jwt.sign(
-      { sub: String(registeredUser.id), email: registeredUser.email },
+      {
+        sub: String(registeredUser.id),
+        email: registeredUser.email,
+        role: registeredUser.role,
+      },
       envConfig.JWT_SECRET,
       {
         expiresIn: "15m",
@@ -63,7 +60,7 @@ export default class AuthService implements IAuthService {
     });
   }
 
-  async login(user: LoginUser): Promise<AuthUserDTO> {
+  async login(user: UserLogin): Promise<UserAuthDTO> {
     const registeredUser = this.userRepository.findByEmail(user.email);
     if (!registeredUser) {
       throw new ApplicationError("Email ou senha inválidos.", 422, [
@@ -94,7 +91,11 @@ export default class AuthService implements IAuthService {
     );
 
     const accessToken = jwt.sign(
-      { sub: String(registeredUser.id), email: registeredUser.email },
+      {
+        sub: String(registeredUser.id),
+        email: registeredUser.email,
+        role: registeredUser.role,
+      },
       envConfig.JWT_SECRET,
       {
         expiresIn: "15m",
@@ -110,7 +111,7 @@ export default class AuthService implements IAuthService {
     });
   }
 
-  refresh(token: string): AuthUserDTO {
+  refresh(token: string): UserAuthDTO {
     const hashedToken = createHash("sha256").update(token).digest("hex");
     const registeredRefreshToken =
       this.authRepository.findRefreshTokenByToken(hashedToken);
@@ -168,7 +169,7 @@ export default class AuthService implements IAuthService {
     );
 
     const accessToken = jwt.sign(
-      { sub: String(user.id), email: user.email },
+      { sub: String(user.id), email: user.email, role: user.role },
       envConfig.JWT_SECRET,
       {
         expiresIn: "15m",

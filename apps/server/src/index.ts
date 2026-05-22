@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/auth.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
+import { challengeRouter } from "./routes/challenge.routes.js";
 
 // App configurations
 const app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 // Routes
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/challenges", challengeRouter);
 
 // Error middleware
 app.use(errorMiddleware);
