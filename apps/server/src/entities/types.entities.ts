@@ -13,26 +13,25 @@ export type ChallengeEntity = {
   title: string;
   markdown: string;
   difficulty: ChallengeDifficulties;
-  validationQuery: string;
-  affectedRows: number;
+  validation_query: string;
+  affected_rows: number;
 };
 
 export type SubmissionEntity = {
   id: number;
-  userId: number;
-  challengeId: number;
-  submittedQuery: string;
-  success: boolean;
-  userWrongResult: string;
-  expectedResult: string;
+  user_id: number;
+  challenge_id: number;
+  submitted_query: string;
   date: string;
-};
+  success: boolean;
+  user_wrong_result: string | null;
+}
 
 export type RefreshTokenEntity = {
   id: number;
-  userId: number;
+  user_id: number;
   token: string;
-  expiresAt: string;
-  revokedAt: string;
-  revocationReason: "ROTATION" | "SECURITY_BREACH" | "LOGOUT" | null;
+  expires_at: string;
+  revoked_at: string;
+  revocation_reason: "ROTATION" | "SECURITY_BREACH" | "LOGOUT" | null;
 };

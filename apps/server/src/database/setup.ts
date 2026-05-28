@@ -25,13 +25,25 @@ function setupDatabase() {
       challenge_id INTEGER NOT NULL,
       success BOOLEAN NOT NULL,
       submitted_query TEXT NOT NULL,
-      user_result TEXT,
+      user_wrong_result TEXT DEFAULT NULL,
       date TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users (id),
-      FOREIGN KEY (challenge_id) REFERENCES challenges (id)
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (challenge_id) REFERENCES challenges(id)
     );
 
-    CREATE INDEX IF NOT EXISTS idx_user_submissions ON submissions (user_id);
+    CREATE INDEX IF NOT EXISTS idx_user_submissions ON submissions(user_id);
+
+    CREATE TABLE IF NOT EXISTS user_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      challenge_id INTEGER NOT NULL,
+      session TEXT NOT NULL,
+      group_slug TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+      FOREIGN KEY (challenge_id) REFERENCES challenges(id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_user_challenge_session ON user_sessions(user_id, challenge_id);
 
     CREATE TABLE IF NOT EXISTS refresh_tokens (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,10 +52,10 @@ function setupDatabase() {
       expired_at TEXT NOT NULL,
       revoked_At TEXT DEFAULT NULL,
       revocation_reason TEXT CHECK(revocation_reason IN ('SECURITY_BREACH', 'ROTATION', 'LOGOUT')),
-      FOREIGN KEY (user_id) REFERENCES users (id)
+      FOREIGN KEY (user_id) REFERENCES users(id)
     );
 
-    CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens (user_id);
+    CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);
   `;
 
   db.exec(schemasSetup);

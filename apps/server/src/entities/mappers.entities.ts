@@ -1,5 +1,14 @@
-import { ChallengeDTO, UserAuthDTO, UserDTO } from "@squelch/shared";
-import { ChallengeEntity, UserEntity } from "./types.entities.js";
+import {
+  ChallengeDTO,
+  SubmissionDTO,
+  UserAuthDTO,
+  UserDTO,
+} from "@squelch/shared";
+import {
+  ChallengeEntity,
+  SubmissionEntity,
+  UserEntity,
+} from "./types.entities.js";
 
 export function mapAuthUserDTO(
   user: UserEntity & {
@@ -32,5 +41,19 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
     title: challenge.title,
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
-  }
+  };
+}
+
+export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
+  return {
+    id: submission.id,
+    userId: submission.user_id,
+    challengeId: submission.challenge_id,
+    submittedQuery: submission.submitted_query,
+    success: !!submission.success,
+    userWrongResult: submission.user_wrong_result
+      ? JSON.parse(submission.user_wrong_result)
+      : null,
+    date: new Date(submission.date),
+  };
 }

@@ -8,6 +8,7 @@ import { authRouter } from "./routes/auth.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { challengeRouter } from "./routes/challenge.routes.js";
+import { submissionRouter } from "./routes/submissions.routes.js";
 
 // App configurations
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/challenges", challengeRouter);
+app.use("/submissions", submissionRouter);
 
 // Error middleware
 app.use(errorMiddleware);

@@ -1,12 +1,10 @@
 import { ErrorResponse, HTTPStatusCode } from "@squelch/shared";
 
 export default class ApplicationError extends Error {
-  public statusCode: HTTPStatusCode;
-  public invalidFields: { field: string; message: string }[] | undefined;
   constructor(
     message: string,
-    statusCode: HTTPStatusCode,
-    invalidFields: { field: string; message: string }[] = [],
+    public statusCode: HTTPStatusCode,
+    public invalidFields: { field: string; message: string }[] = [],
   ) {
     super(message);
     this.statusCode = statusCode;
@@ -33,7 +31,7 @@ export default class ApplicationError extends Error {
   static handleControllerError(err: unknown): ErrorResponse {
     // !Deletar no deploy
     console.error(err);
-    
+
     if (err instanceof ApplicationError) {
       return {
         success: false,
