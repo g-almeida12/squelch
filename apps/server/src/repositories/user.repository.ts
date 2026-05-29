@@ -3,6 +3,7 @@ import { UserEntity } from "../entities/types.entities.js";
 import { IUserRepository } from "../interfaces/user.interfaces.js";
 import { db } from "../database/connection.js";
 import ApplicationError from "../helpers/errors/application.error.js";
+import { Id } from "@squelch/shared";
 
 export default class UserRepository implements IUserRepository {
   // Prepared statments
@@ -21,7 +22,7 @@ export default class UserRepository implements IUserRepository {
     this.deleteByIdStmt = db.prepare("DELETE FROM users WHERE id = ?");
   }
 
-  findById(userId: number): UserEntity | null {
+  async findById(userId: Id): Promise<UserEntity | null> {
     try {
       const user = this.findByIdStmt.get(userId) as UserEntity | undefined;
       if (!user) {
@@ -34,7 +35,7 @@ export default class UserRepository implements IUserRepository {
     }
   }
 
-  findByEmail(email: string): UserEntity | null {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     try {
       const user = this.findByEmailStmt.get(email) as UserEntity | undefined;
       if (!user) {
@@ -47,10 +48,10 @@ export default class UserRepository implements IUserRepository {
     }
   }
 
-  updateById(
-    userId: number,
+  async updateById(
+    userId: Id,
     newData: Partial<Omit<UserEntity, "id">>,
-  ): UserEntity | null {
+  ): Promise<UserEntity | null> {
     try {
       const updateInfo = this.updateByIdStmt.run({
         id: userId,
@@ -62,13 +63,13 @@ export default class UserRepository implements IUserRepository {
         return null;
       }
 
-      return this.findById(userId) as UserEntity;
+      return (await this.findById(userId)) as UserEntity;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
   }
 
-  deleteById(userId: number): boolean {
+  async deleteById(userId: Id): Promise<boolean> {
     try {
       const deleteInfo = this.deleteByIdStmt.run(userId);
 

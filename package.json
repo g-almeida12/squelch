@@ -1,9 +1,12 @@
 {
   "name": "squelch",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "author": "Gabriel Almeida",
   "workspaces": [
-    "apps/server",
-    "apps/client",
-    "packages/shared"
+    "apps/*",
+    "packages/*"
   ],
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

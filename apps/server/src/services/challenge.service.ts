@@ -2,6 +2,7 @@ import {
   ChallengeCreate,
   ChallengeDTO,
   ChallengeUpdate,
+  Id,
 } from "@squelch/shared";
 import {
   IChallengeRepository,
@@ -15,17 +16,19 @@ export default class ChallengeService implements IChallengeService {
     this.challengeRepository = challengeRepository;
   }
 
-  create(newChallenge: ChallengeCreate): ChallengeDTO {
-    const challenge = this.challengeRepository.findByTitle(newChallenge.title);
+  async create(newChallenge: ChallengeCreate): Promise<ChallengeDTO> {
+    const challenge = await this.challengeRepository.findByTitle(
+      newChallenge.title,
+    );
     if (challenge) {
       throw new ApplicationError("O título fornecido já está registrado.", 409);
     }
 
-    return mapChallengeDTO(this.challengeRepository.create(newChallenge));
+    return mapChallengeDTO(await this.challengeRepository.create(newChallenge));
   }
 
-  findById(challengeId: number): ChallengeDTO {
-    const challenge = this.challengeRepository.findById(challengeId);
+  async findById(challengeId: Id): Promise<ChallengeDTO> {
+    const challenge = await this.challengeRepository.findById(challengeId);
     if (!challenge) {
       throw new ApplicationError("Desafio não encontrado.", 404);
     }
@@ -33,12 +36,12 @@ export default class ChallengeService implements IChallengeService {
     return mapChallengeDTO(challenge);
   }
 
-  updateById(
-    challengeId: number,
+  async updateById(
+    challengeId: Id,
     challengeData: ChallengeUpdate,
-  ): ChallengeDTO {
+  ): Promise<ChallengeDTO> {
     if (challengeData.title) {
-      const challenge = this.challengeRepository.findByTitle(
+      const challenge = await this.challengeRepository.findByTitle(
         challengeData.title,
       );
       if (challenge && challenge.id !== challengeId) {
@@ -50,12 +53,11 @@ export default class ChallengeService implements IChallengeService {
       }
     }
 
-    const updatedChallenge = this.challengeRepository.updateById(
+    const updatedChallenge = await this.challengeRepository.updateById(
       challengeId,
       challengeData,
     );
 
-    
     if (!updatedChallenge) {
       throw new ApplicationError("Desafio não encontrado.", 404);
     }
@@ -63,8 +65,8 @@ export default class ChallengeService implements IChallengeService {
     return mapChallengeDTO(updatedChallenge);
   }
 
-  deleteById(challengeId: number): void {
-    const isDeleted = this.challengeRepository.deleteById(challengeId);
+  async deleteById(challengeId: Id): Promise<void> {
+    const isDeleted = await this.challengeRepository.deleteById(challengeId);
     if (!isDeleted) {
       throw new ApplicationError("Desafio não encontrado.", 404);
     }

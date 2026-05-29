@@ -1,4 +1,4 @@
-import { UserUpdate, UserDTO } from "@squelch/shared";
+import { UserUpdate, UserDTO, Id } from "@squelch/shared";
 import {
   IUserRepository,
   IUserService,
@@ -11,8 +11,8 @@ export default class UserService implements IUserService {
     this.userRepository = userRepository;
   }
 
-  findById(userId: number): UserDTO {
-    const user = this.userRepository.findById(userId);
+  async findById(userId: Id): Promise<UserDTO> {
+    const user = await this.userRepository.findById(userId);
     if (!user) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }
@@ -20,15 +20,15 @@ export default class UserService implements IUserService {
     return mapUserDTO(user);
   }
 
-  updateById(userId: number, newData: UserUpdate): UserDTO {
+  async updateById(userId: Id, newData: UserUpdate): Promise<UserDTO> {
     if (newData.email) {
-      const user = this.userRepository.findByEmail(newData.email);
+      const user = await this.userRepository.findByEmail(newData.email);
       if (user && user.id === userId) {
         throw new ApplicationError("Email já registrado.", 409);
       }
     }
 
-    const updatedUser = this.userRepository.updateById(userId, newData);
+    const updatedUser = await this.userRepository.updateById(userId, newData);
     if (!updatedUser) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }
@@ -36,8 +36,8 @@ export default class UserService implements IUserService {
     return mapUserDTO(updatedUser);
   }
 
-  deleteById(userId: number): void {
-    const isUserRegistered = this.userRepository.deleteById(userId);
+  async deleteById(userId: Id): Promise<void> {
+    const isUserRegistered = await this.userRepository.deleteById(userId);
     if (!isUserRegistered) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }

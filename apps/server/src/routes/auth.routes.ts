@@ -33,8 +33,8 @@ authRouter.post("/login", async (req, res) => {
 });
 
 // Refresh route
-authRouter.post("/refresh", (req, res) => {
-  const { success, statusCode, body } = authController.refresh(req.body);
+authRouter.post("/refresh", async (req, res) => {
+  const { success, statusCode, body } = await authController.refresh(req.body);
   if (success) {
     setTokens(res, {
       accessToken: body.accessToken,

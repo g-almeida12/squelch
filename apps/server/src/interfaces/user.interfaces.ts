@@ -1,23 +1,23 @@
-import { UserUpdate, UserDTO } from "@squelch/shared";
+import { UserUpdate, UserDTO, Id } from "@squelch/shared";
 import { UserEntity } from "../entities/types.entities.js";
 
 export interface IUserRepository {
-  findById(userId: number): UserEntity | null;
+  findById(userId: Id): Promise<UserEntity | null>;
 
-  findByEmail(email: string): UserEntity | null;
+  findByEmail(email: string): Promise<UserEntity | null>;
 
   updateById(
-    userId: number,
+    userId: Id,
     newData: Partial<Omit<UserEntity, "id">>,
-  ): UserEntity | null;
+  ): Promise<UserEntity | null>;
 
-  deleteById(userId: number): boolean;
+  deleteById(userId: Id): Promise<boolean>;
 }
 
 export interface IUserService {
-  findById(userId: number): UserDTO;
+  findById(userId: Id): Promise<UserDTO>;
 
-  updateById(userId: number, newData: UserUpdate): UserDTO;
+  updateById(userId: Id, newData: UserUpdate): Promise<UserDTO>;
 
-  deleteById(userId: number): void;
+  deleteById(userId: Id): Promise<void>;
 }

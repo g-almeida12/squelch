@@ -10,7 +10,9 @@ export const userRouter = Router({ mergeParams: true });
 userRouter.use(authenticationMiddleware);
 // Find by ID route
 userRouter.get("/", async (req: AuthRequest, res) => {
-  const { statusCode, success, body } = userController.findById(req.user?.id);
+  const { statusCode, success, body } = await userController.findById(
+    req.user?.id,
+  );
 
   return res.status(statusCode).json({ success, body });
 });
@@ -18,7 +20,7 @@ userRouter.get("/", async (req: AuthRequest, res) => {
 // Update route
 userRouter.patch("/", async (req: AuthRequest, res) => {
   const authReq = req as AuthRequest;
-  const { statusCode, success, body } = userController.updateById(
+  const { statusCode, success, body } = await userController.updateById(
     req.user?.id,
     authReq.body,
   );
@@ -28,7 +30,9 @@ userRouter.patch("/", async (req: AuthRequest, res) => {
 
 // Delete route
 userRouter.delete("/", async (req: AuthRequest, res) => {
-  const { statusCode, success, body } = userController.deleteById(req.user?.id);
+  const { statusCode, success, body } = await userController.deleteById(
+    req.user?.id,
+  );
 
   removeTokens(res);
 

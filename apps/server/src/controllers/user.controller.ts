@@ -12,21 +12,24 @@ export default class UserController {
     this.userService = userService;
   }
 
-  findById(userId: unknown): HTTPResponse<UserDTO> {
+  async findById(userId: unknown): Promise<HTTPResponse<UserDTO>> {
     try {
       const validation = IdSchema.safeParse(userId);
       if (!validation.success) {
         throw new ApplicationError("ID de usuário inválido fornecido.", 400);
       }
 
-      const user = this.userService.findById(Number(userId));
+      const user = await this.userService.findById(Number(userId));
       return { success: true, body: user, statusCode: 200 };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }
   }
 
-  updateById(userId: unknown, newData: unknown): HTTPResponse<UserDTO> {
+  async updateById(
+    userId: unknown,
+    newData: unknown,
+  ): Promise<HTTPResponse<UserDTO>> {
     try {
       const idValidation = IdSchema.safeParse(userId);
       if (!idValidation.success) {
@@ -47,7 +50,7 @@ export default class UserController {
         );
       }
 
-      const updatedUser = this.userService.updateById(
+      const updatedUser = await this.userService.updateById(
         idValidation.data,
         dataValidation.data,
       );
@@ -57,14 +60,14 @@ export default class UserController {
     }
   }
 
-  deleteById(userId: unknown): HTTPResponse<null> {
+  async deleteById(userId: unknown): Promise<HTTPResponse<null>> {
     try {
       const idValidation = IdSchema.safeParse(userId);
       if (!idValidation.success) {
         throw new ApplicationError("ID de usuário inválido fornecido.", 400);
       }
 
-      this.userService.deleteById(idValidation.data);
+      await this.userService.deleteById(idValidation.data);
       return { success: true, statusCode: 204, body: null };
     } catch (err) {
       return ApplicationError.handleControllerError(err);

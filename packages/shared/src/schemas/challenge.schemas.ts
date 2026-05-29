@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { IdSchema } from "./id.schemas";
 
 export const ChallengesDifficultiesSchema = z.enum(["EASY", "MEDIUM", "HARD"]);
 const ChallengeBaseSchema = z.object({
@@ -14,7 +15,7 @@ export const ChallengeDTOSchema = ChallengeBaseSchema.omit({
   validationQuery: true,
   affectedRows: true,
 }).extend({
-  id: z.number(),
+  id: IdSchema,
 });
 
 export type ChallengeDifficulties = z.infer<

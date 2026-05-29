@@ -12,19 +12,25 @@ import { mapAuthUserDTO } from "../entities/mappers.entities.js";
 import { randomUUID, createHash } from "crypto";
 
 export default class AuthService implements IAuthService {
-  constructor(private authRepository: IAuthRepository, private userRepository: IUserRepository) {
+  constructor(
+    private authRepository: IAuthRepository,
+    private userRepository: IUserRepository,
+  ) {
     this.authRepository = authRepository;
     this.userRepository = userRepository;
   }
 
   async register(newUser: UserRegister): Promise<UserAuthDTO> {
-    const user = this.userRepository.findByEmail(newUser.email);
+    const user = await this.userRepository.findByEmail(newUser.email);
     if (user) {
       throw new ApplicationError("Esse email já está registrado.", 409);
     }
 
     const hashedPassword = await hash(newUser.password);
-    const registeredUser =this.authRepository.register({ ...newUser, password: hashedPassword });
+    const registeredUser = await this.authRepository.register({
+      ...newUser,
+      password: hashedPassword,
+    });
 
     const refreshToken = randomUUID();
     const hashedRefreshToken = createHash("sha256")
@@ -61,7 +67,7 @@ export default class AuthService implements IAuthService {
   }
 
   async login(user: UserLogin): Promise<UserAuthDTO> {
-    const registeredUser = this.userRepository.findByEmail(user.email);
+    const registeredUser = await this.userRepository.findByEmail(user.email);
     if (!registeredUser) {
       throw new ApplicationError("Email ou senha inválidos.", 422, [
         { field: "email", message: "Email inválido." },
@@ -111,10 +117,10 @@ export default class AuthService implements IAuthService {
     });
   }
 
-  refresh(token: string): UserAuthDTO {
+  async refresh(token: string): Promise<UserAuthDTO> {
     const hashedToken = createHash("sha256").update(token).digest("hex");
     const registeredRefreshToken =
-      this.authRepository.findRefreshTokenByToken(hashedToken);
+      await this.authRepository.findRefreshTokenByToken(hashedToken);
 
     if (!registeredRefreshToken) {
       throw new ApplicationError(
@@ -124,7 +130,7 @@ export default class AuthService implements IAuthService {
     }
 
     if (
-      new Date(registeredRefreshToken.expiresAt).getTime() <
+      new Date(registeredRefreshToken.expires_at).getTime() <
       new Date().getTime()
     ) {
       throw new ApplicationError(
@@ -134,12 +140,12 @@ export default class AuthService implements IAuthService {
     }
 
     if (
-      registeredRefreshToken.revokedAt &&
-      new Date(registeredRefreshToken.revokedAt).getTime() >
-        new Date(Date.now() + 30_000).getTime()
+      registeredRefreshToken.revoked_at &&
+      new Date(registeredRefreshToken.revoked_at).getTime() >
+        new Date(Date.now() + 10_000).getTime()
     ) {
       this.authRepository.invalidateTokensByUserId(
-        registeredRefreshToken.userId,
+        registeredRefreshToken.user_id,
         "SECURITY_BREACH",
       );
       throw new ApplicationError(
@@ -148,12 +154,17 @@ export default class AuthService implements IAuthService {
       );
     }
 
-    const user = this.userRepository.findById(registeredRefreshToken.userId);
+    const user = await this.userRepository.findById(
+      registeredRefreshToken.user_id,
+    );
     if (!user) {
       throw new ApplicationError("Usuário não encontrado.", 404);
     }
 
-    this.authRepository.revokeToken(registeredRefreshToken.id, "ROTATION");
+    await this.authRepository.revokeToken(
+      registeredRefreshToken.id,
+      "ROTATION",
+    );
 
     const refreshToken = randomUUID();
     const hashedRefreshToken = createHash("sha256")

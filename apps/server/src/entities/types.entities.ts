@@ -1,7 +1,7 @@
-import { ChallengeDifficulties } from "@squelch/shared";
+import { ChallengeDifficulties, Id } from "@squelch/shared";
 
 export type UserEntity = {
-  id: number;
+  id: Id;
   name: string;
   email: string;
   password: string;
@@ -9,7 +9,7 @@ export type UserEntity = {
 };
 
 export type ChallengeEntity = {
-  id: number;
+  id: Id;
   title: string;
   markdown: string;
   difficulty: ChallengeDifficulties;
@@ -18,18 +18,26 @@ export type ChallengeEntity = {
 };
 
 export type SubmissionEntity = {
-  id: number;
-  user_id: number;
-  challenge_id: number;
+  id: Id;
+  user_id: Id;
+  challenge_id: Id;
   submitted_query: string;
   date: string;
   success: boolean;
   user_wrong_result: string | null;
 }
 
+export type UserSessionEntity = {
+  id: Id;
+  user_id: Id;
+  challenge_id: Id;
+  session: string;
+  group_slug: string;
+}
+
 export type RefreshTokenEntity = {
-  id: number;
-  user_id: number;
+  id: Id;
+  user_id: Id;
   token: string;
   expires_at: string;
   revoked_at: string;

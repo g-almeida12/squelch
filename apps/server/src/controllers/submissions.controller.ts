@@ -5,7 +5,7 @@ import {
   SubmissionValidationSchema,
 } from "@squelch/shared";
 import ApplicationError from "../helpers/errors/application.error.js";
-import { ISubmissionService } from "../interfaces/submissions.interfaces.js";
+import { ISubmissionService } from "../interfaces/submission.interfaces.js";
 
 export default class SubmissionController {
   constructor(private submissionService: ISubmissionService) {

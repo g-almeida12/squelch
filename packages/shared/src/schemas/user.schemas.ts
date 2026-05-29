@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { IdSchema } from "./id.schemas";
 
 const UserBaseSchema = z.object({
   name: z.string().min(1, "Mínimo de 1 caractere."),
@@ -9,7 +10,7 @@ export const UserRegisterSchema = UserBaseSchema.required();
 export const UserLoginSchema = UserBaseSchema.omit({ name: true });
 export const UserUpdateSchema = UserBaseSchema.partial();
 export const UserDTOSchema = UserBaseSchema.omit({ password: true }).extend({
-  id: z.number(),
+  id: IdSchema,
 });
 export const AuthUserDTOSchema = UserDTOSchema.extend({
   accessToken: z.jwt(),

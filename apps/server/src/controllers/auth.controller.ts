@@ -59,7 +59,7 @@ export default class AuthController {
     }
   }
 
-  refresh(token: string): HTTPResponse<UserAuthDTO> {
+  async refresh(token: string): Promise<HTTPResponse<UserAuthDTO>> {
     try {
       if (!token || typeof token !== "string") {
         throw new ApplicationError(
@@ -68,7 +68,7 @@ export default class AuthController {
         );
       }
 
-      const refreshedUser = this.authService.refresh(token);
+      const refreshedUser = await this.authService.refresh(token);
       return { success: true, body: refreshedUser, statusCode: 200 };
     } catch (err) {
       return ApplicationError.handleControllerError(err);

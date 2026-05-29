@@ -1,6 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "compilerOptions": {
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -15,10 +19,10 @@
     },
   },
   "include": [
-    "src/**/*",
-    "../../packages/shared/src/index.ts"
+    "./src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules",
+    "./dist"
   ]
 }

@@ -1,4 +1,4 @@
-import { ChallengeCreate, ChallengeUpdate } from "@squelch/shared";
+import { ChallengeCreate, ChallengeUpdate, Id } from "@squelch/shared";
 import { Statement } from "better-sqlite3";
 import { ChallengeEntity } from "../entities/types.entities.js";
 import { IChallengeRepository } from "../interfaces/challenge.interface.js";
@@ -29,19 +29,19 @@ export default class ChallengeRepository implements IChallengeRepository {
     this.deleteByIdStmt = db.prepare(`DELETE FROM challenges WHERE id = ?`);
   }
 
-  create(newChallenge: ChallengeCreate): ChallengeEntity {
+  async create(newChallenge: ChallengeCreate): Promise<ChallengeEntity> {
     try {
       const insertResult = this.createStmt.run(newChallenge);
 
-      return this.findById(
+      return (await this.findById(
         insertResult.lastInsertRowid as number,
-      ) as ChallengeEntity;
+      )) as ChallengeEntity;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
   }
 
-  findById(challengeId: number): ChallengeEntity | null {
+  async findById(challengeId: Id): Promise<ChallengeEntity | null> {
     try {
       const challenge = this.findByIdStmt.get(challengeId) as
         | ChallengeEntity
@@ -56,7 +56,7 @@ export default class ChallengeRepository implements IChallengeRepository {
     }
   }
 
-  findByTitle(title: string): ChallengeEntity | null {
+  async findByTitle(title: string): Promise<ChallengeEntity | null> {
     try {
       const challenge = this.findByTitleStmt.get(title) as
         | ChallengeEntity
@@ -71,12 +71,12 @@ export default class ChallengeRepository implements IChallengeRepository {
     }
   }
 
-  updateById(
-    challengeId: number,
+  async updateById(
+    challengeId: Id,
     challengeData: ChallengeUpdate,
-  ): ChallengeEntity | null {
+  ): Promise<ChallengeEntity | null> {
     try {
-      const updateResult = this.updateByIdStmt.run({
+      this.updateByIdStmt.run({
         ...challengeData,
         id: challengeId,
       });
@@ -87,7 +87,7 @@ export default class ChallengeRepository implements IChallengeRepository {
     }
   }
 
-  deleteById(challengeId: number): boolean {
+  async deleteById(challengeId: Id): Promise<boolean> {
     try {
       const deleteResult = this.deleteByIdStmt.run(challengeId);
       return deleteResult.changes > 0;

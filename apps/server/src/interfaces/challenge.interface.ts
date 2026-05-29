@@ -4,29 +4,30 @@ import {
   ChallengeCreate,
   ChallengeDTO,
   ChallengeUpdate,
+  Id,
 } from "@squelch/shared";
 
 export interface IChallengeRepository {
-  create(newChallenge: ChallengeCreate): ChallengeEntity;
+  create(newChallenge: ChallengeCreate): Promise<ChallengeEntity>;
 
-  findById(challengeId: number): ChallengeEntity | null;
+  findById(challengeId: Id): Promise<ChallengeEntity | null>;
 
-  findByTitle(title: string): ChallengeEntity | null;
+  findByTitle(title: string): Promise<ChallengeEntity | null>;
 
   updateById(
-    challengeId: number,
+    challengeId: Id,
     challengeData: ChallengeUpdate,
-  ): ChallengeEntity | null;
+  ): Promise<ChallengeEntity | null>;
 
-  deleteById(challengeId: number): boolean;
+  deleteById(challengeId: Id): Promise<boolean>;
 }
 
 export interface IChallengeService {
-  create(newChallenge: ChallengeCreate): ChallengeDTO;
+  create(newChallenge: ChallengeCreate): Promise<ChallengeDTO>;
 
-  findById(challengeId: number): ChallengeDTO;
+  findById(challengeId: Id): Promise<ChallengeDTO>;
 
-  updateById(challengeId: number, challengeData: ChallengeUpdate): ChallengeDTO;
+  updateById(challengeId: Id, challengeData: ChallengeUpdate): Promise<ChallengeDTO>;
 
-  deleteById(challengeId: number): void;
+  deleteById(challengeId: Id): Promise<void>;
 }

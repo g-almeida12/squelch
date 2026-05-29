@@ -2,7 +2,7 @@ import { SubmissionValidation, SubmissionDTO, Id } from "@squelch/shared";
 import {
   ISubmissionRepository,
   ISubmissionService,
-} from "../interfaces/submissions.interfaces.js";
+} from "../interfaces/submission.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { mapSubmissionDTO } from "../entities/mappers.entities.js";
 

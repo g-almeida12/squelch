@@ -8,14 +8,14 @@ challengeRouter.use(authenticationMiddleware);
 
 // Create route
 challengeRouter.post("/", autorizationMiddleware, async (req, res) => {
-  const { success, statusCode, body } = challengeController.create(req.body);
+  const { success, statusCode, body } = await challengeController.create(req.body);
 
   return res.status(statusCode).json({ success, body });
 });
 
 // Find by ID route
 challengeRouter.get("/:challengeId", async (req, res) => {
-  const { success, statusCode, body } = challengeController.findById(
+  const { success, statusCode, body } = await challengeController.findById(
     req.params?.challengeId,
   );
 
@@ -27,7 +27,7 @@ challengeRouter.patch(
   "/:challengeId",
   autorizationMiddleware,
   async (req, res) => {
-    const { success, statusCode, body } = challengeController.updateById(
+    const { success, statusCode, body } = await challengeController.updateById(
       req.params?.challengeId,
       req.body,
     );
@@ -41,7 +41,7 @@ challengeRouter.delete(
   "/:challengeId",
   autorizationMiddleware,
   async (req, res) => {
-    const { success, statusCode, body } = challengeController.deleteById(
+    const { success, statusCode, body } = await challengeController.deleteById(
       req.params?.challengeId,
     );
 

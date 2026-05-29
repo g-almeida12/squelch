@@ -38,23 +38,23 @@ export default class AuthRepository implements IAuthRepository {
     this.userRepository = userRepository;
   }
 
-  register(newUser: UserRegister): UserEntity {
+  async register(newUser: UserRegister): Promise<UserEntity> {
     try {
       const registerResult = this.registerUserStmt.run(newUser);
 
-      return this.userRepository.findById(
+      return (await this.userRepository.findById(
         registerResult.lastInsertRowid as number,
-      ) as UserEntity;
+      )) as UserEntity;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
   }
 
-  createRefreshToken(
+  async createRefreshToken(
     userId: number,
     token: string,
     expiredAt: string,
-  ): RunResult {
+  ): Promise<RunResult> {
     try {
       return this.createRefreshTokenStmt.run({ userId, token, expiredAt });
     } catch (err) {
@@ -62,13 +62,15 @@ export default class AuthRepository implements IAuthRepository {
     }
   }
 
-  findRefreshTokenByToken(hashedToken: string): RefreshTokenEntity | null {
+  async findRefreshTokenByToken(
+    hashedToken: string,
+  ): Promise<RefreshTokenEntity | null> {
     try {
       const refreshToken = this.findRefreshTokenByTokenStmt.get(hashedToken) as
         | RefreshTokenEntity
         | undefined;
       if (!refreshToken) {
-        return null;
+        return Promise.resolve(null);
       }
 
       return refreshToken;
@@ -77,7 +79,7 @@ export default class AuthRepository implements IAuthRepository {
     }
   }
 
-  revokeToken(id: number, revokedAt: string): RunResult {
+  async revokeToken(id: number, revokedAt: string): Promise<RunResult> {
     try {
       return this.revokeTokenStmt.run({ id, revokedAt });
     } catch (err) {
@@ -85,10 +87,10 @@ export default class AuthRepository implements IAuthRepository {
     }
   }
 
-  invalidateTokensByUserId(
+  async invalidateTokensByUserId(
     userId: number,
     revocationReason: "SECURITY_BREACH" | "LOGOUT",
-  ): RunResult {
+  ): Promise<RunResult> {
     try {
       return this.invalidateRefreshTokensStmt.run({ userId, revocationReason });
     } catch (err) {
