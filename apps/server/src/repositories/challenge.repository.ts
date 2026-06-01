@@ -1,6 +1,9 @@
 import { ChallengeCreate, ChallengeUpdate, Id } from "@squelch/shared";
 import { Statement } from "better-sqlite3";
-import { ChallengeEntity } from "../entities/types.entities.js";
+import {
+  ChallengeEntity,
+  UserSessionEntity,
+} from "../entities/types.entities.js";
 import { IChallengeRepository } from "../interfaces/challenge.interface.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { db } from "../database/connection.js";
@@ -8,14 +11,24 @@ import { db } from "../database/connection.js";
 export default class ChallengeRepository implements IChallengeRepository {
   // Prepared Statments
   private createStmt: Statement;
+  private findUserSessionStmt: Statement;
+  private createUserSessionStmt: Statement;
   private findByIdStmt: Statement;
   private findByTitleStmt: Statement;
   private updateByIdStmt: Statement;
   private deleteByIdStmt: Statement;
+  private deleteAllUserSessionsStmt: Statement;
   constructor() {
     this.createStmt = db.prepare(`
       INSERT INTO challenges (title, markdown,  difficulty, validation_query, affected_rows)
       VALUES (@title, @markdown, @difficulty, @validationQuery, @affectedRows)
+    `);
+    this.findUserSessionStmt = db.prepare(`
+      SELECT * FROM user_sessions
+      WHERE challenge_id = @challengeId AND user_id = @userId`);
+    this.createUserSessionStmt = db.prepare(`
+      INSERT INTO user_sessions (user_id, challenge_id, group_slug session)
+      VALUES (@userId, @challengeId, @groupSlug, @session)  
     `);
     this.findByIdStmt = db.prepare(`SELECT * FROM challenges WHERE id = ?`);
     this.findByTitleStmt = db.prepare(
@@ -27,6 +40,9 @@ export default class ChallengeRepository implements IChallengeRepository {
       WHERE id = @id
     `);
     this.deleteByIdStmt = db.prepare(`DELETE FROM challenges WHERE id = ?`);
+    this.deleteAllUserSessionsStmt = db.prepare(
+      `DELETE FROM user_sessions WHERE user_id = ?`,
+    );
   }
 
   async create(newChallenge: ChallengeCreate): Promise<ChallengeEntity> {
@@ -36,6 +52,51 @@ export default class ChallengeRepository implements IChallengeRepository {
       return (await this.findById(
         insertResult.lastInsertRowid as number,
       )) as ChallengeEntity;
+    } catch (err) {
+      throw ApplicationError.repositoryError(err);
+    }
+  }
+
+  async createUserSession(
+    challengeId: Id,
+    groupSlug: string,
+    session: string,
+    userId: Id,
+  ): Promise<UserSessionEntity> {
+    try {
+      const runResult = this.createUserSessionStmt.run({
+        challengeId,
+        session,
+        groupSlug,
+        userId,
+      });
+
+      return {
+        id: runResult.lastInsertRowid as number,
+        challenge_id: challengeId,
+        user_id: userId,
+        group_slug: groupSlug,
+        session,
+      };
+    } catch (err) {
+      throw ApplicationError.repositoryError(err);
+    }
+  }
+
+  async findUserSession(
+    challengeId: Id,
+    userId: Id,
+  ): Promise<UserSessionEntity | null> {
+    try {
+      const userSession = this.findUserSessionStmt.get({
+        challengeId,
+        userId,
+      }) as UserSessionEntity | undefined;
+      if (!userSession) {
+        return null;
+      }
+
+      return userSession;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -91,6 +152,15 @@ export default class ChallengeRepository implements IChallengeRepository {
     try {
       const deleteResult = this.deleteByIdStmt.run(challengeId);
       return deleteResult.changes > 0;
+    } catch (err) {
+      throw ApplicationError.repositoryError(err);
+    }
+  }
+
+  async deleteAllUserSessions(userId: Id): Promise<number> {
+    try {
+      const deleteResult = this.deleteAllUserSessionsStmt.run(userId);
+      return deleteResult.changes;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

@@ -11,7 +11,9 @@ export interface IAuthRepository {
     expiredAt: string,
   ): Promise<RunResult>;
 
-  findRefreshTokenByToken(hashedToken: string): Promise<RefreshTokenEntity | null>;
+  findRefreshTokenByToken(
+    hashedToken: string,
+  ): Promise<RefreshTokenEntity | null>;
 
   revokeToken(id: Id, revokedAt: string): Promise<RunResult>;
 

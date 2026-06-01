@@ -13,7 +13,7 @@ export interface AuthRequest extends Request {
   };
 }
 
-export function authenticationMiddleware(
+export async function authenticationMiddleware(
   req: AuthRequest,
   _res: Response,
   next: NextFunction,
@@ -21,7 +21,17 @@ export function authenticationMiddleware(
   try {
     const accessToken = req.cookies?.access_token;
     if (!accessToken) {
-      throw new ApplicationError("Token de autenticação não enviado.", 401);
+      return next(
+        new ApplicationError("Token de autenticação não enviado.", 401),
+      );
+    }
+
+    const xsrfToken = req.cookies?.xsrf_token;
+    const xsrfHeader = req.headers["x-xsrf-token"];
+    if (!xsrfToken || !xsrfHeader || xsrfToken !== xsrfHeader) {
+      return next(
+        new ApplicationError("XSRF Token não enviado ou inválido.", 403),
+      );
     }
 
     const JWT_SECRET = envConfig.JWT_SECRET;
@@ -31,18 +41,14 @@ export function authenticationMiddleware(
       role: "USER" | "ADMIN";
     };
 
-    const user = userRepository.findById(Number(decoded.sub));
+    const user = await userRepository.findById(Number(decoded.sub));
     if (!user) {
-      throw new ApplicationError("Usuário não encontrado.", 404);
+      return next(new ApplicationError("Usuário não encontrado.", 404));
     }
 
     req.user = { id: user.id, role: user.role };
     next();
   } catch (err) {
-    if (err instanceof ApplicationError) {
-      return next(err);
-    }
-
     return next(new ApplicationError("Sessão inválida ou expirada.", 403));
   }
 }

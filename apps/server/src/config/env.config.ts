@@ -7,6 +7,7 @@ export const envConfig = {
   APP_URL: process.env.APP_URL as string,
   NODE_ENV: process.env.NODE_ENV as string,
   JWT_SECRET: process.env.JWT_SECRET as string,
+  CRON_SECRET: process.env.CRON_SECRET as string,
 } as const;
 
 for (const key of Object.keys(envConfig)) {

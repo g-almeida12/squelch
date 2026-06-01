@@ -1,4 +1,9 @@
-import { Id, SubmissionDTO, SubmissionSave, SubmissionValidation } from "@squelch/shared";
+import {
+  Id,
+  SubmissionDTO,
+  SubmissionSave,
+  SubmissionValidation,
+} from "@squelch/shared";
 import { SubmissionEntity } from "../entities/types.entities.js";
 
 export interface ISubmissionRepository {

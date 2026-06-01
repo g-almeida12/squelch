@@ -31,8 +31,8 @@ export type UserSessionEntity = {
   id: Id;
   user_id: Id;
   challenge_id: Id;
-  session: string;
   group_slug: string;
+  session: string;
 }
 
 export type RefreshTokenEntity = {

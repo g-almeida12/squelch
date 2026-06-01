@@ -17,6 +17,8 @@
         "../../packages/shared/src/index.ts"
       ]
     },
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "include": [
     "./src/**/*"

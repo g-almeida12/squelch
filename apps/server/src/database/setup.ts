@@ -37,9 +37,9 @@ function setupDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       challenge_id INTEGER NOT NULL,
-      session TEXT NOT NULL,
+      session TEXT UNIQUE NOT NULL,
       group_slug TEXT NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES users(id)
+      FOREIGN KEY (user_id) REFERENCES users(id),
       FOREIGN KEY (challenge_id) REFERENCES challenges(id)
     );
 

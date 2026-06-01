@@ -3,9 +3,9 @@ import ApplicationError from "../helpers/errors/application.error.js";
 
 export function errorMiddleware(
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
   if (err instanceof ApplicationError) {
     return res.status(err.statusCode).json({
