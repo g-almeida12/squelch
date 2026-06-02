@@ -70,4 +70,8 @@ export default class SubmissionService implements ISubmissionService {
 
     return submission.map((s) => mapSubmissionDTO(s));
   }
+
+  async deleteAllUserSubmissions(userId: Id): Promise<void> {
+    await this.submissionRepository.deleteAllUserSubmissions(userId);
+  }
 }

@@ -1,4 +1,4 @@
-import { Id, SubmissionSave, SubmissionValidation } from "@squelch/shared";
+import { Id, SubmissionSave } from "@squelch/shared";
 import { SubmissionEntity } from "../entities/types.entities.js";
 import { ISubmissionRepository } from "../interfaces/submission.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
@@ -11,6 +11,7 @@ export default class SubmissionRepository implements ISubmissionRepository {
   private findByIdStmt: Statement;
   private findByUserIdStmt: Statement;
   private findByChallengeIdStmt: Statement;
+  private deleteAllUserSubmissionsStmt: Statement;
   constructor() {
     this.saveStmt = db.prepare(`
       INSERT INTO submissions (user_id, challenge_id, submitted_query, success, user_wrong_result, date)
@@ -24,6 +25,9 @@ export default class SubmissionRepository implements ISubmissionRepository {
     );
     this.findByChallengeIdStmt = db.prepare(
       `SELECT * FROM submissions WHERE challenge_id = @challengeId AND user_id = @userId`,
+    );
+    this.deleteAllUserSubmissionsStmt = db.prepare(
+      `DELETE FROM submissions WHERE id = ?`,
     );
   }
 
@@ -39,7 +43,7 @@ export default class SubmissionRepository implements ISubmissionRepository {
         userId: submission.userId,
       }) as SubmissionEntity;
 
-      return Promise.resolve(savedSubmission);
+      return savedSubmission;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -58,7 +62,7 @@ export default class SubmissionRepository implements ISubmissionRepository {
         return null;
       }
 
-      return Promise.resolve(submission);
+      return submission;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -70,7 +74,7 @@ export default class SubmissionRepository implements ISubmissionRepository {
         userId,
       ) as SubmissionEntity[];
 
-      return Promise.resolve(submission);
+      return submission;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -86,7 +90,17 @@ export default class SubmissionRepository implements ISubmissionRepository {
         userId,
       }) as SubmissionEntity[];
 
-      return Promise.resolve(submission);
+      return submission;
+    } catch (err) {
+      throw ApplicationError.repositoryError(err);
+    }
+  }
+
+  async deleteAllUserSubmissions(userId: Id): Promise<number> {
+    try {
+      const deleteResult = this.deleteAllUserSubmissionsStmt.run(userId);
+
+      return deleteResult.changes;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
