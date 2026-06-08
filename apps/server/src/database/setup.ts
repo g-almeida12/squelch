@@ -6,8 +6,7 @@ function setupDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
-      role TEXT NOT NULL CHECK(role IN ('USER', 'ADMIN')) DEFAULT 'USER'
+      password TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS challenges (
@@ -16,8 +15,10 @@ function setupDatabase() {
       markdown TEXT NOT NULL,
       validation_query TEXT NOT NULL,
       difficulty TEXT CHECK(difficulty IN ('EASY', 'MEDIUM', 'HARD')),
-      affected_rows INTEGER NOT NULL
+      group_slug TEXT NOT NULL
     );
+
+    CREATE INDEX IF NOT EXISTS idx_challenge_group ON challenges(group_slug);
 
     CREATE TABLE IF NOT EXISTS submissions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +26,7 @@ function setupDatabase() {
       challenge_id INTEGER NOT NULL,
       success BOOLEAN NOT NULL,
       submitted_query TEXT NOT NULL,
-      user_wrong_result TEXT DEFAULT NULL,
+      user_query_result TEXT NOT NULL,
       date TEXT DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id),
       FOREIGN KEY (challenge_id) REFERENCES challenges(id)
@@ -33,24 +34,12 @@ function setupDatabase() {
 
     CREATE INDEX IF NOT EXISTS idx_user_submissions ON submissions(user_id);
 
-    CREATE TABLE IF NOT EXISTS user_sessions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL,
-      challenge_id INTEGER NOT NULL,
-      session TEXT UNIQUE NOT NULL,
-      group_slug TEXT NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (challenge_id) REFERENCES challenges(id)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_user_challenge_session ON user_sessions(user_id, challenge_id);
-
     CREATE TABLE IF NOT EXISTS refresh_tokens (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       token TEXT UNIQUE NOT NULL,
       expired_at TEXT NOT NULL,
-      revoked_At TEXT DEFAULT NULL,
+      revoked_at TEXT DEFAULT NULL,
       revocation_reason TEXT CHECK(revocation_reason IN ('SECURITY_BREACH', 'ROTATION', 'LOGOUT')),
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
@@ -61,20 +50,4 @@ function setupDatabase() {
   db.exec(schemasSetup);
 }
 
-function insertAdmin() {
-  const admin = {
-    name: "G. Almeida",
-    email: "almeida@gmail.com",
-    password: "$argon2id$v=19$m=65536,t=3,p=4$aGkw/IWarh7koMoRZuse7A$Fv7J9+lbM/Y2zkssxakvorV7e3CnCpkg/bNF8bor034", // 'almeida123'
-    role: "ADMIN",
-  };
-
-  db.prepare(`
-    INSERT INTO users (name, email, password, role) 
-    VALUES (@name, @email, @password, @role) 
-    ON CONFLICT(email) DO NOTHING
-  `).run(admin);
-}
-
 setupDatabase();
-insertAdmin();

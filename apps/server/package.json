@@ -1,11 +1,11 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "API for Squelch",
   "main": "index.js",
   "scripts": {
     "server:dev": "nodemon --exec tsx ./src/index.ts",
-    "server:build": "tsc ./src/index.ts"
+    "server:build": "tsc -b ./tsconfig.json"
   },
   "keywords": [],
   "author": "Gabriel Almeida",

@@ -12,6 +12,7 @@ export type ErrorResponse = {
   body: {
     message: string;
     invalidFields?: { message?: string }[];
+    data?: unknown;
   };
 };
 

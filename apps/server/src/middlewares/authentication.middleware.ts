@@ -9,7 +9,6 @@ const userRepository = new UserRepository();
 export interface AuthRequest extends Request {
   user?: {
     id: number;
-    role: "USER" | "ADMIN";
   };
 }
 
@@ -37,8 +36,6 @@ export async function authenticationMiddleware(
     const JWT_SECRET = envConfig.JWT_SECRET;
     const decoded = jwt.verify(accessToken, JWT_SECRET) as {
       sub: string;
-      email: string;
-      role: "USER" | "ADMIN";
     };
 
     const user = await userRepository.findById(Number(decoded.sub));
@@ -46,7 +43,7 @@ export async function authenticationMiddleware(
       return next(new ApplicationError("Usuário não encontrado.", 404));
     }
 
-    req.user = { id: user.id, role: user.role };
+    req.user = { id: user.id };
     next();
   } catch (err) {
     return next(new ApplicationError("Sessão inválida ou expirada.", 403));

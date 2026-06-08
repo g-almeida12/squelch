@@ -1,6 +1,12 @@
 import { z } from "zod";
 import { IdSchema } from "./id.schemas";
 
+export const QueryResultSchema = z.array(
+  z.record(
+    z.string(),
+    z.union([z.string(), z.number(), z.null(), z.boolean()]),
+  ),
+);
 const SubmissionBaseSchema = z.object({
   challengeId: IdSchema,
   submittedQuery: z.string().min(6, "Query de submissão precisa ser enviada."),
@@ -21,25 +27,19 @@ const SubmissionBaseSchema = z.object({
       }
     }),
 });
-export const QueryResultSchema = z.object({
-  columns: z.array(z.string()),
-  rows: z.array(
-    z.record(
-      z.string(),
-      z.union([z.string(), z.number(), z.null(), z.boolean()]),
-    ),
-  ),
+export const SubmissionValidationSchema = SubmissionBaseSchema.omit({
+  challengeId: true,
 });
-export const SubmissionValidationSchema = SubmissionBaseSchema;
 export const SubmissionSaveSchema = SubmissionBaseSchema.extend({
   success: z.boolean(),
+  userQueryResult: QueryResultSchema,
   userId: IdSchema,
 });
 export const SubmissionDTOSchema = SubmissionBaseSchema.extend({
   id: IdSchema,
   userId: IdSchema,
+  userQueryResult: QueryResultSchema,
   success: z.boolean(),
-  userWrongResult: QueryResultSchema.nullable(),
 });
 
 export type QueryResult = z.infer<typeof QueryResultSchema>;

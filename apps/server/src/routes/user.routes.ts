@@ -4,12 +4,12 @@ import {
   authenticationMiddleware,
   AuthRequest,
 } from "../middlewares/authentication.middleware.js";
-import { removeTokens } from "../helpers/set-tokens.js";
+import { removeTokens } from "../helpers/set-tokens.helpers.js";
 
 export const userRouter = Router({ mergeParams: true });
 userRouter.use(authenticationMiddleware);
 // Find by ID route
-userRouter.get("/", async (req: AuthRequest, res) => {
+userRouter.get("/users", async (req: AuthRequest, res) => {
   const { statusCode, success, body } = await userController.findById(
     req.user?.id,
   );
@@ -18,7 +18,7 @@ userRouter.get("/", async (req: AuthRequest, res) => {
 });
 
 // Update route
-userRouter.patch("/", async (req: AuthRequest, res) => {
+userRouter.patch("/users", async (req: AuthRequest, res) => {
   const authReq = req as AuthRequest;
   const { statusCode, success, body } = await userController.updateById(
     req.user?.id,
@@ -29,7 +29,7 @@ userRouter.patch("/", async (req: AuthRequest, res) => {
 });
 
 // Delete route
-userRouter.delete("/", async (req: AuthRequest, res) => {
+userRouter.delete("/users", async (req: AuthRequest, res) => {
   const { statusCode, success, body } = await userController.deleteById(
     req.user?.id,
   );

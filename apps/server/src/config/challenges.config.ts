@@ -1,37 +1,83 @@
 import Database from "better-sqlite3";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import {} from "node:fs/promises";
 import { join } from "node:path";
+import { db } from "../database/connection.js";
 
-export const validGroupSlugs = [""];
+function populateChallengeDatabases() {
+  console.log("\nPopulating challenges databases...");
 
-console.log("\nConfigurating challenges databases...");
-for (const groupSlug of validGroupSlugs) {
-  const folderPath = join(process.cwd(), "challenges", groupSlug);
-  if (!existsSync(folderPath)) {
+  try {
+    const groups = readdirSync(join(process.cwd(), "challenges", "groups"), {
+      withFileTypes: true,
+    });
+    for (const group of groups) {
+      if (group.isDirectory()) {
+        const folderPath = join(
+          process.cwd(),
+          "challenges",
+          "groups",
+          group.name,
+        );
+        if (!existsSync(folderPath)) {
+          throw new Error(
+            `[challenges.config.ts] Folder for group slug '${group.name}' not created.`,
+          );
+        }
+
+        const sqlSetup = join(folderPath, "setup.sql");
+        if (!existsSync(sqlSetup)) {
+          throw new Error(
+            "[challenges.config.ts] SQL file for group setup not created.",
+          );
+        }
+
+        const templateDb = join(folderPath, "challenge.db");
+        if (!existsSync(templateDb)) {
+          const challengeDb = new Database(templateDb);
+          const setupQueries = readFileSync(sqlSetup, "utf-8");
+
+          challengeDb.exec(setupQueries);
+          challengeDb.pragma("foreign_keys = ON");
+          challengeDb.close();
+
+          console.log(
+            `Created '${group.name}' challenge group and its initial populated database.`,
+          );
+        } else {
+          console.log(`Group slug '${group.name}' already created.`);
+        }
+      }
+
+      console.log("Successfully populated challenge databases.\n");
+    }
+  } catch (err) {
+    console.error(err);
     throw new Error(
-      `[challenges.config.ts] Group slug '${groupSlug}' not created.`,
+      "[challenges.config.ts] Error on attempting to initalize a challenge group.",
     );
-  }
-
-  const sqlSetup = join(folderPath, "config", "setup-template.sql");
-  if (!existsSync(sqlSetup)) {
-    throw new Error("[challenges.config.ts] SQL setup not created.");
-  }
-
-  const templateDB = join(folderPath, "config", "template.db");
-  if (!existsSync(templateDB)) {
-    const db = new Database(templateDB);
-    const setupQueries = readFileSync(sqlSetup, "utf-8");
-
-    db.exec(setupQueries);
-    db.pragma("foreign_keys = ON");
-    db.close();
-    console.log(
-      `Created '${groupSlug}' challenge group and its initial populated database.`,
-    );
-  } else {
-    console.log(`Group slug '${groupSlug}' already created.`);
   }
 }
 
-console.log("Successfully configurated challenges databases.\n");
+function createChallengeTableRows() {
+  console.log("\nInserting challenges on database...");
+
+  const challengesSetupFile = join(
+    process.cwd(),
+    "challenges",
+    "challenges-creation-setup.sql",
+  );
+  if (!existsSync(challengesSetupFile)) {
+    throw new Error(
+      `[challenges.config.ts] SQL file for challenge creation setup  not created.`,
+    );
+  }
+
+  const challengeCreationSetup = readFileSync(challengesSetupFile, "utf-8");
+  db.exec(challengeCreationSetup);
+
+  console.log("\nSuccessfully inserted challenges on database.\n");
+}
+
+populateChallengeDatabases();
+createChallengeTableRows();

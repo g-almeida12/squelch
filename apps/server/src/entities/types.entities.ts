@@ -11,10 +11,10 @@ export type UserEntity = {
 export type ChallengeEntity = {
   id: Id;
   title: string;
+  group_slug: string;
   markdown: string;
   difficulty: ChallengeDifficulties;
   validation_query: string;
-  affected_rows: number;
 };
 
 export type SubmissionEntity = {
@@ -24,16 +24,12 @@ export type SubmissionEntity = {
   submitted_query: string;
   date: string;
   success: boolean;
-  user_wrong_result: string | null;
-}
+  user_query_result: string;
+};
 
-export type UserSessionEntity = {
-  id: Id;
-  user_id: Id;
-  challenge_id: Id;
-  group_slug: string;
-  session: string;
-}
+export type QueryRunEntity = {
+  [x: string]: string | number | boolean | null;
+};
 
 export type RefreshTokenEntity = {
   id: Id;

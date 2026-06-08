@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { authController } from "../config/factory.config.js";
-import { removeTokens, setTokens } from "../helpers/set-tokens.js";
+import { removeTokens, setTokens } from "../helpers/set-tokens.helpers.js";
 
 export const authRouter = Router({ mergeParams: true });
 
 // Register route
-authRouter.post("/register", async (req, res) => {
+authRouter.post("/auth/register", async (req, res) => {
   const { success, statusCode, body } = await authController.register(req.body);
   if (success) {
     setTokens(res, {
@@ -19,7 +19,7 @@ authRouter.post("/register", async (req, res) => {
 });
 
 // Login route
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/auth/login", async (req, res) => {
   const { success, statusCode, body } = await authController.login(req.body);
   if (success) {
     setTokens(res, {
@@ -33,7 +33,7 @@ authRouter.post("/login", async (req, res) => {
 });
 
 // Refresh route
-authRouter.post("/refresh", async (req, res) => {
+authRouter.post("/auth/refresh", async (req, res) => {
   const { success, statusCode, body } = await authController.refresh(req.body);
   if (success) {
     setTokens(res, {
@@ -47,7 +47,7 @@ authRouter.post("/refresh", async (req, res) => {
 });
 
 // Logout route
-authRouter.post("/logout", async (_req, res) => {
+authRouter.post("/auth/logout", async (_req, res) => {
   removeTokens(res);
 
   return res.status(201);

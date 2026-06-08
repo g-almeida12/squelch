@@ -39,6 +39,7 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
   return {
     id: challenge.id,
     title: challenge.title,
+    groupSlug: challenge.group_slug,
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
   };
@@ -51,9 +52,7 @@ export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
     challengeId: submission.challenge_id,
     submittedQuery: submission.submitted_query,
     success: !!submission.success,
-    userWrongResult: submission.user_wrong_result
-      ? JSON.parse(submission.user_wrong_result)
-      : null,
+    userQueryResult: JSON.parse(submission.user_query_result),
     date: new Date(submission.date),
   };
 }

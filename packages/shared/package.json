@@ -1,6 +1,6 @@
 {
   "name": "@squelch/shared",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "private": true,
   "main": "./dist/index.js",
@@ -9,7 +9,9 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "shared:type-check": "tsc --noEmit",
-    "shared:build": "tsc -p tsconfig.json"
+    "shared:build": "tsc -p ./tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
   }
 }

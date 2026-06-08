@@ -1,6 +1,7 @@
 import {
   HTTPResponse,
   IdSchema,
+  QueryResult,
   SubmissionDTO,
   SubmissionValidationSchema,
 } from "@squelch/shared";
@@ -12,10 +13,38 @@ export default class SubmissionController {
     this.submissionService = submissionService;
   }
 
+  async runQuery(
+    submittedQuery: unknown,
+    challengeId: unknown,
+  ): Promise<HTTPResponse<QueryResult>> {
+    try {
+      if (!submittedQuery || typeof submittedQuery !== "string") {
+        throw new ApplicationError("Formato de query inválido fornecido", 400);
+      }
+
+      const idValidation = IdSchema.safeParse(challengeId);
+      if (!idValidation.success) {
+        throw new ApplicationError("ID de desafio inválido fornecido.", 400);
+      }
+
+      const userQueryResult = await this.submissionService.runQuery(
+        submittedQuery,
+        idValidation.data,
+      );
+
+      return { success: true, statusCode: 200, body: userQueryResult };
+    } catch (err) {
+      return ApplicationError.handleControllerError(err);
+    }
+  }
+
   async validateAndSave(
     submission: unknown,
+    challengeId: unknown,
     userId: unknown,
-  ): Promise<HTTPResponse<SubmissionDTO>> {
+  ): Promise<
+    HTTPResponse<{ submission: SubmissionDTO; errorMessages: string[] | null }>
+  > {
     try {
       const submissionValidation =
         SubmissionValidationSchema.safeParse(submission);
@@ -38,12 +67,23 @@ export default class SubmissionController {
       if (!userIdValidation.success) {
         throw new ApplicationError("ID de submissão inválido fornecido.", 400);
       }
-      const savedSubmission = await this.submissionService.validateAndSave(
-        submissionValidation.data,
-        userIdValidation.data,
-      );
 
-      return { success: true, statusCode: 200, body: savedSubmission };
+      const challengeIdValidation = IdSchema.safeParse(challengeId);
+      if (!challengeIdValidation.success) {
+        throw new ApplicationError("ID de submissão inválido fornecido.", 400);
+      }
+      const { submission: validatedSubmission, errorMessages } =
+        await this.submissionService.validateAndSave(
+          submissionValidation.data,
+          challengeIdValidation.data,
+          userIdValidation.data,
+        );
+
+      return {
+        success: true,
+        statusCode: 200,
+        body: { submission: validatedSubmission, errorMessages },
+      };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }

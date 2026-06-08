@@ -14,8 +14,8 @@ export default class SubmissionRepository implements ISubmissionRepository {
   private deleteAllUserSubmissionsStmt: Statement;
   constructor() {
     this.saveStmt = db.prepare(`
-      INSERT INTO submissions (user_id, challenge_id, submitted_query, success, user_wrong_result, date)
-      VALUES (@userId, @challengeId, @submittedQuery, @success, @userWrongResult, @date)
+      INSERT INTO submissions (user_id, challenge_id, submitted_query, success, user_query_result, date)
+      VALUES (@userId, @challengeId, @submittedQuery, @success, @userQueryResult, @date)
     `);
     this.findByIdStmt = db.prepare(
       `SELECT * FROM submissions WHERE id = @submissionId AND user_id = @userId`,
@@ -35,6 +35,7 @@ export default class SubmissionRepository implements ISubmissionRepository {
     try {
       const saveResult = this.saveStmt.run({
         ...submission,
+        userQueryResult: JSON.stringify(submission.userQueryResult),
         success: Number(submission.success),
         date: submission.date.toISOString(),
       });

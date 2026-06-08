@@ -1,6 +1,6 @@
 {
   "name": "squelch",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "private": true,
   "author": "Gabriel Almeida",
@@ -9,8 +9,6 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/jsonwebtoken": "^9.0.10",
     "typescript": "^6.0.3"
   }
 }

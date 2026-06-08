@@ -4,7 +4,6 @@ import {
   UserLoginSchema,
   UserRegisterSchema,
 } from "@squelch/shared";
-import { IAuthService } from "../interfaces/auth.interfaces.js";
 import AuthService from "../services/auth.service.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 

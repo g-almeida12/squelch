@@ -1,5 +1,6 @@
 import {
   Id,
+  QueryResult,
   SubmissionDTO,
   SubmissionSave,
   SubmissionValidation,
@@ -21,8 +22,15 @@ export interface ISubmissionRepository {
 export interface ISubmissionService {
   validateAndSave(
     submission: SubmissionValidation,
+    challengeId: Id,
     userId: Id,
-  ): Promise<SubmissionDTO>;
+  ): Promise<{
+    submission: SubmissionDTO;
+    queryResult: QueryResult;
+    errorMessages: string[] | null;
+  }>;
+
+  runQuery(submittedQuery: string, challengeId: Id): Promise<QueryResult>;
 
   findById(submissionId: Id, userId: Id): Promise<SubmissionDTO>;
 

@@ -1,8 +1,8 @@
 import Database from "better-sqlite3";
 import { Server } from "http";
-import path from "path";
+import { join } from "path";
 
-const dbPath = path.resolve("database.db");
+const dbPath = join(process.cwd(), "database.db");
 
 export const db = new Database(dbPath, {
   verbose: console.log,
@@ -25,7 +25,7 @@ export function closeDBConnection(server: Server, signal: string) {
 
     try {
       db.close();
-      console.log("Database closed")
+      console.log("Database closed");
     } catch (err) {
       console.error(
         "[connection.ts - closeDBConnection] Error in attempting to close the database",
