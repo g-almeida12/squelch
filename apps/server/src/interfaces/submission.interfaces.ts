@@ -1,11 +1,13 @@
 import {
   Id,
   QueryResult,
-  SubmissionDTO,
   SubmissionSave,
   SubmissionValidation,
 } from "@squelch/shared";
-import { SubmissionEntity } from "../entities/types.entities.js";
+import {
+  QueryRunEntity,
+  SubmissionEntity,
+} from "../entities/types.entities.js";
 
 export interface ISubmissionRepository {
   save(submission: SubmissionSave): Promise<SubmissionEntity>;
@@ -25,18 +27,18 @@ export interface ISubmissionService {
     challengeId: Id,
     userId: Id,
   ): Promise<{
-    submission: SubmissionDTO;
+    submission: SubmissionEntity;
     queryResult: QueryResult;
     errorMessages: string[] | null;
   }>;
 
-  runQuery(submittedQuery: string, challengeId: Id): Promise<QueryResult>;
+  runQuery(submittedQuery: string, challengeId: Id): Promise<QueryRunEntity[]>;
 
-  findById(submissionId: Id, userId: Id): Promise<SubmissionDTO>;
+  findById(submissionId: Id, userId: Id): Promise<SubmissionEntity>;
 
-  findByUserId(userId: Id): Promise<SubmissionDTO[]>;
+  findByUserId(userId: Id): Promise<SubmissionEntity[]>;
 
-  findByChallengeId(challengeId: Id, userId: Id): Promise<SubmissionDTO[]>;
+  findByChallengeId(challengeId: Id, userId: Id): Promise<SubmissionEntity[]>;
 
   deleteAllUserSubmissions(userId: Id): Promise<void>;
 }

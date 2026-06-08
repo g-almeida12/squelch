@@ -9,7 +9,7 @@ export default class ChallengeRepository implements IChallengeRepository {
   // Prepared Statments
   private findByIdStmt: Statement;
   constructor() {
-    this.findByIdStmt = db.prepare(`SELECT * FROM challenges WHERE id = ?`);
+    this.findByIdStmt = db.prepare(`SELECT id, title, group_slug, markdown, difficulty, validation_query FROM challenges WHERE id = ?`);
   }
 
   async findById(challengeId: Id): Promise<ChallengeEntity | null> {

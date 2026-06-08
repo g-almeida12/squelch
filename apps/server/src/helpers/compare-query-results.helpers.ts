@@ -53,7 +53,6 @@ export function compareQueryResults(
   const userSet: Set<string> = new Set([
     userAnswer.map((obj) => userFields.map((f) => `${f}:${obj[f]}`)).join("|"),
   ]);
-  console.log(userSet);
   for (let i = 0; i < expectedAnswer.length; i++) {
     const stringObj = expectedFields
       .map((f) => `${f}:${expectedAnswer[i][f]}`)

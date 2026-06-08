@@ -18,7 +18,6 @@ export default class ApplicationError extends Error {
   }
 
   static repositoryError(err: unknown) {
-    // !Deletar no deploy
     console.error(err);
 
     if (err instanceof ApplicationError) {
@@ -29,7 +28,6 @@ export default class ApplicationError extends Error {
   }
 
   static handleControllerError(err: unknown): ErrorResponse {
-    // !Deletar no deploy
     console.error(err);
 
     if (err instanceof ApplicationError) {

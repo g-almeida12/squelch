@@ -1,15 +1,9 @@
-import {
-  SubmissionValidation,
-  SubmissionDTO,
-  Id,
-  QueryResult,
-} from "@squelch/shared";
+import { SubmissionValidation, Id } from "@squelch/shared";
 import {
   ISubmissionRepository,
   ISubmissionService,
 } from "../interfaces/submission.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
-import { mapSubmissionDTO } from "../entities/mappers.entities.js";
 import { IChallengeService } from "../interfaces/challenge.interface.js";
 import Database, { SqliteError } from "better-sqlite3";
 import { join } from "node:path";
@@ -17,7 +11,10 @@ import {
   compareQueryResults,
   QueryValidationResult,
 } from "../helpers/compare-query-results.helpers.js";
-import { QueryRunEntity } from "../entities/types.entities.js";
+import {
+  QueryRunEntity,
+  SubmissionEntity,
+} from "../entities/types.entities.js";
 
 export default class SubmissionService implements ISubmissionService {
   constructor(
@@ -31,7 +28,7 @@ export default class SubmissionService implements ISubmissionService {
   async runQuery(
     submittedQuery: string,
     challengeId: Id,
-  ): Promise<QueryResult> {
+  ): Promise<QueryRunEntity[]> {
     const challenge = await this.challengeService.findById(challengeId);
 
     const folderPath = join(
@@ -78,14 +75,13 @@ export default class SubmissionService implements ISubmissionService {
     }
   }
 
-  // !FAZER A VALIDAÇÃO DO DESAFIO
   async validateAndSave(
     submission: SubmissionValidation,
     challengeId: Id,
     userId: Id,
   ): Promise<{
-    submission: SubmissionDTO;
-    queryResult: QueryResult;
+    submission: SubmissionEntity;
+    queryResult: QueryRunEntity[];
     errorMessages: string[] | null;
   }> {
     const challenge = await this.challengeService.findById(challengeId);
@@ -107,9 +103,6 @@ export default class SubmissionService implements ISubmissionService {
       queryValidationResult,
     );
 
-    console.log(userQueryResult, expectedQueryResult);
-    console.log(queryValidationResult);
-
     let savedSubmission;
     if (success) {
       savedSubmission = await this.submissionRepository.save({
@@ -130,13 +123,13 @@ export default class SubmissionService implements ISubmissionService {
     }
 
     return {
-      submission: mapSubmissionDTO(savedSubmission),
+      submission: savedSubmission,
       queryResult: userQueryResult,
       errorMessages,
     };
   }
 
-  async findById(submissionId: Id, userId: Id): Promise<SubmissionDTO> {
+  async findById(submissionId: Id, userId: Id): Promise<SubmissionEntity> {
     const submission = await this.submissionRepository.findById(
       submissionId,
       userId,
@@ -148,37 +141,25 @@ export default class SubmissionService implements ISubmissionService {
       );
     }
 
-    return mapSubmissionDTO(submission);
+    return submission;
   }
 
-  async findByUserId(userId: Id): Promise<SubmissionDTO[]> {
-    const submission = await this.submissionRepository.findByUserId(userId);
-    if (!submission) {
-      throw new ApplicationError(
-        "Submissão não encontrada para o usuário.",
-        404,
-      );
-    }
+  async findByUserId(userId: Id): Promise<SubmissionEntity[]> {
+    const submissions = await this.submissionRepository.findByUserId(userId);
 
-    return submission.map((s) => mapSubmissionDTO(s));
+    return submissions;
   }
 
   async findByChallengeId(
     challengeId: Id,
     userId: Id,
-  ): Promise<SubmissionDTO[]> {
-    const submission = await this.submissionRepository.findByChallengeId(
+  ): Promise<SubmissionEntity[]> {
+    const submissions = await this.submissionRepository.findByChallengeId(
       challengeId,
       userId,
     );
-    if (!submission) {
-      throw new ApplicationError(
-        "Submissão não encontrada para o usuário.",
-        404,
-      );
-    }
 
-    return submission.map((s) => mapSubmissionDTO(s));
+    return submissions;
   }
 
   async deleteAllUserSubmissions(userId: Id): Promise<void> {

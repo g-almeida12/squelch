@@ -18,13 +18,13 @@ export default class SubmissionRepository implements ISubmissionRepository {
       VALUES (@userId, @challengeId, @submittedQuery, @success, @userQueryResult, @date)
     `);
     this.findByIdStmt = db.prepare(
-      `SELECT * FROM submissions WHERE id = @submissionId AND user_id = @userId`,
+      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE id = @submissionId AND user_id = @userId`,
     );
     this.findByUserIdStmt = db.prepare(
-      `SELECT * FROM submissions WHERE user_id = ?`,
+      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE user_id = ?`,
     );
     this.findByChallengeIdStmt = db.prepare(
-      `SELECT * FROM submissions WHERE challenge_id = @challengeId AND user_id = @userId`,
+      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE challenge_id = @challengeId AND user_id = @userId`,
     );
     this.deleteAllUserSubmissionsStmt = db.prepare(
       `DELETE FROM submissions WHERE id = ?`,

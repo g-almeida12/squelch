@@ -12,7 +12,7 @@ export default class UserRepository implements IUserRepository {
   private updateByIdStmt: Statement;
   private deleteByIdStmt: Statement;
   constructor() {
-    this.findByIdStmt = db.prepare("SELECT * FROM users WHERE id = ?");
+    this.findByIdStmt = db.prepare("SELECT id, name, email, password FROM users WHERE id = ?");
     this.findByEmailStmt = db.prepare("SELECT * FROM users WHERE email = ?");
     this.updateByIdStmt = db.prepare(`
       UPDATE users 

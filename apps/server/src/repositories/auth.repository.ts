@@ -25,7 +25,7 @@ export default class AuthRepository implements IAuthRepository {
       "INSERT INTO refresh_tokens (user_id, token, expired_at) VALUES (@userId, @token, @expiredAt)",
     );
     this.findRefreshTokenByTokenStmt = db.prepare(
-      "SELECT * FROM refresh_tokens WHERE token = ?",
+      "SELECT id, user_id, token, expires_at, revoked_at, revocation_reason FROM refresh_tokens WHERE token = ?",
     );
     this.revokeTokenStmt = db.prepare(
       "UPDATE refresh_tokens SET revoked_at = @revokedAt, revocation_reason = 'ROTATION' WHERE id = @id",

@@ -49,7 +49,6 @@ export default class AuthService implements IAuthService {
       {
         sub: String(registeredUser.id),
         email: registeredUser.email,
-        role: registeredUser.role,
       },
       envConfig.JWT_SECRET,
       {
@@ -100,7 +99,6 @@ export default class AuthService implements IAuthService {
       {
         sub: String(registeredUser.id),
         email: registeredUser.email,
-        role: registeredUser.role,
       },
       envConfig.JWT_SECRET,
       {
@@ -180,7 +178,7 @@ export default class AuthService implements IAuthService {
     );
 
     const accessToken = jwt.sign(
-      { sub: String(user.id), email: user.email, role: user.role },
+      { sub: String(user.id), email: user.email },
       envConfig.JWT_SECRET,
       {
         expiresIn: "15m",

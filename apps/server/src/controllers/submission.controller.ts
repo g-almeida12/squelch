@@ -7,6 +7,7 @@ import {
 } from "@squelch/shared";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { ISubmissionService } from "../interfaces/submission.interfaces.js";
+import { mapSubmissionDTO } from "../entities/mappers.entities.js";
 
 export default class SubmissionController {
   constructor(private submissionService: ISubmissionService) {
@@ -82,7 +83,10 @@ export default class SubmissionController {
       return {
         success: true,
         statusCode: 200,
-        body: { submission: validatedSubmission, errorMessages },
+        body: {
+          submission: mapSubmissionDTO(validatedSubmission),
+          errorMessages,
+        },
       };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
@@ -108,7 +112,11 @@ export default class SubmissionController {
         userIdValidation.data,
       );
 
-      return { success: true, statusCode: 200, body: submission };
+      return {
+        success: true,
+        statusCode: 200,
+        body: mapSubmissionDTO(submission),
+      };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }
@@ -120,11 +128,15 @@ export default class SubmissionController {
       if (!userIdValidation.success) {
         throw new ApplicationError("ID de usuário inválido fornecido.", 400);
       }
-      const submission = await this.submissionService.findByUserId(
+      const submissions = await this.submissionService.findByUserId(
         userIdValidation.data,
       );
 
-      return { success: true, statusCode: 200, body: submission };
+      return {
+        success: true,
+        statusCode: 200,
+        body: submissions.map((s) => mapSubmissionDTO(s)),
+      };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }
@@ -144,12 +156,16 @@ export default class SubmissionController {
       if (!userIdValidation.success) {
         throw new ApplicationError("ID de submissão inválido fornecido.", 400);
       }
-      const submission = await this.submissionService.findByChallengeId(
+      const submissions = await this.submissionService.findByChallengeId(
         challengeIdValidation.data,
         userIdValidation.data,
       );
 
-      return { success: true, statusCode: 200, body: submission };
+      return {
+        success: true,
+        statusCode: 200,
+        body: submissions.map((s) => mapSubmissionDTO(s)),
+      };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }

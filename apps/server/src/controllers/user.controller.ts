@@ -6,6 +6,7 @@ import {
 } from "@squelch/shared";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { IUserService } from "../interfaces/user.interfaces.js";
+import { mapUserDTO } from "../entities/mappers.entities.js";
 
 export default class UserController {
   constructor(private userService: IUserService) {
@@ -20,7 +21,7 @@ export default class UserController {
       }
 
       const user = await this.userService.findById(Number(userId));
-      return { success: true, body: user, statusCode: 200 };
+      return { success: true, body: mapUserDTO(user), statusCode: 200 };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }
@@ -54,7 +55,7 @@ export default class UserController {
         idValidation.data,
         dataValidation.data,
       );
-      return { success: true, statusCode: 200, body: updatedUser };
+      return { success: true, statusCode: 200, body: mapUserDTO(updatedUser) };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }
