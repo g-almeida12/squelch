@@ -1,7 +1,7 @@
 import heroImg from "../../../../assets/hero-img.png";
 import { ButtonLink } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
-import { HeroCard } from "../HeroCard/HeroCard";
+import { HeroCard } from "./HeroCard";
 import { Navbar } from "../Navbar/Navbar";
 import { HiWindow } from "react-icons/hi2";
 import { BsFillMortarboardFill } from "react-icons/bs";

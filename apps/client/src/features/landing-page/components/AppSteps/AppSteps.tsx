@@ -1,4 +1,4 @@
-import { AppStepsCard } from "../AppStepsCard/AppStepsCard";
+import { AppStepsCard } from "./AppStepsCard";
 
 export function AppSteps() {
   return (

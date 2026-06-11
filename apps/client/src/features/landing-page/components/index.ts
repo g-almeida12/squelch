@@ -1,6 +1,6 @@
-export { AppSteps } from './AppSteps/AppSteps';
-export { CallToAction } from './CallToAction/CallToAction';
-export { EditorPreview } from './EditorPreview/EditorPreview';
-export { Hero } from './Hero/Hero';
-export { Footer } from './Footer/Footer';
-export { Navbar } from './Navbar/Navbar';
+export { AppSteps } from "./AppSteps";
+export { CallToAction } from "./CallToAction";
+export { EditorPreview } from "./EditorPreview";
+export { Hero } from "./Hero";
+export { Footer } from "./Footer";
+export { Navbar } from "./Navbar";

@@ -2,7 +2,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
-const LandingPage = lazy(() => import("../pages/LandingPage/LandingPage"));
+const LandingPage = lazy(() =>
+  import("../pages/LandingPage").then((module) => ({
+    default: module.LandingPage,
+  })),
+);
 
 export const router = createBrowserRouter([
   {

@@ -4,9 +4,9 @@ import {
   EditorPreview,
   Footer,
   Hero,
-} from "../../features/landing-page/components/";
+} from "../../features/landing-page/components";
 
-export default function LandingPage() {
+export function LandingPage() {
   return (
     <>
       <Hero />
