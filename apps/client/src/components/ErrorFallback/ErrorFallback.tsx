@@ -10,11 +10,12 @@ export function ErrorFallback({ resetErrorBoundary }: ErrorFallbackProps) {
   return (
     <main className="w-full min-h-dvh flex items-center justify-center p-10">
       <div className="w-full max-w-5xl flex flex-row items-stretch gap-20 mb-30">
+        {/* Text content */}
         <div className="max-w-xl">
-          <h2 className="text-5xl font-bold tracking-wide font-features-['smcp'] font-heading">
+          <h2 className="text-5xl font-bold tracking-wide font-features-['smcp'] font-heading" aria-describedby="h2-desc">
             ERRO 500
           </h2>
-          <p className="text-3xl font-medium font-features-['smcp'] font-heading mb-5">
+          <p className="text-3xl font-medium font-features-['smcp'] font-heading mb-5" id="h2-desc">
             Algo inesperado aconteceu.
           </p>
 
@@ -31,6 +32,7 @@ export function ErrorFallback({ resetErrorBoundary }: ErrorFallbackProps) {
           </div>
         </div>
 
+        {/* Editor content */}
         <div className="w-full max-w-md flex flex-col">
           <div className="w-full flex-1 rounded-1 overflow-hidden flex flex-col">
             <div className="h-8 bg-gray-800 flex items-center justify-start shrink-0 gap-2 px-4">

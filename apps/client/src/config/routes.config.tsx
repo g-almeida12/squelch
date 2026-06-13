@@ -9,9 +9,16 @@ const LandingPage = lazy(() =>
   })),
 );
 
+const NotFoundPage = lazy(() =>
+  import("../pages").then((module) => ({ default: module.NotFoundPage })),
+);
+
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
-    children: [{ path: "/landing-page", element: <LandingPage /> }],
+    children: [
+      { path: "/landing-page", element: <LandingPage /> },
+      { path: "*", element: <NotFoundPage /> },
+    ],
   },
 ]);
