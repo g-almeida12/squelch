@@ -10,8 +10,8 @@ const setEditorTheme = (monaco: Monaco) => {
       { token: "operator", foreground: "F6339A", fontStyle: "bold" },
       { token: "operator.sql", foreground: "F6339A", fontStyle: "bold" },
       { token: "comment", foreground: "6272A4", fontStyle: "italic" },
-      { token: "string", foreground: "2BFF43" },
-      { token: "string.sql", foreground: "2BFF43" },
+      { token: "string", foreground: "0DD124" },
+      { token: "string.sql", foreground: "0DD124" },
       { token: "number", foreground: "419AFA" },
     ],
     colors: {

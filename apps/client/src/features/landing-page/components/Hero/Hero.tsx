@@ -1,4 +1,4 @@
-import heroImg from "../../../../assets/hero-img.png";
+import heroImg from "../../../../assets/images/hero-img.webp";
 import { ButtonLink } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
 import { HeroCard } from "./HeroCard";

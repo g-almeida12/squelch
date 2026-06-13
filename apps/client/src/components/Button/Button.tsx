@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
-
 interface ButtonLinkProps {
-  to: string;
+  onClick: () => void;
   variant?: "primary" | "ghost-primary";
   customClassName?: string;
   children: React.ReactNode;
 }
 
-export function ButtonLink({
-  to,
+export function Button({
+  onClick,
   variant = "primary",
   customClassName,
   children,
@@ -19,11 +17,12 @@ export function ButtonLink({
   };
 
   return (
-    <Link
-      to={to}
-      className={`hover:brightness-90 select-none p-3 pbe-1 pbs-1 rounded-1 inline-block border-2 border-accent-primary font-medium text-center ${variantStyles[variant]} ${customClassName}`}
+    <button
+      className={`hover:brightness-90 select-none p-3 pbe-1 pbs-1 rounded-1 inline-block border-2 border-accent-primary font-medium hover:cursor-pointer ${variantStyles[variant]} ${customClassName}`}
+      type="button"
+      onClick={onClick}
     >
       {children}
-    </Link>
+    </button>
   );
 }

@@ -8,12 +8,12 @@ import {
 
 export function LandingPage() {
   return (
-    <>
-      <Hero />
+    <main>
+      <Hero/>
       <AppSteps />
       <EditorPreview />
       <CallToAction />
       <Footer />
-    </>
+    </main>
   );
 }

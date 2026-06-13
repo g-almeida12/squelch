@@ -32,10 +32,6 @@
   }
 }
 
-main {
-  @apply p-8 min-w-70;
-}
-
 ::selection {
   @apply bg-dark text-emerald-300;
 }
