@@ -8,7 +8,7 @@ export interface IAuthRepository {
   createRefreshToken(
     userId: Id,
     token: string,
-    expiredAt: string,
+    expiresAt: string,
   ): Promise<RunResult>;
 
   findRefreshTokenByToken(

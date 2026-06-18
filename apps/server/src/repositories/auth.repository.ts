@@ -22,7 +22,7 @@ export default class AuthRepository implements IAuthRepository {
       "INSERT INTO users (name, email, password) VALUES (@name, @email, @password)",
     );
     this.createRefreshTokenStmt = db.prepare(
-      "INSERT INTO refresh_tokens (user_id, token, expired_at) VALUES (@userId, @token, @expiredAt)",
+      "INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (@userId, @token, @expiresAt)",
     );
     this.findRefreshTokenByTokenStmt = db.prepare(
       "SELECT id, user_id, token, expires_at, revoked_at, revocation_reason FROM refresh_tokens WHERE token = ?",
@@ -53,10 +53,10 @@ export default class AuthRepository implements IAuthRepository {
   async createRefreshToken(
     userId: number,
     token: string,
-    expiredAt: string,
+    expiresAt: string,
   ): Promise<RunResult> {
     try {
-      return this.createRefreshTokenStmt.run({ userId, token, expiredAt });
+      return this.createRefreshTokenStmt.run({ userId, token, expiresAt });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

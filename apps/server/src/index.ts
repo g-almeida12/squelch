@@ -17,7 +17,8 @@ app.use(
   cors({
     origin: envConfig.APP_URL,
     credentials: true,
-    allowedHeaders: ["X-XSRF-Token",],
+    allowedHeaders: ["X-XSRF-Token", "Content-Type"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
   }),
 );
 app.use(express.json());

@@ -36,13 +36,13 @@ export default class AuthService implements IAuthService {
     const hashedRefreshToken = createHash("sha256")
       .update(refreshToken)
       .digest("hex");
-    const expiredAt = new Date(
+    const expiresAt = new Date(
       Date.now() + 1000 * 60 * 60 * 24 * 7,
     ).toISOString();
     this.authRepository.createRefreshToken(
       registeredUser.id,
       hashedRefreshToken,
-      expiredAt,
+      expiresAt,
     );
 
     const accessToken = jwt.sign(
@@ -86,13 +86,13 @@ export default class AuthService implements IAuthService {
     const hashedRefreshToken = createHash("sha256")
       .update(refreshToken)
       .digest("hex");
-    const expiredAt = new Date(
+    const expiresAt = new Date(
       Date.now() + 1000 * 60 * 60 * 24 * 7,
     ).toISOString();
     this.authRepository.createRefreshToken(
       registeredUser.id,
       hashedRefreshToken,
-      expiredAt,
+      expiresAt,
     );
 
     const accessToken = jwt.sign(
@@ -168,13 +168,13 @@ export default class AuthService implements IAuthService {
     const hashedRefreshToken = createHash("sha256")
       .update(refreshToken)
       .digest("hex");
-    const expiredAt = new Date(
+    const expiresAt = new Date(
       Date.now() + 1000 * 60 * 60 * 24 * 7,
     ).toISOString();
     this.authRepository.createRefreshToken(
       user.id,
       hashedRefreshToken,
-      expiredAt,
+      expiresAt,
     );
 
     const accessToken = jwt.sign(

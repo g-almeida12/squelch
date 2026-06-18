@@ -50,5 +50,5 @@ authRouter.post("/auth/refresh", async (req, res) => {
 authRouter.post("/auth/logout", async (_req, res) => {
   removeTokens(res);
 
-  return res.status(201);
+  return res.status(201).json({ success: true, body: null });
 });
