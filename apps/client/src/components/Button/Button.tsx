@@ -1,5 +1,7 @@
-interface ButtonLinkProps {
-  onClick: () => void;
+import type { ButtonHTMLAttributes } from "react";
+
+interface ButtonLinkProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  onClick?: () => void;
   variant?: "primary" | "ghost-primary";
   customClassName?: string;
   children: React.ReactNode;
@@ -10,6 +12,7 @@ export function Button({
   variant = "primary",
   customClassName,
   children,
+  ...props
 }: ButtonLinkProps) {
   const variantStyles = {
     primary: "bg-accent-primary text-tx-contrast",
@@ -21,6 +24,7 @@ export function Button({
       className={`hover:brightness-90 select-none p-3 pbe-1 pbs-1 rounded-1 inline-block border-2 border-accent-primary font-medium hover:cursor-pointer ${variantStyles[variant]} ${customClassName}`}
       type="button"
       onClick={onClick}
+      {...props}
     >
       {children}
     </button>

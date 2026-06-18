@@ -18,9 +18,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div>
+      <div className="w-full max-w-md">
         <div
-          className={`group flex flex-col gap-1/2 w-full max-w-md rounded-1 border-2 border-surface pl-2 p-1 bg-surface text-left cursor-pointer hover:border-overlay focus-within:border-overlay focus-within:bg-overlay ${errorMessage ? " rounded-1 rounded-b-none" : "rounded-1"}`}
+          className={`group flex flex-col gap-1/2 w-full rounded-1 border-2 border-surface pl-2 p-1 bg-surface text-left cursor-pointer hover:border-overlay focus-within:border-overlay focus-within:bg-overlay ${errorMessage ? " rounded-1 rounded-b-none" : "rounded-1"}`}
           onClick={handleDivClick}
         >
           <div className="flex flex-row items-center justify-start gap-1 text-tx-overlay group-focus-within:text-white group-focus-within:group-hover:text-white">
@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               aria-hidden="true"
             ></div>
             <p
-              className="w-full max-w-md m-auto p-1 rounded-md rounded-t-none bg-dark text-left text-red-600 text-sm :"
+              className="w-full max-w-md m-auto p-1 pl-2 rounded-md rounded-t-none bg-dark text-left text-red-500 text-sm :"
               id={`error-${id}`}
             >
               {errorMessage}

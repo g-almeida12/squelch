@@ -38,7 +38,7 @@ function setupDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       token TEXT UNIQUE NOT NULL,
-      expired_at TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
       revoked_at TEXT DEFAULT NULL,
       revocation_reason TEXT CHECK(revocation_reason IN ('SECURITY_BREACH', 'ROTATION', 'LOGOUT')),
       FOREIGN KEY (user_id) REFERENCES users(id)
