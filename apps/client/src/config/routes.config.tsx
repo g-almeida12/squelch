@@ -13,11 +13,18 @@ const NotFoundPage = lazy(() =>
   import("../pages").then((module) => ({ default: module.NotFoundPage })),
 );
 
+const RegisterPage = lazy(() =>
+  import("../pages").then((module) => ({
+    default: module.RegisterPage,
+  })),
+);
+
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
       { path: "/landing-page", element: <LandingPage /> },
+      { path: "/register", element: <RegisterPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
   },
