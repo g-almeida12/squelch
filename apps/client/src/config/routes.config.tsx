@@ -19,12 +19,17 @@ const RegisterPage = lazy(() =>
   })),
 );
 
+const LoginPage = lazy(() => import("../pages").then((module) => ({
+  default: module.LoginPage
+})))
+
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
       { path: "/landing-page", element: <LandingPage /> },
       { path: "/register", element: <RegisterPage /> },
+      {path: '/login', element: <LoginPage />},
       { path: "*", element: <NotFoundPage /> },
     ],
   },

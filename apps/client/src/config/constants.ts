@@ -2,7 +2,7 @@ export const APP_ROUTES = {
   LANDING_PAGE: "/landing-page",
   REGISTER: "/register",
   LOGIN: "/login",
-  HOME: "/",
+  HOME: "/home",
 };
 
 const API_BASE_URL = "http://localhost:8080";
@@ -11,4 +11,5 @@ export const API_ROUTES = {
   REGISTER: `${API_BASE_URL}/auth/register`,
   LOGIN: `${API_BASE_URL}/auth/login`,
   LOGOUT: `${API_BASE_URL}/auth/logout`,
+  REFRESH: `${API_BASE_URL}/auth/refresh`
 };

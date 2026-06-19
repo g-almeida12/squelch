@@ -1,55 +1,39 @@
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { MdEmail, MdAccountCircle } from "react-icons/md";
+import { MdEmail } from "react-icons/md";
 import { PiPasswordFill } from "react-icons/pi";
-import { type UserRegister, UserRegisterSchema } from "@squelch/shared";
+import { type UserLogin, UserLoginSchema } from "@squelch/shared";
 import { Button } from "../../components/Button";
 import { ButtonLink, Input } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
-import { useRegisterUser } from "../../services/auth/hooks/mutations.hook";
+import { useLoginUser } from "../../services/auth/hooks/mutations.hook";
 import { userQueryKeys } from "../../services/user/hooks/query-keys.user";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
-const ExtendedUserRegisterSchema = UserRegisterSchema.extend({
-  confirmPassword: UserRegisterSchema.shape.password,
-}).superRefine((data, ctx) => {
-  if (!data) return;
-
-  if (data.password !== data.confirmPassword) {
-    ctx.addIssue({
-      code: "custom",
-      path: ["confirmPassword"],
-      message: "As senhas inseridas não são iguais.",
-    });
-  }
-});
-type ExtendedUserRegister = z.infer<typeof ExtendedUserRegisterSchema>;
-
-export function RegisterPage() {
+export function LoginPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const registerMutation = useRegisterUser();
+  const loginMutation = useLoginUser();
   const {
     register,
     formState: { errors },
     setError,
     handleSubmit,
-  } = useForm<ExtendedUserRegister>({
-    resolver: zodResolver(ExtendedUserRegisterSchema),
+  } = useForm<UserLogin>({
+    resolver: zodResolver(UserLoginSchema),
   });
 
   useEffect(() => {
     document.title = "Squelch - Registre-se";
   }, []);
 
-  const handleRegisterSubmittion = (newUser: UserRegister) => {
-    registerMutation.mutate(newUser, {
-      onSuccess: (registeredUser) => {
-        queryClient.setQueryData(userQueryKeys.USER, registeredUser);
+  const handleLoginSubmittion = (user: UserLogin) => {
+    loginMutation.mutate(user, {
+      onSuccess: (loggedUser) => {
+        queryClient.setQueryData(userQueryKeys.USER, loggedUser);
         navigate(APP_ROUTES.HOME);
       },
       onError: (err) => {
@@ -71,16 +55,15 @@ export function RegisterPage() {
       {/* Text content */}
       <div className="w-5/8 pb-8 pt-15 rounded-r-3xl bg-main">
         <div className="text-center">
-          <h1 className="text-3xl">Crie sua conta</h1>
-          <p className="max-w-md m-auto mb-4 text-tx-overlay">
-            Venha resolver diversos enigmas que vão despertar seu lado
-            investigador.
+          <h1 className="text-3xl">Conecte-se agora</h1>
+          <p className="max-w-90 m-auto text-tx-overlay">
+            Continue sua aventura para descobrir os mistérios por trás das consultas.
           </p>
 
           <form
             action="POST"
-            onSubmit={handleSubmit(handleRegisterSubmittion)}
-            className="flex flex-col gap-2 items-center max-w-lg m-auto"
+            onSubmit={handleSubmit(handleLoginSubmittion)}
+            className="flex flex-col gap-2 items-center max-w-lg m-auto mt-8"
             aria-describedby="error-root"
           >
             {errors.root?.message && (
@@ -92,14 +75,6 @@ export function RegisterPage() {
               </p>
             )}
 
-            <Input
-              {...register("name")}
-              id="name"
-              label="Nome"
-              type="text"
-              Icon={MdAccountCircle}
-              errorMessage={errors.name?.message}
-            />
             <Input
               {...register("email")}
               id="email"
@@ -116,24 +91,18 @@ export function RegisterPage() {
               Icon={PiPasswordFill}
               errorMessage={errors.password?.message}
             />
-            <Input
-              {...register("confirmPassword")}
-              id="confirm-password"
-              label="Confirme sua senha"
-              type="password"
-              Icon={PiPasswordFill}
-              errorMessage={errors.confirmPassword?.message}
-            />
             <Button type="submit" customClassName="mt-2">
-              Vamos desvendar mistérios
+              Volte a resolver mistérios
             </Button>
           </form>
 
           <div className="mt-8">
             <p className="mb-2 text-tx-overlay">
-              Já está registrado no Squelch?
+              Ainda não está registrado no Squelch?
             </p>
-            <ButtonLink to={APP_ROUTES.LOGIN}>Acesse sua conta</ButtonLink>
+            <ButtonLink to={APP_ROUTES.REGISTER}>
+              Crie sua conta agora
+            </ButtonLink>
           </div>
         </div>
       </div>

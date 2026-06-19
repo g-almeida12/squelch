@@ -1,6 +1,6 @@
 import axios from "axios";
 import { type ErrorResponse, type UserAuthDTO } from "@squelch/shared";
-import { queryClient } from "../config/query-client.config";
+import { _rootQueryClient } from "../config/query-client.config";
 import { APP_ROUTES, API_ROUTES } from "../config/constants";
 
 const api = axios.create({
@@ -36,7 +36,7 @@ api.interceptors.response.use(
 
       try {
         const response = await api.post<UserAuthDTO>(
-          `${API_ROUTES.BASE_URL}/auth/refresh`,
+          API_ROUTES.REFRESH,
           {},
           { withCredentials: true },
         );
@@ -44,8 +44,10 @@ api.interceptors.response.use(
         sessionStorage.setItem("xsrf-token", response.data.xsrfToken);
 
         return api(originalRequest);
-      } catch (authErr: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
-        queryClient.clear();
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (authErr: any) {
+        _rootQueryClient.clear();
 
         if (window.location.href.includes("http://localhost/5173/home")) {
           window.location.href = APP_ROUTES.LOGIN;
@@ -63,13 +65,13 @@ api.interceptors.response.use(
     }
 
     const isApiError = !!err.response?.data;
-    const refreshErr: ErrorResponse = {
+    const unhandledError: ErrorResponse = {
       statusCode: isApiError ? err.response?.status : 500,
       body: isApiError ? err.response?.data : err.response?.message,
       success: false,
     };
 
-    return Promise.reject(refreshErr);
+    return Promise.reject(unhandledError);
   },
 );
 
