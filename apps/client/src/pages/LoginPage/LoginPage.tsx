@@ -8,7 +8,7 @@ import { Button } from "../../components/Button";
 import { ButtonLink, Input } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
-import { useLoginUser } from "../../services/auth/hooks/mutations.hook";
+import { useLoginUser } from "../../services/auth/hooks/mutations.hooks";
 import { userQueryKeys } from "../../services/user/hooks/query-keys.user";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,8 +37,8 @@ export function LoginPage() {
         navigate(APP_ROUTES.HOME);
       },
       onError: (err) => {
-        if (err.statusCode === 409) {
-          setError("root", { message: "Email já cadastrado." });
+        if (err.statusCode === 422) {
+          setError("root", { message: "Email ou senha incorretos." });
           return;
         }
 
@@ -57,7 +57,8 @@ export function LoginPage() {
         <div className="text-center">
           <h1 className="text-3xl">Conecte-se agora</h1>
           <p className="max-w-90 m-auto text-tx-overlay">
-            Continue sua aventura para descobrir os mistérios por trás das consultas.
+            Continue sua aventura para descobrir os mistérios por trás das
+            consultas.
           </p>
 
           <form

@@ -58,7 +58,7 @@ export default class AuthController {
     }
   }
 
-  async refresh(token: string): Promise<HTTPResponse<UserAuthDTO>> {
+  async refresh(token: unknown): Promise<HTTPResponse<UserAuthDTO>> {
     try {
       if (!token || typeof token !== "string") {
         throw new ApplicationError(

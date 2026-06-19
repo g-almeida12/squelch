@@ -9,13 +9,13 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: true,
-  timeout: 10_000,
+  timeout: 5_000,
   xsrfHeaderName: "X-XSRF-TOKEN",
   xsrfCookieName: "xsrf_token",
 });
 
 api.interceptors.request.use((config) => {
-  const xsrfToken = sessionStorage.getItem("sxrf-token");
+  const xsrfToken = sessionStorage.getItem("xsrf-token");
   if (xsrfToken) {
     config.headers["X-XSRF-TOKEN"] = xsrfToken;
   }
@@ -41,6 +41,7 @@ api.interceptors.response.use(
           { withCredentials: true },
         );
 
+        console.log('token', response.data.xsrfToken);
         sessionStorage.setItem("xsrf-token", response.data.xsrfToken);
 
         return api(originalRequest);
@@ -49,7 +50,7 @@ api.interceptors.response.use(
       } catch (authErr: any) {
         _rootQueryClient.clear();
 
-        if (window.location.href.includes("http://localhost/5173/home")) {
+        if (window.location.href.includes("http://localhost:5173/home")) {
           window.location.href = APP_ROUTES.LOGIN;
         }
 

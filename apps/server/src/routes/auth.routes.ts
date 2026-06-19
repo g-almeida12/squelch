@@ -34,7 +34,9 @@ authRouter.post("/auth/login", async (req, res) => {
 
 // Refresh route
 authRouter.post("/auth/refresh", async (req, res) => {
-  const { success, statusCode, body } = await authController.refresh(req.body);
+  const { success, statusCode, body } = await authController.refresh(
+    req.cookies.refresh_token,
+  );
   if (success) {
     setTokens(res, {
       accessToken: body.accessToken,

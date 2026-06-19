@@ -11,5 +11,6 @@ export const API_ROUTES = {
   REGISTER: `${API_BASE_URL}/auth/register`,
   LOGIN: `${API_BASE_URL}/auth/login`,
   LOGOUT: `${API_BASE_URL}/auth/logout`,
-  REFRESH: `${API_BASE_URL}/auth/refresh`
+  REFRESH: `${API_BASE_URL}/auth/refresh`,
+  USER: `${API_BASE_URL}/users`
 };

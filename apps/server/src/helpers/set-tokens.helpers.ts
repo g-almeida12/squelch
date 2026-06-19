@@ -19,7 +19,7 @@ export function setTokens(
     sameSite: "none",
     secure: true,
     partitioned: true,
-    path: "/auth",
+    path: "/auth/refresh",
   });
 
   res.cookie("xsrf_token", tokens.xsrfToken, {
@@ -33,6 +33,6 @@ export function setTokens(
 
 export function removeTokens(res: Response) {
   res.clearCookie("access_token", { path: "/" });
-  res.clearCookie("refresh_token", { path: "/auth" });
+  res.clearCookie("refresh_token", { path: "/auth/refresh" });
   res.clearCookie("xsrf_token", { path: "/" });
 }
