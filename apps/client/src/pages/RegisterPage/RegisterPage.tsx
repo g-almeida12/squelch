@@ -9,8 +9,8 @@ import { Button } from "../../components/Button";
 import { ButtonLink, Input } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
-import { useRegisterUser } from "../../services/auth/hooks/mutations.hook";
-import { userQueryKeys } from "../../services/user/hooks/query-keys.user";
+import { useRegisterUser } from "../../features/auth/hooks/mutations.hooks";
+import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 

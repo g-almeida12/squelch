@@ -1,4 +1,5 @@
 export {  LandingPage } from './LandingPage';
 export { NotFoundPage } from './NotFoundPage';
 export { RegisterPage } from './RegisterPage';
-export {LoginPage} from './LoginPage';
+export { LoginPage } from './LoginPage';
+export { HomePage } from './HomePage';
