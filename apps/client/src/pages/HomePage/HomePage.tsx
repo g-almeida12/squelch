@@ -1,7 +1,10 @@
-import { Main } from "../../layout"
+import { Sidebar } from "../../components";
+import { GridLayout } from "../../layout";
 
 export function HomePage() {
-  return <Main>
-    <h1>Home</h1>
-  </Main>
+  return <GridLayout
+    sidebar={Sidebar()}
+    navbar={'NAVBAR'}
+    main={'MAIN'}
+  />
 }

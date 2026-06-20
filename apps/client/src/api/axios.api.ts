@@ -41,9 +41,7 @@ api.interceptors.response.use(
           { withCredentials: true },
         );
 
-        console.log('token', response.data.xsrfToken);
         sessionStorage.setItem("xsrf-token", response.data.xsrfToken);
-
         return api(originalRequest);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
