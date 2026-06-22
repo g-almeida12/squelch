@@ -1,17 +1,15 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { MdEmail } from "react-icons/md";
-import { PiPasswordFill } from "react-icons/pi";
 import { type UserLogin, UserLoginSchema } from "@squelch/shared";
-import { Button } from "../../components/Button";
-import { ButtonLink, Input } from "../../components";
+import { ButtonLink } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
 import { useLoginUser } from "../../features/auth/hooks/mutations.hooks";
 import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
-import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { LoginForm } from './LoginForm';
 
 export function LoginPage() {
   const queryClient = useQueryClient();
@@ -61,41 +59,11 @@ export function LoginPage() {
             consultas.
           </p>
 
-          <form
-            action="POST"
-            onSubmit={handleSubmit(handleLoginSubmittion)}
-            className="flex flex-col gap-2 items-center max-w-lg m-auto mt-8"
-            aria-describedby="error-root"
-          >
-            {errors.root?.message && (
-              <p
-                className="w-full max-w-md m-auto p-1 pl-2 rounded-md bg-dark text-left text-red-500 text-sm :"
-                id="error-root"
-              >
-                {errors.root.message}
-              </p>
-            )}
-
-            <Input
-              {...register("email")}
-              id="email"
-              label="Email"
-              type="email"
-              Icon={MdEmail}
-              errorMessage={errors.email?.message}
-            />
-            <Input
-              {...register("password")}
-              id="password"
-              label="Senha"
-              type="password"
-              Icon={PiPasswordFill}
-              errorMessage={errors.password?.message}
-            />
-            <Button type="submit" customClassName="mt-2">
-              Volte a resolver mistérios
-            </Button>
-          </form>
+          <LoginForm 
+            register={register}
+            handleSubmit={handleSubmit(handleLoginSubmittion)}
+            errors={errors}
+          />
 
           <div className="mt-8">
             <p className="mb-2 text-tx-overlay">

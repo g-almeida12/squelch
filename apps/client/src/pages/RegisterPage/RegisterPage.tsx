@@ -2,17 +2,15 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { MdEmail, MdAccountCircle } from "react-icons/md";
-import { PiPasswordFill } from "react-icons/pi";
 import { type UserRegister, UserRegisterSchema } from "@squelch/shared";
-import { Button } from "../../components/Button";
-import { ButtonLink, Input } from "../../components";
+import { ButtonLink } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
 import { useRegisterUser } from "../../features/auth/hooks/mutations.hooks";
 import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { RegisterForm } from "./RegisterForm";
 
 const ExtendedUserRegisterSchema = UserRegisterSchema.extend({
   confirmPassword: UserRegisterSchema.shape.password,
@@ -77,57 +75,11 @@ export function RegisterPage() {
             investigador.
           </p>
 
-          <form
-            action="POST"
-            onSubmit={handleSubmit(handleRegisterSubmittion)}
-            className="flex flex-col gap-2 items-center max-w-lg m-auto"
-            aria-describedby="error-root"
-          >
-            {errors.root?.message && (
-              <p
-                className="w-full max-w-md m-auto p-1 pl-2 rounded-md bg-dark text-left text-red-500 text-sm :"
-                id="error-root"
-              >
-                {errors.root.message}
-              </p>
-            )}
-
-            <Input
-              {...register("name")}
-              id="name"
-              label="Nome"
-              type="text"
-              Icon={MdAccountCircle}
-              errorMessage={errors.name?.message}
-            />
-            <Input
-              {...register("email")}
-              id="email"
-              label="Email"
-              type="email"
-              Icon={MdEmail}
-              errorMessage={errors.email?.message}
-            />
-            <Input
-              {...register("password")}
-              id="password"
-              label="Senha"
-              type="password"
-              Icon={PiPasswordFill}
-              errorMessage={errors.password?.message}
-            />
-            <Input
-              {...register("confirmPassword")}
-              id="confirm-password"
-              label="Confirme sua senha"
-              type="password"
-              Icon={PiPasswordFill}
-              errorMessage={errors.confirmPassword?.message}
-            />
-            <Button type="submit" customClassName="mt-2">
-              Vamos desvendar mistérios
-            </Button>
-          </form>
+          <RegisterForm
+            register={register}
+            errors={errors}
+            handleFormSubmit={handleSubmit(handleRegisterSubmittion)}
+          />
 
           <div className="mt-8">
             <p className="mb-2 text-tx-overlay">

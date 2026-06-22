@@ -2,16 +2,15 @@ import type { UserLogin } from "@squelch/shared";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import { MdEmail } from "react-icons/md";
 import { PiPasswordFill } from "react-icons/pi";
-import { Input } from "../../../../components";
-import { Button } from "../../../../components";
+import { Input, Button } from "../../components";
 
 interface LoginFormProps {
   register: UseFormRegister<UserLogin>;
-  handleSubmit: (data: unknown) => UserLogin;
+  handleSubmit: () => Promise<void>
   errors: FieldErrors<UserLogin>;
 }
 
-export function LoginForm({register, handleSubmit, errors}: LoginFormProps) {
+export function LoginForm({ register, handleSubmit, errors }: LoginFormProps) {
   return (
     <form
       action="POST"
