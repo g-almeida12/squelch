@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authController } from "../config/factory.config.js";
-import { removeTokens, setTokens } from "../helpers/set-tokens.helpers.js";
+import { removeTokens, setTokens } from "../helpers/tokens.js";
 
 export const authRouter = Router({ mergeParams: true });
 

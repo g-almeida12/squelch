@@ -7,6 +7,8 @@ export function errorMiddleware(
   res: Response,
   _next: NextFunction,
 ) {
+  console.error('\n\nError on request: ', err);
+
   if (err instanceof ApplicationError) {
     return res.status(err.statusCode).json({
       success: false,
@@ -14,7 +16,6 @@ export function errorMiddleware(
     });
   }
 
-  console.error(err);
   return res.status(500).json({
     success: false,
     body: {

@@ -1,8 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy } from "react";
 import { RootLayout } from "../layout";
 import { PrivateRoute } from "../components";
+import { APP_ROUTES } from "./constants";
 
 const LandingPage = lazy(() =>
   import("../pages").then((module) => ({
@@ -49,7 +50,10 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <PrivateRoute />,
-        children: [{ path: "/home", element: <HomePage /> }],
+        children: [
+          { path: "/", element: <Navigate to={APP_ROUTES.HOME} /> },
+          { path: "/home", element: <HomePage /> },
+        ],
       },
     ],
   },

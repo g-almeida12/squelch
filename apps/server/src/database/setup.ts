@@ -28,8 +28,8 @@ function setupDatabase() {
       submitted_query TEXT NOT NULL,
       user_query_result TEXT NOT NULL,
       date TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (challenge_id) REFERENCES challenges(id)
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (challenge_id) REFERENCES challenges(id) ON DELETE CASCADE
     );
 
     CREATE INDEX IF NOT EXISTS idx_user_submissions ON submissions(user_id);
@@ -41,7 +41,7 @@ function setupDatabase() {
       expires_at TEXT NOT NULL,
       revoked_at TEXT DEFAULT NULL,
       revocation_reason TEXT CHECK(revocation_reason IN ('SECURITY_BREACH', 'ROTATION', 'LOGOUT')),
-      FOREIGN KEY (user_id) REFERENCES users(id)
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
 
     CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);

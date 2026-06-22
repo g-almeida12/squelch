@@ -6,7 +6,7 @@ export function PrivateRoute() {
   const { isFetching, isError } = useGetUser();
 
   if (isError) {
-    <Navigate to={APP_ROUTES.LOGIN} replace />;
+    return <Navigate to={APP_ROUTES.LOGIN} replace />;
   } else if (isFetching) {
     return <LoadingFallback />;
   }

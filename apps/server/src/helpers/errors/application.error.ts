@@ -18,7 +18,7 @@ export default class ApplicationError extends Error {
   }
 
   static repositoryError(err: unknown) {
-    console.error(err);
+    console.error('\n\nRepository error: ', err);
 
     if (err instanceof ApplicationError) {
       return err;
@@ -28,7 +28,7 @@ export default class ApplicationError extends Error {
   }
 
   static handleControllerError(err: unknown): ErrorResponse {
-    console.error(err);
+    console.error('\n\nController error: ', err);
 
     if (err instanceof ApplicationError) {
       return {

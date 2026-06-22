@@ -4,7 +4,7 @@ import {
   authenticationMiddleware,
   AuthRequest,
 } from "../middlewares/authentication.middleware.js";
-import { removeTokens } from "../helpers/set-tokens.helpers.js";
+import { removeTokens } from "../helpers/tokens.js";
 
 export const userRouter = Router({ mergeParams: true });
 userRouter.use(authenticationMiddleware);

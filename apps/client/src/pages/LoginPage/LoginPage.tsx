@@ -51,7 +51,7 @@ export function LoginPage() {
   };
 
   return (
-    <Main customClassName="flex flex-row w-full p-0 bg-dark">
+    <Main customClassName="min-h-dvh flex flex-row w-full p-0 bg-dark">
       {/* Text content */}
       <div className="w-5/8 pb-8 pt-15 rounded-r-3xl bg-main">
         <div className="text-center">

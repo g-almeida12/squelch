@@ -40,13 +40,14 @@ export function useLoginUser() {
 export function useLogoutUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<null, ErrorResponse, void>({
+  return useMutation<null, ErrorResponse, null>({
     mutationFn: async () => {
       const response = await api.post(API_ROUTES.LOGOUT, {});
       return response.data;
     },
     onSuccess: () => {
       queryClient.clear();
+      sessionStorage.clear();
     },
   });
 }

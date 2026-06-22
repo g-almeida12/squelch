@@ -12,13 +12,15 @@ export function useGetUser() {
         withCredentials: true,
         withXSRFToken: true,
       });
-      return response.data;
+
+      return response.data.body;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
 
     retry: (failureCount, err) => {
-      if (err?.statusCode == 401) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (err.statusCode === 401 || (err as any)?.response?.status === 401) {
         return false;
       }
 

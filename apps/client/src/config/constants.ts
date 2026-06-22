@@ -12,5 +12,5 @@ export const API_ROUTES = {
   LOGIN: `${API_BASE_URL}/auth/login`,
   LOGOUT: `${API_BASE_URL}/auth/logout`,
   REFRESH: `${API_BASE_URL}/auth/refresh`,
-  USER: `${API_BASE_URL}/users`
-};
+  USER: `${API_BASE_URL}/users`,
+} as const;
