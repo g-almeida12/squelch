@@ -1,15 +1,25 @@
 import { FaCaretUp } from "react-icons/fa";
 import { RiMenuFold2Fill } from "react-icons/ri";
 import { SIDEBAR_GROUP_LINKS } from "./sidebar-challenges";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.style.overflowY = "hidden";
+    }
+
+    return () => {
+      document.documentElement.style.overflowY = "auto";
+    };
+  }, [isOpen]);
+
   return (
-    <>
+    <div className="fixed z-101 top-0 bottom-0 w-13">
       <aside
-        className={`transition-all fixed z-101 top-0 bottom-0 h-dvh flex flex-col gap-4 overflow-x-hidden overflow-y-auto p-2 bg-surface ${isOpen ? "w-65" : "w-13"}`}
+        className={`transition-all fixed z-101 top-0 bottom-0 flex flex-col gap-4 overflow-x-hidden overflow-y-auto w-13 p-2 bg-surface ${isOpen ? "w-65" : "w-13"}`}
         id="sidebar"
       >
         {/* Logo */}
@@ -25,15 +35,23 @@ export function Sidebar() {
               SQL
             </div>
           </div>
-  
+
           <span className="font-heading text-base text-accent-primary font-medium select-none">
             Squelch
           </span>
         </div>
-  
+
         {/* Challenges groups */}
         {SIDEBAR_GROUP_LINKS.map(({ Icon, title, slug, challenges }) => (
-          <div className="group" key={slug} id={slug} data-open="false">
+          <div
+            className="group"
+            key={slug}
+            id={slug}
+            data-open="false"
+            aria-hidden={!isOpen}
+            tabIndex={isOpen ? 0 : -1}
+          >
+            {/* Group title */}
             <div
               data-slug={slug}
               className="relative z-1 flex flex-row items-center p-1 select-none justify-start"
@@ -54,21 +72,23 @@ export function Sidebar() {
                 onClick={() => {
                   const group = document.getElementById(slug);
                   if (!group) return;
-  
+
                   group.dataset["open"] =
                     group?.dataset["open"] === "true" ? "false" : "true";
                 }}
-                className=" pl-2 cursor-pointer"
+                className="ml-auto pl-2 cursor-pointer"
+                aria-label="Fechar grupo de desafios"
               >
                 <FaCaretUp
-                  aria-label="Fechar grupo de desafios"
-                  className={`ml-auto text-accent-primary ${isOpen ? "" : "hidden"} rotate-180 group-data-[open=true]:rotate-0`}
+                  className={`text-accent-primary ${isOpen ? "" : "hidden"} rotate-180 group-data-[open=true]:rotate-0`}
                   size={20}
+                  aria-hidden={true}
                 />
               </button>
               <div className="absolute top-0 right-0 bottom-0 left-0 opacity-20 -z-1 bg-accent-primary"></div>
             </div>
-  
+
+            {/* Challenges */}
             <div className="hidden flex-col items-start gap-0.5 mt-2 select-none group-data-[open=true]:flex">
               {challenges.map((c) => (
                 <div
@@ -85,7 +105,7 @@ export function Sidebar() {
             </div>
           </div>
         ))}
-  
+
         {/* Toggle button */}
         <div className="flex items-center justify-end border-t border-solid p-1 mt-auto border-subtle">
           <button
@@ -103,7 +123,10 @@ export function Sidebar() {
           </button>
         </div>
       </aside>
-      <div className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isOpen ? "block" : "hidden"}`}></div>
-    </>
+      <div
+        onClick={() => setIsOpen(false)}
+        className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isOpen ? "block" : "hidden"}`}
+      ></div>
+    </div>
   );
 }

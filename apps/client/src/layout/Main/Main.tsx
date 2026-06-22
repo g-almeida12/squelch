@@ -8,7 +8,7 @@ interface MainProps extends Omit<HTMLAttributes<HTMLElement>, "className"> {
 
 export function Main({ customClassName = "", children, ...props }: MainProps) {
   return (
-    <main className={twMerge("min-h-dvh p-8", customClassName)} {...props}>
+    <main className={twMerge("min-h-[calc(100dvh-53px)] p-4", customClassName)} {...props}>
       {children}
     </main>
   );

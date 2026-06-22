@@ -1,10 +1,10 @@
-import { Sidebar } from "../../components";
-import { GridLayout } from "../../layout";
+import { Sidebar, TabSwitchView } from "../../components";
 
 export function HomePage() {
-  return <GridLayout
-    sidebar={Sidebar()}
-    navbar={'NAVBAR'}
-    main={'MAIN'}
-  />
+  return (
+    <div className="flex flex-row">
+      <Sidebar />
+      <TabSwitchView />
+    </div>
+  );
 }

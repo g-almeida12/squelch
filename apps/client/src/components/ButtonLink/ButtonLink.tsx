@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 interface ButtonLinkProps {
   to: string;
@@ -21,7 +22,11 @@ export function ButtonLink({
   return (
     <Link
       to={to}
-      className={`hover:brightness-90 select-none p-3 pbe-1 pbs-1 rounded-1 inline-block border-2 border-accent-primary font-medium text-center ${variantStyles[variant]} ${customClassName}`}
+      className={twMerge(
+        "hover:brightness-90 select-none p-3 pbe-1 pbs-1 rounded-1 inline-block border-2 border-accent-primary font-medium text-center",
+        variantStyles[variant],
+        customClassName,
+      )}
     >
       {children}
     </Link>

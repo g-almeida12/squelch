@@ -1,0 +1,1 @@
+export { TabSwitchView } from './TabSwitchView';

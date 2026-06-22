@@ -5,3 +5,6 @@ export { ErrorFallback } from './ErrorFallback';
 export { Input } from './Input';
 export { PrivateRoute } from './PrivateRoute';
 export { Sidebar } from './Sidebar';
+export { TabSwitchView } from './TabSwitchView';
+export { Navbar } from './Navbar';
+export { AlertDialog } from './AlertDialog';
