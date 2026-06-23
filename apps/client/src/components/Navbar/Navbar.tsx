@@ -7,6 +7,7 @@ import { useLogoutUser } from "../../features/auth/hooks/mutations.hooks";
 import { useDeleteUser } from "../../features/user/hooks/mutations.hooks";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../config/constants";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 
 interface NavbarProps {
   tabs: readonly string[];
@@ -77,26 +78,28 @@ export function Navbar({
           aria-label="Navegação principal do site"
         >
           {/* Tabs container */}
-          <div
+          <ul
             className="flex flex-1 flex-row items-center justify-start"
             role="tablist"
             aria-label="Abas de navegação de tela"
           >
             {tabs.map((title, index) => (
-              <button
-                onClick={() => handleActiveTabChange(index)}
-                className={`flex items-center justify-center h-full px-4 font-semibold text-tx-overlay [font-variant-caps:small-caps] font-heading cursor-pointer data-[active=true]:bg-overlay data-[active=true]:text-tx-main ${index === 0 ? "rounded-tr-xl" : "rounded-t-xl"}`}
-                key={title}
-                data-active={index === activeTab}
-                type="button"
-                role="tab"
-                aria-selected={index === activeTab}
-                aria-controls={`view-${index}`}
-              >
-                {title}
-              </button>
+              <li className="h-full">
+                <button
+                  onClick={() => handleActiveTabChange(index)}
+                  className={`flex items-center justify-center h-full px-4 font-semibold text-tx-overlay [font-variant-caps:small-caps] font-heading cursor-pointer data-[active=true]:bg-overlay data-[active=true]:text-tx-main ${index === 0 ? "rounded-tr-xl" : "rounded-t-xl"}`}
+                  key={title}
+                  data-active={index === activeTab}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === activeTab}
+                  aria-controls={`view-${index}`}
+                >
+                  {title}
+                </button>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <button
             onClick={() => {
@@ -117,87 +120,96 @@ export function Navbar({
         </nav>
 
         {/* Profile */}
-        <aside
-          className="flex items-center justify-center"
-          id="user-profile"
-          aria-label="Configurações do usuário"
-        >
-          <div>
-            <div
-              className={`transition-all fixed z-101 top-0 bottom-0 right-0 bg-surface ${isNavbarOpen ? "w-80 p-2" : "w-0 p-0"}`}
-            >
-              <button
-                onClick={() => setIsNavbarOpen(false)}
-                className="cursor-pointer"
-                aria-label="Fechar configurações do usuário"
-                aria-controls="user-profile"
+        <FocusScope trapped={isNavbarOpen} loop={isNavbarOpen} asChild>
+          <aside
+            className="flex items-center justify-center"
+            id="user-profile"
+            aria-label="Configurações do usuário"
+            aria-hidden={!isNavbarOpen}
+          >
+            <div>
+              <div
+                className={`transition-all fixed z-101 top-0 bottom-0 right-0 bg-surface ${isNavbarOpen ? "w-80 p-2" : "w-0 p-0"}`}
               >
-                <IoIosClose
-                  size={40}
-                  className="text-tx-main"
-                  aria-hidden={true}
-                />
-              </button>
+                <button
+                  onClick={() => setIsNavbarOpen(false)}
+                  className="cursor-pointer"
+                  aria-label="Fechar configurações do usuário"
+                  aria-controls="user-profile"
+                  disabled={!isNavbarOpen}
+                >
+                  <IoIosClose
+                    size={40}
+                    className="text-tx-main"
+                    aria-hidden={true}
+                  />
+                </button>
 
-              <div className="flex flex-row gap-2 items-center mt-2">
-                <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
-                <div className="flex flex-col items-start justify-center">
-                  <strong className="text-xl font-medium">
-                    {user ? user.name : ""}
-                  </strong>
-                  <p className="italic text-tx-overlay max-w-58.25 truncate">
-                    {user ? user.email : ""}
-                  </p>
+                <div className="flex flex-row gap-2 items-center mt-2">
+                  <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
+                  <div className="flex flex-col items-start justify-center">
+                    <strong className="text-xl font-medium">
+                      {user ? user.name : ""}
+                    </strong>
+                    <p className="italic text-tx-overlay max-w-58.25 truncate">
+                      {user ? user.email : ""}
+                    </p>
+                  </div>
+                </div>
+
+                <Button
+                  customClassName="w-full max-w-full mt-5"
+                  disabled={!isNavbarOpen}
+                >
+                  Atualizar informações
+                </Button>
+
+                <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 p-2">
+                  <Button
+                    onClick={() =>
+                      setAlertDialogInfo({
+                        title: "Desconectar da sua conta?",
+                        message:
+                          "Você deseja desconectar da sua conta? Poderá voltar a hora que quiser.",
+                        confirmButtonMsg: "Desconectar",
+                        variant: "default",
+                        onClick: handleLogoutClick,
+                      })
+                    }
+                    variant="ghost-primary"
+                    customClassName="w-full max-w-full"
+                    disabled={!isNavbarOpen}
+                  >
+                    Desconectar
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      setAlertDialogInfo({
+                        title: "Deletar a sua conta?",
+                        message:
+                          "Você realmente deseja deletar a sua conta? A ação não pode ser desfeita.",
+                        confirmButtonMsg: "Deletar conta",
+                        variant: "danger",
+                        onClick: handleDeleteClick,
+                      })
+                    }
+                    variant="danger"
+                    customClassName="w-full max-w-full"
+                    disabled={!isNavbarOpen}
+                  >
+                    Deletar conta
+                  </Button>
                 </div>
               </div>
-
-              <Button customClassName="w-full max-w-full mt-5">
-                Atualizar informações
-              </Button>
-
-              <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 p-2">
-                <Button
-                  onClick={() =>
-                    setAlertDialogInfo({
-                      title: "Desconectar da sua conta?",
-                      message:
-                        "Você deseja desconectar da sua conta? Poderá voltar a hora que quiser.",
-                      confirmButtonMsg: "Desconectar",
-                      variant: "default",
-                      onClick: handleLogoutClick,
-                    })
-                  }
-                  variant="ghost-primary"
-                  customClassName="w-full max-w-full"
-                >
-                  Desconectar
-                </Button>
-                <Button
-                  onClick={() =>
-                    setAlertDialogInfo({
-                      title: "Deletar a sua conta?",
-                      message:
-                        "Você realmente deseja deletar a sua conta? A ação não pode ser desfeita.",
-                      confirmButtonMsg: "Deletar conta",
-                      variant: "danger",
-                      onClick: handleDeleteClick,
-                    })
-                  }
-                  variant="danger"
-                  customClassName="w-full max-w-full"
-                >
-                  Deletar conta
-                </Button>
-              </div>
             </div>
-          </div>
+          </aside>
+        </FocusScope>
 
-          {/* Overlay */}
-          <div
-            onClick={() => setIsNavbarOpen(false)}
-            className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isNavbarOpen ? "block" : "hidden"}`}
-          ></div>
-        </aside>
+        {/* Overlay */}
+        <div
+          onClick={() => setIsNavbarOpen(false)}
+          className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isNavbarOpen ? "block" : "hidden"}`}
+        ></div>
       </header>
     </>
   );
