@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ButtonLink } from "../../components";
+import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { useLocation } from "react-router-dom";
 
@@ -33,9 +33,9 @@ export function NotFoundPage() {
             Talvez alguma letra errada?
           </p>
 
-          <ButtonLink to={APP_ROUTES.HOME} customClassName="mt-5">
+          <Button to={APP_ROUTES.HOME} customClassName="mt-5">
             Voltar para o início
-          </ButtonLink>
+          </Button>
         </div>
 
         {/* Editor content */}

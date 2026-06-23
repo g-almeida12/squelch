@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { type UserLogin, UserLoginSchema } from "@squelch/shared";
-import { ButtonLink } from "../../components";
+import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
 import { useLoginUser } from "../../features/auth/hooks/mutations.hooks";
@@ -69,9 +69,9 @@ export function LoginPage() {
             <p className="mb-2 text-tx-overlay">
               Ainda não está registrado no Squelch?
             </p>
-            <ButtonLink to={APP_ROUTES.REGISTER}>
+            <Button to={APP_ROUTES.REGISTER}>
               Crie sua conta agora
-            </ButtonLink>
+            </Button>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { type UserRegister, UserRegisterSchema } from "@squelch/shared";
-import { ButtonLink } from "../../components";
+import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { Main } from "../../layout";
 import { useRegisterUser } from "../../features/auth/hooks/mutations.hooks";
@@ -85,7 +85,7 @@ export function RegisterPage() {
             <p className="mb-2 text-tx-overlay">
               Já está registrado no Squelch?
             </p>
-            <ButtonLink to={APP_ROUTES.LOGIN}>Acesse sua conta</ButtonLink>
+            <Button to={APP_ROUTES.LOGIN}>Acesse sua conta</Button>
           </div>
         </div>
       </div>

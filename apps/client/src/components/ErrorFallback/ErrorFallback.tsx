@@ -1,6 +1,5 @@
 import { APP_ROUTES } from "../../config/constants";
-import { Button } from "../Button";
-import { ButtonLink } from "../ButtonLink";
+import { Button } from "../";
 
 interface ErrorFallbackProps {
   resetErrorBoundary: () => void;
@@ -26,9 +25,9 @@ export function ErrorFallback({ resetErrorBoundary }: ErrorFallbackProps) {
 
           <div className="flex flex-row gap-2 w-fit mt-5">
             <Button onClick={resetErrorBoundary}>Tentar novamente</Button>
-            <ButtonLink to={APP_ROUTES.HOME} variant="ghost-primary">
+            <Button to={APP_ROUTES.HOME} variant="ghost-primary">
               Voltar para o início
-            </ButtonLink>
+            </Button>
           </div>
         </div>
 

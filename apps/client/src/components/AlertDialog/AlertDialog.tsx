@@ -13,7 +13,7 @@ interface AlertDialogProps {
 export function AlertDialog({
   title,
   message,
-  cancelButtonMsg="Cancelar",
+  cancelButtonMsg = "Cancelar",
   confirmButtonMsg,
   onClick,
   variant = "default",
@@ -38,6 +38,9 @@ export function AlertDialog({
       `modal - ${title}`,
     ) as HTMLDialogElement | null;
     if (!modal) return;
+    console.log(result);
+
+    if (result === "confirm") return;
 
     modal.close();
     onClick(result);

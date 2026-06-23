@@ -1,5 +1,5 @@
 import { APP_ROUTES } from "../../../../config/constants";
-import { ButtonLink } from "../../../../components";
+import { Button } from "../../../../components";
 
 export function Navbar() {
   return (
@@ -18,18 +18,18 @@ export function Navbar() {
 
       <ul className="flex flex-row gap-4">
         <li>
-          <ButtonLink to={APP_ROUTES.REGISTER} customClassName="text-[14px]">
+          <Button to={APP_ROUTES.REGISTER} customClassName="text-[14px]">
             Registre-se agora
-          </ButtonLink>
+          </Button>
         </li>
         <li>
-          <ButtonLink
+          <Button
             to={APP_ROUTES.LOGIN}
             variant="ghost-primary"
             customClassName="text-[14px]"
           >
             Acesse o site
-          </ButtonLink>
+          </Button>
         </li>
       </ul>
     </nav>

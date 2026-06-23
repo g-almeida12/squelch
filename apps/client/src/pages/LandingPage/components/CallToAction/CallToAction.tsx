@@ -1,4 +1,4 @@
-import { ButtonLink } from "../../../../components";
+import { Button } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
 
 export function CallToAction() {
@@ -12,7 +12,7 @@ export function CallToAction() {
         enigmas que meras linhas de código comuns não conseguem explicar. Você,
         vai encarar o próximo caso?
       </p>
-      <ButtonLink to={APP_ROUTES.REGISTER}>Registre-se agora</ButtonLink>
+      <Button to={APP_ROUTES.REGISTER}>Registre-se agora</Button>
     </section>
   );
 }

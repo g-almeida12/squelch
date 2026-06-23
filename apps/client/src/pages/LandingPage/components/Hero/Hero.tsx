@@ -1,5 +1,5 @@
 import heroImg from "../../../../assets/images/hero-img.webp";
-import { ButtonLink } from "../../../../components";
+import { Button } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
 import { HeroCard } from "./HeroCard";
 import { Navbar } from "../Navbar";
@@ -22,9 +22,9 @@ export function Hero() {
             A plataforma interativa para praticar SQL de um jeito inovador e
             direto no seu navegador.
           </p>
-          <ButtonLink to={APP_ROUTES.REGISTER} customClassName="mt-12">
+          <Button to={APP_ROUTES.REGISTER} customClassName="mt-12">
             Registre-se agora
-          </ButtonLink>
+          </Button>
         </div>
 
         <div className="flex items-center justify-end">

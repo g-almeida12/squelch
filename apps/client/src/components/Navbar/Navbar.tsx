@@ -45,6 +45,7 @@ export function Navbar({
   const handleLogoutClick = async (action: "cancel" | "confirm") => {
     if (action === "cancel") {
       setAlertDialogInfo(null);
+      return;
     }
 
     logoutMutation.mutate(null, {
@@ -57,6 +58,7 @@ export function Navbar({
   const handleDeleteClick = async (action: "cancel" | "confirm") => {
     if (action === "cancel") {
       setAlertDialogInfo(null);
+      return;
     }
 
     deleteMutation.mutate(null, {
