@@ -8,6 +8,7 @@ import { useDeleteUser } from "../../features/user/hooks/mutations.hooks";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../config/constants";
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { ProfileUpdate } from "./ProfileUpdate";
 
 interface NavbarProps {
   tabs: readonly string[];
@@ -25,6 +26,8 @@ export function Navbar({
   const logoutMutation = useLogoutUser();
   const deleteMutation = useDeleteUser();
   const [isNavbarOpen, setIsNavbarOpen] = useState<boolean>(false);
+  const [isProfileUpdateOpen, setIsProfileUpdateOpen] =
+    useState<boolean>(false);
   const [alertDialogInfo, setAlertDialogInfo] = useState<{
     title: string;
     message: string;
@@ -42,6 +45,17 @@ export function Navbar({
       document.documentElement.style.overflowY = "auto";
     };
   }, [isNavbarOpen]);
+
+  useEffect(() => {
+    let timeoutId: number | undefined;
+    if (isNavbarOpen && !isProfileUpdateOpen) {
+      timeoutId = setTimeout(() =>
+        document.getElementById("user-profile-close-btn")?.focus(),
+      );
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isNavbarOpen, isProfileUpdateOpen]);
 
   const handleLogoutClick = async (action: "cancel" | "confirm") => {
     if (action === "cancel") {
@@ -102,10 +116,7 @@ export function Navbar({
           </ul>
 
           <button
-            onClick={() => {
-              setIsNavbarOpen(true);
-              document.getElementById("user-profile")?.focus();
-            }}
+            onClick={() => setIsNavbarOpen(true)}
             className="p-2 mr-2 cursor-pointer"
             aria-label="Abrir configurações do usuário"
             aria-expanded={isNavbarOpen}
@@ -120,94 +131,110 @@ export function Navbar({
         </nav>
 
         {/* Profile */}
-        <FocusScope trapped={isNavbarOpen} loop={isNavbarOpen} asChild>
-          <aside
-            className="flex items-center justify-center"
-            id="user-profile"
-            aria-label="Configurações do usuário"
-            aria-hidden={!isNavbarOpen}
+        {isNavbarOpen && (
+          <FocusScope
+            trapped={isNavbarOpen && !isProfileUpdateOpen}
+            loop={isNavbarOpen && !isProfileUpdateOpen}
+            asChild
           >
-            <div>
-              <div
-                className={`transition-all fixed z-101 top-0 bottom-0 right-0 bg-surface ${isNavbarOpen ? "w-80 p-2" : "w-0 p-0"}`}
+            <aside
+              className={`flex flex-col items-start justify-start transition-all fixed z-101 top-0 bottom-0 w-80 p-2 bg-surface ${isNavbarOpen ? "right-0" : "-right-80"}`}
+              id="user-profile"
+              aria-label="Configurações do usuário"
+            >
+              <button
+                onClick={() => setIsNavbarOpen(false)}
+                className="cursor-pointer"
+                aria-label="Fechar configurações do usuário"
+                aria-controls="user-profile"
+                disabled={!isNavbarOpen}
+                id="user-profile-close-btn"
               >
-                <button
-                  onClick={() => setIsNavbarOpen(false)}
-                  className="cursor-pointer"
-                  aria-label="Fechar configurações do usuário"
-                  aria-controls="user-profile"
-                  disabled={!isNavbarOpen}
-                >
-                  <IoIosClose
-                    size={40}
-                    className="text-tx-main"
-                    aria-hidden={true}
-                  />
-                </button>
+                <IoIosClose
+                  size={40}
+                  className="text-tx-main"
+                  aria-hidden={true}
+                />
+              </button>
 
-                <div className="flex flex-row gap-2 items-center mt-2">
-                  <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
-                  <div className="flex flex-col items-start justify-center">
-                    <strong className="text-xl font-medium">
-                      {user ? user.name : ""}
-                    </strong>
-                    <p className="italic text-tx-overlay max-w-58.25 truncate">
-                      {user ? user.email : ""}
-                    </p>
-                  </div>
-                </div>
-
-                <Button
-                  customClassName="w-full max-w-full mt-5"
-                  disabled={!isNavbarOpen}
-                >
-                  Atualizar informações
-                </Button>
-
-                <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 p-2">
-                  <Button
-                    onClick={() =>
-                      setAlertDialogInfo({
-                        title: "Desconectar da sua conta?",
-                        message:
-                          "Você deseja desconectar da sua conta? Poderá voltar a hora que quiser.",
-                        confirmButtonMsg: "Desconectar",
-                        variant: "default",
-                        onClick: handleLogoutClick,
-                      })
-                    }
-                    variant="ghost-primary"
-                    customClassName="w-full max-w-full"
-                    disabled={!isNavbarOpen}
-                  >
-                    Desconectar
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      setAlertDialogInfo({
-                        title: "Deletar a sua conta?",
-                        message:
-                          "Você realmente deseja deletar a sua conta? A ação não pode ser desfeita.",
-                        confirmButtonMsg: "Deletar conta",
-                        variant: "danger",
-                        onClick: handleDeleteClick,
-                      })
-                    }
-                    variant="danger"
-                    customClassName="w-full max-w-full"
-                    disabled={!isNavbarOpen}
-                  >
-                    Deletar conta
-                  </Button>
+              <div className="flex flex-row gap-2 items-center w-full mt-2">
+                <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
+                <div className="flex flex-col items-start justify-center">
+                  <strong className="text-xl font-medium">
+                    {user ? user.name : ""}
+                  </strong>
+                  <p className="italic text-tx-overlay max-w-58.25 truncate">
+                    {user ? user.email : ""}
+                  </p>
                 </div>
               </div>
-            </div>
-          </aside>
-        </FocusScope>
+
+              <Button
+                onClick={() => setIsProfileUpdateOpen(true)}
+                customClassName="w-full max-w-full mt-5"
+                disabled={!isNavbarOpen}
+                id="user-profile-update-btn"
+              >
+                Atualizar informações
+              </Button>
+
+              <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 p-2">
+                <Button
+                  onClick={() =>
+                    setAlertDialogInfo({
+                      title: "Desconectar da sua conta?",
+                      message:
+                        "Você deseja desconectar da sua conta? Poderá voltar a hora que quiser.",
+                      confirmButtonMsg: "Desconectar",
+                      variant: "default",
+                      onClick: handleLogoutClick,
+                    })
+                  }
+                  variant="ghost-primary"
+                  customClassName="w-full max-w-full"
+                  disabled={!isNavbarOpen}
+                >
+                  Desconectar
+                </Button>
+                <Button
+                  onClick={() =>
+                    setAlertDialogInfo({
+                      title: "Deletar a sua conta?",
+                      message:
+                        "Você realmente deseja deletar a sua conta? A ação não pode ser desfeita.",
+                      confirmButtonMsg: "Deletar conta",
+                      variant: "danger",
+                      onClick: handleDeleteClick,
+                    })
+                  }
+                  variant="danger"
+                  customClassName="w-full max-w-full"
+                  disabled={!isNavbarOpen}
+                >
+                  Deletar conta
+                </Button>
+              </div>
+            </aside>
+          </FocusScope>
+        )}
+
+        {/* Profile update */}
+        {isProfileUpdateOpen && (
+          <ProfileUpdate
+            handleClose={() => setIsProfileUpdateOpen(false)}
+            isOpen={isProfileUpdateOpen}
+          />
+        )}
 
         {/* Overlay */}
         <div
-          onClick={() => setIsNavbarOpen(false)}
+          onClick={() => {
+            if (isProfileUpdateOpen) {
+              setIsProfileUpdateOpen(false);
+            } else {
+              setIsNavbarOpen(false);
+            }
+          }}
           className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isNavbarOpen ? "block" : "hidden"}`}
         ></div>
       </header>

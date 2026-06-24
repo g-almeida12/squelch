@@ -20,6 +20,6 @@ export const AuthUserDTOSchema = UserDTOSchema.extend({
 
 export type UserRegister = z.infer<typeof UserRegisterSchema>;
 export type UserLogin = z.infer<typeof UserLoginSchema>;
-export type UserUpdate = z.infer<typeof UserUpdateSchema>
+export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 export type UserDTO = z.infer<typeof UserDTOSchema>;
 export type UserAuthDTO = z.infer<typeof AuthUserDTOSchema>;

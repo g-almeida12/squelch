@@ -39,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {errorMessage && (
-          <div className="relative">
+          <div className="relative" aria-live="assertive">
             <div
               className="absolute -top-2.5 w-0 h-0 border-l-10 border-l-solid border-l-dark border-b-10 border-b-solid border-b-transparent rotate-270"
               aria-hidden="true"

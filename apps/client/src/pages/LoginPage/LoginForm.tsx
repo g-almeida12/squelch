@@ -22,6 +22,7 @@ export function LoginForm({ register, handleSubmit, errors }: LoginFormProps) {
         <p
           className="w-full max-w-md m-auto p-1 pl-2 rounded-md bg-dark text-left text-red-500 text-sm :"
           id="error-root"
+          aria-live="assertive"
         >
           {errors.root.message}
         </p>

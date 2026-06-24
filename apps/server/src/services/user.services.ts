@@ -21,13 +21,6 @@ export default class UserService implements IUserService {
   }
 
   async updateById(userId: Id, newData: UserUpdate): Promise<UserEntity> {
-    if (newData.email) {
-      const user = await this.userRepository.findByEmail(newData.email);
-      if (user && user.id === userId) {
-        throw new ApplicationError("Email já registrado.", 409);
-      }
-    }
-
     const updatedUser = await this.userRepository.updateById(userId, newData);
     if (!updatedUser) {
       throw new ApplicationError("Usuário não encontrado.", 404);
