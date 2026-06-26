@@ -27,14 +27,14 @@ api.interceptors.response.use(
   (sucess) => sucess,
   async (err) => {
     const originalRequest = err.config;
-    if (
-      originalRequest.url?.includes(API_ROUTES.REFRESH) ||
-      err.response?.status === 401
-    ) {
+    if (originalRequest.url?.includes(API_ROUTES.REFRESH)) {
       return Promise.reject(err);
     }
 
-    if (err.response?.status === 403 && !originalRequest._retry) {
+    if (
+      err.response?.status === 403 ||
+      (err.response?.status === 401 && !originalRequest._retry)
+    ) {
       originalRequest._retry = true;
 
       try {
