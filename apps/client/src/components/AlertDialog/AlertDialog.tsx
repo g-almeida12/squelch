@@ -38,9 +38,6 @@ export function AlertDialog({
       `modal - ${title}`,
     ) as HTMLDialogElement | null;
     if (!modal) return;
-    console.log(result);
-
-    if (result === "confirm") return;
 
     modal.close();
     onClick(result);

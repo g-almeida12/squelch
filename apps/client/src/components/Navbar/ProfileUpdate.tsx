@@ -1,10 +1,13 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
-import { useGetUser } from "../../features/user/hooks/queries.hooks";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdEmail, MdAccountCircle } from "react-icons/md";
 import { useUpdateUser } from "../../features/user/hooks/mutations.hooks";
 import { useForm } from "react-hook-form";
-import { UserUpdateSchema, type UserUpdate } from "@squelch/shared";
+import {
+  UserUpdateSchema,
+  type UserDTO,
+  type UserUpdate,
+} from "@squelch/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Input } from "../Input";
@@ -13,123 +16,126 @@ import { useQueryClient } from "@tanstack/react-query";
 import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
 
 interface ProfileUpdateProps {
-  isOpen: boolean;
-  handleClose: () => void;
+  user: UserDTO | undefined;
+  isFetching: boolean;
+  onClose: () => void;
 }
 
-export function ProfileUpdate({ handleClose, isOpen }: ProfileUpdateProps) {
+export function ProfileUpdate({
+  user,
+  isFetching,
+  onClose,
+}: ProfileUpdateProps) {
   const queryClient = useQueryClient();
-  const { data: user, isFetching } = useGetUser();
   const updateMutation = useUpdateUser();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
-    reset,
   } = useForm<UserUpdate>({
     resolver: zodResolver(UserUpdateSchema),
-    defaultValues: { name: undefined, email: undefined, password: undefined },
+    values: user,
+    resetOptions: { keepDirtyValues: true },
   });
 
   useEffect(() => {
-    let timeoutId: number | undefined;
-    if (isOpen) {
-      timeoutId = setTimeout(() =>
-        document.getElementById("user-profile-update-close-btn")?.focus(),
-      );
-    }
-    if (isOpen && user) {
-      reset({ name: user.name, email: user.email });
-    }
+    const timeoutId = setTimeout(
+      () => document.getElementById("user-profile-update-close-btn")?.focus(),
+      100,
+    );
 
     return () => clearTimeout(timeoutId);
-  }, [isOpen, user, reset]);
+  }, []);
 
   const handleFormSubmit = (user: UserUpdate) => {
     updateMutation.mutate(user, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: userQueryKeys.USER });
-        handleClose();
+        onClose();
       },
       onError: (err) => {
         if (err.statusCode === 409) {
-          setError('root', { message: "Email já cadastrado." });
-          return; 
+          setError("root", { message: "Email já cadastrado." });
+          return;
         }
-        
+
         setError("root", { message: "Erro ao tentar atualizar informações." });
       },
     });
   };
 
   return (
-    <FocusScope trapped={isOpen} loop={isOpen} asChild>
-      <div
-        className={`transition-all w-80 p-2 fixed z-101 top-0 bottom-0 bg-surface ${isOpen ? "right-0" : "-right-80"}`}
-        aria-hidden={!isOpen}
-      >
-        <button
-          onClick={handleClose}
-          className="cursor-pointer -ml-2"
-          aria-label="Voltar para configurações do usuário"
-          disabled={!isOpen}
-          id="user-profile-update-close-btn"
+    <>
+      <FocusScope trapped={true} loop={true} asChild>
+        <div
+          className={`transition-all w-80 p-2 fixed z-301 top-0 bottom-0 bg-surface right-0 `}
         >
-          <IoIosArrowRoundBack
-            size={40}
-            className="text-tx-main"
-            aria-hidden={true}
-          />
-        </button>
-
-        <h2 className="text-xl mt-8">Atualizar informações de usuário</h2>
-        <hr className="mb-4 mt-2" />
-
-        <form
-          method="PATCH"
-          onSubmit={handleSubmit(handleFormSubmit)}
-          className="flex flex-col gap-2 items-center w-full"
-        >
-          {errors.root?.message && (
-            <p
-              className="w-full max-w-md m-auto p-1 pl-2 rounded-md bg-dark text-left text-red-500 text-sm :"
-              id="error-root"
-              aria-live="assertive"
-            >
-              {errors.root.message}
-            </p>
-          )}
-
-          <Input
-            {...register("name")}
-            id="name"
-            label="Novo nome"
-            type="text"
-            Icon={MdAccountCircle}
-            errorMessage={errors.name?.message}
-            disabled={isFetching}
-          />
-
-          <Input
-            {...register("email")}
-            id="email"
-            label="Novo email"
-            type="email"
-            Icon={MdEmail}
-            errorMessage={errors.email?.message}
-            disabled={isFetching}
-          />
-
-          <Button
-            type="submit"
-            customClassName="w-full max-w-full mt-5"
-            disabled={!isOpen || isFetching}
+          <button
+            onClick={onClose}
+            className="cursor-pointer -ml-2"
+            aria-label="Voltar para configurações do usuário"
+            id="user-profile-update-close-btn"
           >
-            Atualizar informações
-          </Button>
-        </form>
-      </div>
-    </FocusScope>
+            <IoIosArrowRoundBack
+              size={40}
+              className="text-tx-main"
+              aria-hidden={true}
+            />
+          </button>
+
+          <h2 className="text-xl mt-8">Atualizar informações de usuário</h2>
+          <hr className="mb-4 mt-2" />
+
+          <form
+            method="PATCH"
+            onSubmit={handleSubmit(handleFormSubmit)}
+            className="flex flex-col gap-2 items-center w-full"
+          >
+            {errors.root?.message && (
+              <p
+                className="w-full max-w-md m-auto p-1 pl-2 rounded-md bg-dark text-left text-red-500 text-sm :"
+                id="error-root"
+                aria-live="assertive"
+              >
+                {errors.root.message}
+              </p>
+            )}
+
+            <Input
+              {...register("name")}
+              id="name"
+              label="Novo nome"
+              type="text"
+              Icon={MdAccountCircle}
+              errorMessage={errors.name?.message}
+              disabled={isFetching}
+            />
+
+            <Input
+              {...register("email")}
+              id="email"
+              label="Novo email"
+              type="email"
+              Icon={MdEmail}
+              errorMessage={errors.email?.message}
+              disabled={isFetching}
+            />
+
+            <Button
+              type="submit"
+              customClassName="w-full max-w-full mt-5"
+              disabled={isFetching}
+            >
+              Atualizar informações
+            </Button>
+          </form>
+        </div>
+      </FocusScope>
+      <div
+        onClick={onClose}
+        className="fixed z-300 left-0 right-0 bottom-0 top-0"
+      ></div>
+    </>
   );
 }

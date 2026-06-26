@@ -19,7 +19,7 @@ export function Sidebar() {
   }, [isOpen]);
 
   return (
-    <div className="fixed z-101 top-0 bottom-0 w-13">
+    <>
       <FocusScope trapped={isOpen} loop={isOpen} asChild>
         <aside
           className={`transition-all fixed z-101 top-0 bottom-0 flex flex-col gap-4 overflow-x-hidden overflow-y-auto w-13 p-2 bg-surface ${isOpen ? "w-65" : "w-13"}`}
@@ -138,6 +138,6 @@ export function Sidebar() {
         onClick={() => setIsOpen(false)}
         className={`fixed z-100 left-0 right-0 bottom-0 top-0 bg-[#00000054] ${isOpen ? "block" : "hidden"}`}
       ></div>
-    </div>
+    </>
   );
 }
