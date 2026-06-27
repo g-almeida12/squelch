@@ -1,4 +1,8 @@
-import { type UserDTO, type ErrorResponse } from "@squelch/shared";
+import {
+  type UserDTO,
+  type ErrorResponse,
+  type UserProgressDTO,
+} from "@squelch/shared";
 import { useQuery } from "@tanstack/react-query";
 import { userQueryKeys } from "./query-keys.user";
 import api from "../../../api/axios.api";
@@ -25,6 +29,20 @@ export function useGetUser() {
       }
 
       return failureCount < 3;
+    },
+  });
+}
+
+export function useGetUserProgress() {
+  return useQuery<UserProgressDTO, ErrorResponse>({
+    queryKey: userQueryKeys.USER_PROGRESS,
+    queryFn: async () => {
+      const response = await api.get(API_ROUTES.USER_PROGRESS, {
+        withCredentials: true,
+        withXSRFToken: true,
+      });
+
+      return response.data.body;
     },
   });
 }
