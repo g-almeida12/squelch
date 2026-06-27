@@ -3,15 +3,39 @@ import {
   IdSchema,
   UserUpdateSchema,
   UserDTO,
+  UserProgressDTO,
 } from "@squelch/shared";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { IUserService } from "../interfaces/user.interfaces.js";
-import { mapUserDTO } from "../entities/mappers.entities.js";
+import { mapUserDTO, mapUserProgressDTO } from "../entities/mappers.entities.js";
 
 export default class UserController {
   constructor(private userService: IUserService) {
     this.userService = userService;
   }
+
+    async getUserProgress(
+      userId: unknown,
+    ): Promise<HTTPResponse<UserProgressDTO>> {
+      try {
+        const validation = IdSchema.safeParse(userId);
+        if (!validation.success) {
+          throw new ApplicationError("ID de usuário inválido fornecido.", 400);
+        }
+  
+        const userProgress = await this.userService.getUserProgress(
+          validation.data,
+        );
+  
+        return {
+          success: true,
+          statusCode: 200,
+          body: mapUserProgressDTO(userProgress),
+        };
+      } catch (err) {
+        return ApplicationError.handleControllerError(err);
+      }
+    }
 
   async findById(userId: unknown): Promise<HTTPResponse<UserDTO>> {
     try {

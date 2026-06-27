@@ -3,11 +3,13 @@ import {
   SubmissionDTO,
   UserAuthDTO,
   UserDTO,
+  UserProgressDTO,
 } from "@squelch/shared";
 import {
   ChallengeEntity,
   SubmissionEntity,
   UserEntity,
+  UserProgressEntity,
 } from "./types.entities.js";
 
 export function mapAuthUserDTO(
@@ -54,5 +56,16 @@ export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
     success: !!submission.success,
     userQueryResult: JSON.parse(submission.user_query_result),
     date: new Date(submission.date),
+  };
+}
+
+export function mapUserProgressDTO(
+  userProgress: UserProgressEntity,
+): UserProgressDTO {
+  return {
+    userId: userProgress.user_id,
+    totalSubmissions: userProgress.total_submissions,
+    completedChallengeIds: userProgress.completed_challenge_ids,
+    completedGroupSlugs: userProgress.completed_group_slugs,
   };
 }

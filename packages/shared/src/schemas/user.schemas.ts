@@ -17,9 +17,16 @@ export const AuthUserDTOSchema = UserDTOSchema.extend({
   refreshToken: z.string(),
   xsrfToken: z.string(),
 });
+export const UserProgressDTOSchema = z.object({
+  userId: IdSchema,
+  totalSubmissions: z.number().nonnegative(),
+  completedChallengeIds: z.array(IdSchema),
+  completedGroupSlugs: z.array(z.string()),
+});
 
 export type UserRegister = z.infer<typeof UserRegisterSchema>;
 export type UserLogin = z.infer<typeof UserLoginSchema>;
 export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 export type UserDTO = z.infer<typeof UserDTOSchema>;
 export type UserAuthDTO = z.infer<typeof AuthUserDTOSchema>;
+export type UserProgressDTO = z.infer<typeof UserProgressDTOSchema>;

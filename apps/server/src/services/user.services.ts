@@ -4,11 +4,18 @@ import {
   IUserService,
 } from "../interfaces/user.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
-import { UserEntity } from "../entities/types.entities.js";
+import { UserEntity, UserProgressEntity } from "../entities/types.entities.js";
 
 export default class UserService implements IUserService {
   constructor(private userRepository: IUserRepository) {
     this.userRepository = userRepository;
+  }
+
+  async getUserProgress(userId: Id): Promise<UserProgressEntity> {
+    const userProgress =
+      await this.userRepository.getUserProgress(userId);
+
+    return userProgress;
   }
 
   async findById(userId: Id): Promise<UserEntity> {

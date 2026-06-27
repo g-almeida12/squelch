@@ -42,7 +42,7 @@ export const SubmissionDTOSchema = SubmissionBaseSchema.extend({
   success: z.boolean(),
 });
 
-export type QueryResult = z.infer<typeof QueryResultSchema>;
+export type QueryResultDTO = z.infer<typeof QueryResultSchema>;
 export type SubmissionValidation = z.infer<typeof SubmissionValidationSchema>;
 export type SubmissionSave = z.infer<typeof SubmissionSaveSchema>;
 export type SubmissionDTO = z.infer<typeof SubmissionDTOSchema>;

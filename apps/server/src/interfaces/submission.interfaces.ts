@@ -1,6 +1,6 @@
 import {
   Id,
-  QueryResult,
+  QueryResultDTO,
   SubmissionSave,
   SubmissionValidation,
 } from "@squelch/shared";
@@ -28,7 +28,7 @@ export interface ISubmissionService {
     userId: Id,
   ): Promise<{
     submission: SubmissionEntity;
-    queryResult: QueryResult;
+    queryResult: QueryResultDTO;
     errorMessages: string[] | null;
   }>;
 

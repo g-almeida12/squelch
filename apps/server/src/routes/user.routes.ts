@@ -8,6 +8,16 @@ import { removeTokens } from "../helpers/tokens.js";
 
 export const userRouter = Router({ mergeParams: true });
 userRouter.use(authenticationMiddleware);
+
+// Get user progress route
+userRouter.get("/users/progress", async (req: AuthRequest, res) => {
+  const { success, statusCode, body } = await userController.getUserProgress(
+    req.user?.id,
+  );
+
+  return res.status(statusCode).json({ success, body });
+});
+
 // Find by ID route
 userRouter.get("/users", async (req: AuthRequest, res) => {
   const { statusCode, success, body } = await userController.findById(
@@ -19,10 +29,9 @@ userRouter.get("/users", async (req: AuthRequest, res) => {
 
 // Update route
 userRouter.patch("/users", async (req: AuthRequest, res) => {
-  const authReq = req as AuthRequest;
   const { statusCode, success, body } = await userController.updateById(
     req.user?.id,
-    authReq.body,
+    req.body,
   );
 
   return res.status(statusCode).json({ success, body });

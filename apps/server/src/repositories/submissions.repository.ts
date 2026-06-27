@@ -1,5 +1,7 @@
 import { Id, SubmissionSave } from "@squelch/shared";
-import { SubmissionEntity } from "../entities/types.entities.js";
+import {
+  SubmissionEntity,
+} from "../entities/types.entities.js";
 import { ISubmissionRepository } from "../interfaces/submission.interfaces.js";
 import ApplicationError from "../helpers/errors/application.error.js";
 import { Statement } from "better-sqlite3";

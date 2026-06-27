@@ -1,7 +1,7 @@
 import {
   HTTPResponse,
   IdSchema,
-  QueryResult,
+  QueryResultDTO,
   SubmissionDTO,
   SubmissionValidationSchema,
 } from "@squelch/shared";
@@ -17,7 +17,7 @@ export default class SubmissionController {
   async runQuery(
     submittedQuery: unknown,
     challengeId: unknown,
-  ): Promise<HTTPResponse<QueryResult>> {
+  ): Promise<HTTPResponse<QueryResultDTO>> {
     try {
       if (!submittedQuery || typeof submittedQuery !== "string") {
         throw new ApplicationError("Formato de query inválido fornecido", 400);
@@ -33,7 +33,11 @@ export default class SubmissionController {
         idValidation.data,
       );
 
-      return { success: true, statusCode: 200, body: userQueryResult };
+      return {
+        success: true,
+        statusCode: 200,
+        body: userQueryResult as QueryResultDTO,
+      };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
     }

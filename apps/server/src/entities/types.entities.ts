@@ -30,6 +30,13 @@ export type QueryRunEntity = {
   [x: string]: string | number | boolean | null;
 };
 
+export type UserProgressEntity = {
+  user_id: Id;
+  completed_challenge_ids: Id[];
+  completed_group_slugs: string[];
+  total_submissions: number;
+}
+
 export type RefreshTokenEntity = {
   id: Id;
   user_id: Id;

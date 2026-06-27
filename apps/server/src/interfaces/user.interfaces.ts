@@ -1,7 +1,9 @@
 import { UserUpdate, Id } from "@squelch/shared";
-import { UserEntity } from "../entities/types.entities.js";
+import { UserEntity, UserProgressEntity } from "../entities/types.entities.js";
 
 export interface IUserRepository {
+  getUserProgress(userId: Id): Promise<UserProgressEntity>;
+
   findById(userId: Id): Promise<UserEntity | null>;
 
   findByEmail(email: string): Promise<UserEntity | null>;
@@ -15,6 +17,8 @@ export interface IUserRepository {
 }
 
 export interface IUserService {
+  getUserProgress(userId: Id): Promise<UserProgressEntity>;
+
   findById(userId: Id): Promise<UserEntity>;
 
   updateById(userId: Id, newData: UserUpdate): Promise<UserEntity>;
