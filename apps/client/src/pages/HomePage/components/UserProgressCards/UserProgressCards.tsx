@@ -57,7 +57,7 @@ export function ProgressCard({
   hasProgressCircle,
 }: ProgressCardProps) {
   return (
-    <div className="flex flex-col gap-5 items-center justify-center w-full max-w-sm min-w-72 rounded-1 p-2 bg-surface">
+    <div className="flex flex-col gap-5 items-center justify-center w-full max-w-sm min-w-72 rounded-1 p-2 bg-surface select-none">
       <p
         className="flex flex-row items-center justify-start gap-2 text-tx-overlay text-[17px]"
         id={`info-${title}`}
@@ -65,9 +65,7 @@ export function ProgressCard({
         <Icon size={20} /> {title}
       </p>
 
-      <div
-        className={`relative flex items-center justify-center size-13`}
-      >
+      <div className="relative flex items-center justify-center size-13 rounded-full">
         {hasProgressCircle && (
           <svg
             className="absolute top-0 left-0 size-full -rotate-90"
@@ -91,14 +89,15 @@ export function ProgressCard({
               strokeDasharray={2 * Math.PI * 18}
               strokeDashoffset={
                 2 * Math.PI * 18 -
-                Math.min(progress! / finalProgress!, 1) * (2 * Math.PI * 18)
+                Math.min((progress ?? 0) / (finalProgress ?? 1), 1) * (2 * Math.PI * 18)
               }
               strokeLinecap="round"
             />
           </svg>
         )}
+
         <span
-          className="translate-y-0.75 text-2xl font-semibold font-alternate leading-none"
+          className="relative translate-y-0.75 text-2xl font-semibold font-alternate leading-none"
           aria-labelledby={`info-${title}`}
         >
           {progress}

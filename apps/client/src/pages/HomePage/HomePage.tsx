@@ -6,7 +6,6 @@ const HOMEPAGE_TABS = ["Início", "Histórico"];
 export function HomePage() {
   return (
     <div className="flex flex-row min-h-dvh">
-      <Sidebar />
       <TabSwitchView
         tabs={HOMEPAGE_TABS}
         tabContent={[
@@ -16,6 +15,7 @@ export function HomePage() {
           </div>,
         ]}
       />
+      <Sidebar />
     </div>
   );
 }
