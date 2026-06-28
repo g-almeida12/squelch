@@ -11,6 +11,8 @@ export type UserProgressEntity = {
   user_id: Id;
   completed_challenge_ids: Id[];
   completed_group_slugs: string[];
+  total_challenges: number;
+  total_groups: number;
   total_submissions: number;
 }
 
@@ -28,6 +30,8 @@ export function mapUserProgressDTO(
   return {
     userId: userProgress.user_id,
     totalSubmissions: userProgress.total_submissions,
+    totalChallenges: userProgress.total_challenges,
+    totalGroups: userProgress.total_groups,
     completedChallengeIds: userProgress.completed_challenge_ids,
     completedGroupSlugs: userProgress.completed_group_slugs,
   };

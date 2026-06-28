@@ -20,6 +20,8 @@ export const AuthUserDTOSchema = UserDTOSchema.extend({
 export const UserProgressDTOSchema = z.object({
   userId: IdSchema,
   totalSubmissions: z.number().nonnegative(),
+  totalChallenges: z.number().nonnegative(),
+  totalGroups: z.number().nonnegative(),
   completedChallengeIds: z.array(IdSchema),
   completedGroupSlugs: z.array(z.string()),
 });

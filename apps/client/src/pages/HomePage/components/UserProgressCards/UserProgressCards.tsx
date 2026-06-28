@@ -3,12 +3,6 @@ import { IoMdTrophy } from "react-icons/io";
 import { MdLibraryAddCheck, MdUpload } from "react-icons/md";
 import { useGetUserProgress } from "../../../../features/user/hooks/queries.hooks";
 
-// ! Criar uma rota para a API retornar esses dados
-const CHALLENGES_INFO = {
-  groups: 1,
-  challenges: 3,
-} as const;
-
 export function UserProgressCards() {
   const { data: userProgress } = useGetUserProgress();
 
@@ -19,14 +13,14 @@ export function UserProgressCards() {
           Icon={MdLibraryAddCheck}
           title="Tarefas Concluídas"
           progress={userProgress?.completedChallengeIds.length}
-          finalProgress={CHALLENGES_INFO.challenges}
+          finalProgress={userProgress?.totalChallenges}
           hasProgressCircle
         />
         <ProgressCard
           Icon={IoMdTrophy}
           title="Níveis Concluídos"
           progress={userProgress?.completedGroupSlugs.length}
-          finalProgress={CHALLENGES_INFO.groups}
+          finalProgress={userProgress?.totalGroups}
           hasProgressCircle
         />
         <ProgressCard

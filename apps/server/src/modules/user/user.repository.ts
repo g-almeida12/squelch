@@ -32,6 +32,14 @@ export class UserRepository implements IUserRepository {
                 WHERE user_id = @userId
               ) as total_submissions,
               (
+                SELECT COUNT(DISTINCT group_slug)
+                FROM challenges
+              ) as total_groups,
+              (
+                SELECT COUNT(*)
+                FROM challenges
+              ) as total_challenges,
+              (
                 SELECT json_group_array(challenge_id) 
                 FROM user_completed_challenges
               ) as completed_challenge_ids,
@@ -57,6 +65,8 @@ export class UserRepository implements IUserRepository {
   async getUserProgress(userId: Id): Promise<UserProgressEntity> {
     type DBUserProgress = {
       total_submissions: number;
+      total_challenges: number;
+      total_groups: number;
       completed_challenge_ids: string;
       completed_group_slugs: string;
     };
@@ -69,6 +79,8 @@ export class UserRepository implements IUserRepository {
         return {
           user_id: userId,
           total_submissions: 0,
+          total_challenges: 0,
+          total_groups: 0,
           completed_challenge_ids: [],
           completed_group_slugs: [],
         };
@@ -77,6 +89,8 @@ export class UserRepository implements IUserRepository {
       return {
         user_id: userId,
         total_submissions: userProgress.total_submissions,
+        total_challenges: userProgress.total_challenges,
+        total_groups: userProgress.total_groups,
         completed_challenge_ids: JSON.parse(
           userProgress.completed_challenge_ids,
         ),
