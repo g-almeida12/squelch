@@ -1,15 +1,15 @@
-import "./database/setup.js";
+import "./shared/database/setup.js";
 import "./config/challenges.config.js";
 import { envConfig } from "./config/env.config.js";
-import { closeDBConnection } from "./database/connection.js";
+import { closeDBConnection } from "./shared/database/connection.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { authRouter } from "./routes/auth.routes.js";
-import { userRouter } from "./routes/user.routes.js";
-import { errorMiddleware } from "./middlewares/error.middleware.js";
-import { challengeRouter } from "./routes/challenge.routes.js";
-import { submissionRouter } from "./routes/submissions.routes.js";
+import { errorMiddleware } from "./shared/middlewares/error.middleware.js";
+import { authRouter } from "./modules/auth/index.js";
+import { userRouter } from "./modules/user/index.js";
+import { challengeRouter } from "./modules/challenge/index.js";
+import { submissionRouter } from "./modules/submission/index.js";
 
 // App configurations
 const app = express();

@@ -30,11 +30,6 @@ const SubmissionBaseSchema = z.object({
 export const SubmissionValidationSchema = SubmissionBaseSchema.omit({
   challengeId: true,
 });
-export const SubmissionSaveSchema = SubmissionBaseSchema.extend({
-  success: z.boolean(),
-  userQueryResult: QueryResultSchema,
-  userId: IdSchema,
-});
 export const SubmissionDTOSchema = SubmissionBaseSchema.extend({
   id: IdSchema,
   userId: IdSchema,
@@ -44,5 +39,4 @@ export const SubmissionDTOSchema = SubmissionBaseSchema.extend({
 
 export type QueryResultDTO = z.infer<typeof QueryResultSchema>;
 export type SubmissionValidation = z.infer<typeof SubmissionValidationSchema>;
-export type SubmissionSave = z.infer<typeof SubmissionSaveSchema>;
 export type SubmissionDTO = z.infer<typeof SubmissionDTOSchema>;
