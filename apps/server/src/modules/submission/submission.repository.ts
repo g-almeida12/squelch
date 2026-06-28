@@ -1,7 +1,7 @@
 import { Id } from "@squelch/shared";
 import { SubmissionEntity, SubmissionSave } from "./submission.entity.js";
 import { ISubmissionRepository } from "./submission.interfaces.js";
-import {ApplicationError} from "../../shared/errors/index.js";
+import { ApplicationError } from "../../shared/errors/index.js";
 import { Statement } from "better-sqlite3";
 import { db } from "../../shared/database/connection.js";
 
@@ -17,15 +17,24 @@ export class SubmissionRepository implements ISubmissionRepository {
       INSERT INTO submissions (user_id, challenge_id, submitted_query, success, user_query_result, date)
       VALUES (@userId, @challengeId, @submittedQuery, @success, @userQueryResult, @date)
     `);
-    this.findByIdStmt = db.prepare(
-      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE id = @submissionId AND user_id = @userId`,
-    );
-    this.findByUserIdStmt = db.prepare(
-      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE user_id = ?`,
-    );
-    this.findByChallengeIdStmt = db.prepare(
-      `SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result FROM submissions WHERE challenge_id = @challengeId AND user_id = @userId`,
-    );
+    this.findByIdStmt = db.prepare(`
+      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result 
+      FROM submissions
+      WHERE id = @submissionId 
+      AND user_id = @userId
+    `);
+    this.findByUserIdStmt = db.prepare(`
+      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result
+      FROM submissions
+      WHERE user_id = ?
+      ORDER BY date ASC
+    `);
+    this.findByChallengeIdStmt = db.prepare(`
+      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result
+      FROM submissions
+      WHERE challenge_id = @challengeId
+      AND user_id = @userId
+    `);
     this.deleteAllUserSubmissionsStmt = db.prepare(
       `DELETE FROM submissions WHERE id = ?`,
     );

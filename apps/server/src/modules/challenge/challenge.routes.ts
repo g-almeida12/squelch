@@ -1,9 +1,20 @@
 import { Router } from "express";
 import { challengeController } from "../../config/factory.config.js";
-import { authenticationMiddleware } from "../../shared/middlewares/index.js";
+import {
+  authenticationMiddleware,
+  AuthRequest,
+} from "../../shared/middlewares/index.js";
 
 export const challengeRouter = Router({ mergeParams: true });
 challengeRouter.use(authenticationMiddleware);
+
+// Get last pending challenge info route
+challengeRouter.get("/challenges/resume", async (req: AuthRequest, res) => {
+  const { success, statusCode, body } =
+    await challengeController.getChallengeResume(req.user?.id);
+
+  return res.status(statusCode).json({ success, body });
+});
 
 // Find by ID route
 challengeRouter.get("/challenges/:challengeId", async (req, res) => {

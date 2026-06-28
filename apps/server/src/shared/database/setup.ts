@@ -15,7 +15,8 @@ function setupDatabase() {
       markdown TEXT NOT NULL,
       validation_query TEXT NOT NULL,
       difficulty TEXT CHECK(difficulty IN ('EASY', 'MEDIUM', 'HARD')),
-      group_slug TEXT NOT NULL
+      group_slug TEXT NOT NULL,
+      group_title TEXT NOT NULL
     );
 
     CREATE INDEX IF NOT EXISTS idx_challenge_group ON challenges(group_slug);

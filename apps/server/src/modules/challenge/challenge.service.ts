@@ -4,11 +4,18 @@ import {
   IChallengeService,
 } from "./challenge.interfaces.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { ChallengeEntity } from "./challenge.entity.js";
+import { ChallengeEntity, ChallengeResumeEntity } from "./challenge.entity.js";
 
 export class ChallengeService implements IChallengeService {
   constructor(private challengeRepository: IChallengeRepository) {
     this.challengeRepository = challengeRepository;
+  }
+
+  async getChallengeResume(userId: Id): Promise<ChallengeResumeEntity | null> {
+    const challengeResume =
+      await this.challengeRepository.getChallengeResume(userId);
+
+    return challengeResume;
   }
 
   async findById(challengeId: Id): Promise<ChallengeEntity> {

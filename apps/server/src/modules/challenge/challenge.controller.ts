@@ -1,11 +1,38 @@
-import { ChallengeDTO, HTTPResponse, IdSchema } from "@squelch/shared";
+import {
+  ChallengeDTO,
+  ChallengeResume,
+  HTTPResponse,
+  IdSchema,
+} from "@squelch/shared";
 import { IChallengeService } from "./challenge.interfaces.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { mapChallengeDTO } from "./challenge.entity.js";
+import { mapChallengeDTO, mapChallengeResumeDTO } from "./challenge.entity.js";
 
 export class ChallengeController {
   constructor(private challengeService: IChallengeService) {
     this.challengeService = challengeService;
+  }
+
+  async getChallengeResume(
+    userId: unknown,
+  ): Promise<HTTPResponse<ChallengeResume | null>> {
+    try {
+      const idValidation = IdSchema.safeParse(userId);
+      if (!idValidation.success) {
+        throw new ApplicationError("ID de usuário inválido fornecido.", 400);
+      }
+
+      const challengeResume = await this.challengeService.getChallengeResume(
+        idValidation.data,
+      );
+      return {
+        success: true,
+        statusCode: 200,
+        body: challengeResume ? mapChallengeResumeDTO(challengeResume) : null,
+      };
+    } catch (err) {
+      return ApplicationError.handleControllerError(err);
+    }
   }
 
   async findById(challengeId: unknown): Promise<HTTPResponse<ChallengeDTO>> {

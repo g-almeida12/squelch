@@ -2,6 +2,7 @@ import { z } from "zod";
 import { IdSchema } from "./id.schemas";
 
 export const ChallengesDifficultiesSchema = z.enum(["EASY", "MEDIUM", "HARD"]);
+
 const ChallengeBaseSchema = z.object({
   title: z.string().min(3, "Mínimo de 3 caracteres para o título."),
   markdown: z
