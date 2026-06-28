@@ -55,9 +55,15 @@ export class UserRepository implements IUserRepository {
   }
 
   async getUserProgress(userId: Id): Promise<UserProgressEntity> {
+    type DBUserProgress = {
+      total_submissions: number;
+      completed_challenge_ids: string;
+      completed_group_slugs: string;
+    };
+
     try {
       const userProgress = this.getUserProgressInfoStmt.get({ userId }) as
-        | UserProgressEntity
+        | DBUserProgress
         | undefined;
       if (!userProgress) {
         return {
@@ -71,8 +77,10 @@ export class UserRepository implements IUserRepository {
       return {
         user_id: userId,
         total_submissions: userProgress.total_submissions,
-        completed_challenge_ids: userProgress.completed_challenge_ids,
-        completed_group_slugs: userProgress.completed_group_slugs,
+        completed_challenge_ids: JSON.parse(
+          userProgress.completed_challenge_ids,
+        ),
+        completed_group_slugs: JSON.parse(userProgress.completed_group_slugs),
       };
     } catch (err) {
       throw ApplicationError.repositoryError(err);
