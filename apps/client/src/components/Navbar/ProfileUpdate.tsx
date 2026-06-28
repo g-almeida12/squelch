@@ -1,7 +1,7 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdEmail, MdAccountCircle } from "react-icons/md";
-import { useUpdateUser } from "../../features/user/hooks/mutations.hooks";
+import { useUpdateUser } from "../../features/user/hooks/user.mutations";
 import { useForm } from "react-hook-form";
 import {
   UserUpdateSchema,
@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { Input } from "../Input";
 import { Button } from "../Button";
 import { useQueryClient } from "@tanstack/react-query";
-import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
+import { userQueryKeys } from "../../features/user/hooks/user.query-keys";
 
 interface ProfileUpdateProps {
   user: UserDTO | undefined;

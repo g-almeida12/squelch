@@ -3,7 +3,8 @@ export const APP_ROUTES = {
   REGISTER: "/register",
   LOGIN: "/login",
   HOME: "/home",
-};
+  CHALLENGE: (id: number) => `/home/challenges/${id}` as const,
+} as const;
 
 const API_BASE_URL = "http://localhost:8080";
 export const API_ROUTES = {
@@ -21,11 +22,16 @@ export const API_ROUTES = {
   USER_PROGRESS: `${API_BASE_URL}/users/progress`,
 
   // Submission URL
-  QUERY_RUN: (id: number) => `${API_BASE_URL}/challenges/${id}/queries/run`,
+  QUERY_RUN: (id: number) =>
+    `${API_BASE_URL}/challenges/${id}/queries/run` as const,
   VALIDATION_RUN: (id: number) =>
-    `${API_BASE_URL}/challenges/${id}/submissions/run`,
+    `${API_BASE_URL}/challenges/${id}/submissions/run` as const,
   CHALLENGES_SUBMISSIONS: (id: number) =>
-    `${API_BASE_URL}/challenges/${id}/submissions`,
-  SUBMISSION: (id: number) => `${API_BASE_URL}/submissions/${id}`,
+    `${API_BASE_URL}/challenges/${id}/submissions` as const,
+  SUBMISSION: (id: number) => `${API_BASE_URL}/submissions/${id}` as const,
   USER_SUBMISSIONS: `${API_BASE_URL}/submissions`,
+
+  // Challenge URL
+  CHALLENGE: (id: number) => `${API_BASE_URL}/challenges/${id}` as const,
+  CHALLENGE_RESUME: `${API_BASE_URL}/challenges/resume`,
 } as const;

@@ -1,4 +1,5 @@
-import { useGetUser } from "../../../../features/user/hooks/queries.hooks";
+import { useGetUser } from "../../../../features/user/hooks/user.queries";
+import { ResumeChallenge } from "../ResumeChallenge";
 import { UserProgressCards } from "../UserProgressCards";
 
 export function StartMain() {
@@ -20,6 +21,8 @@ export function StartMain() {
         {greeting}, {user ? user.name : ".."}.
       </h1>
       <UserProgressCards />
+
+      <ResumeChallenge />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
-import { useGetUser } from "../../features/user/hooks/queries.hooks";
+import { useGetUser } from "../../features/user/hooks/user.queries";
 import { UserConfig } from "./UserConfig";
 
 interface NavbarProps {

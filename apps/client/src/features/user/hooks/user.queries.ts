@@ -4,7 +4,7 @@ import {
   type UserProgressDTO,
 } from "@squelch/shared";
 import { useQuery } from "@tanstack/react-query";
-import { userQueryKeys } from "./query-keys.user";
+import { userQueryKeys } from "./user.query-keys";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
 

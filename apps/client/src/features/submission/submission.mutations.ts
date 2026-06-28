@@ -6,7 +6,7 @@ import type {
   SubmissionDTO,
   SubmissionValidation,
 } from "@squelch/shared";
-import { submissionQueryKeys } from "./query-keys.submission";
+import { submissionQueryKeys } from "./submission.query-keys";
 
 export function useValidateQuery() {
   const queryClient = useQueryClient();

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { submissionQueryKeys } from "./query-keys.submission";
+import { submissionQueryKeys } from "./submission.query-keys";
 import type { ErrorResponse, SubmissionDTO } from "@squelch/shared";
 import api from "../../api/axios.api";
 import { API_ROUTES } from "../../config/constants";
@@ -55,4 +55,3 @@ export function useGetChallengeSubmissions(id: number) {
     },
   });
 }
-

@@ -1,0 +1,1 @@
+export { ResumeChallenge } from './ResumeChallenge';

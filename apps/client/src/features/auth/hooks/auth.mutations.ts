@@ -7,7 +7,7 @@ import type {
 } from "@squelch/shared";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
-import { userQueryKeys } from "../../user/hooks/query-keys.user";
+import { userQueryKeys } from "../../user/hooks/user.query-keys";
 
 export function useRegisterUser() {
   const queryClient = useQueryClient();

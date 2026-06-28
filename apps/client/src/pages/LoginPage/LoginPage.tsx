@@ -6,10 +6,9 @@ import { useEffect } from "react";
 import { type UserLogin, UserLoginSchema } from "@squelch/shared";
 import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
-import { Main } from "../../layout";
-import { useLoginUser } from "../../features/auth/hooks/mutations.hooks";
-import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
-import { LoginForm } from './LoginForm';
+import { useLoginUser } from "../../features/auth/hooks/auth.mutations";
+import { userQueryKeys } from "../../features/user/hooks/user.query-keys";
+import { LoginForm } from "./LoginForm";
 
 export function LoginPage() {
   const queryClient = useQueryClient();
@@ -49,7 +48,7 @@ export function LoginPage() {
   };
 
   return (
-    <Main customClassName="min-h-dvh flex flex-row w-full p-0 bg-dark">
+    <main className="min-h-dvh flex flex-row w-full p-0 bg-dark">
       {/* Text content */}
       <div className="w-5/8 pb-8 pt-15 rounded-r-3xl bg-main">
         <div className="text-center">
@@ -59,7 +58,7 @@ export function LoginPage() {
             consultas.
           </p>
 
-          <LoginForm 
+          <LoginForm
             register={register}
             handleSubmit={handleSubmit(handleLoginSubmittion)}
             errors={errors}
@@ -69,9 +68,7 @@ export function LoginPage() {
             <p className="mb-2 text-tx-overlay">
               Ainda não está registrado no Squelch?
             </p>
-            <Button to={APP_ROUTES.REGISTER}>
-              Crie sua conta agora
-            </Button>
+            <Button to={APP_ROUTES.REGISTER}>Crie sua conta agora</Button>
           </div>
         </div>
       </div>
@@ -96,6 +93,6 @@ export function LoginPage() {
           </span>
         </div>
       </div>
-    </Main>
+    </main>
   );
 }

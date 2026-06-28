@@ -5,9 +5,8 @@ import { useEffect } from "react";
 import { type UserRegister, UserRegisterSchema } from "@squelch/shared";
 import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
-import { Main } from "../../layout";
-import { useRegisterUser } from "../../features/auth/hooks/mutations.hooks";
-import { userQueryKeys } from "../../features/user/hooks/query-keys.user";
+import { useRegisterUser } from "../../features/auth/hooks/auth.mutations";
+import { userQueryKeys } from "../../features/user/hooks/user.query-keys";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { RegisterForm } from "./RegisterForm";
@@ -65,7 +64,7 @@ export function RegisterPage() {
   };
 
   return (
-    <Main customClassName="min-h-dvh flex flex-row w-full p-0 bg-dark">
+    <main className="min-h-dvh flex flex-row w-full p-0 bg-dark">
       {/* Text content */}
       <div className="w-5/8 pb-8 pt-15 rounded-r-3xl bg-main">
         <div className="text-center">
@@ -110,6 +109,6 @@ export function RegisterPage() {
           </span>
         </div>
       </div>
-    </Main>
+    </main>
   );
 }

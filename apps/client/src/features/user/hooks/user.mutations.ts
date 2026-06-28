@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ErrorResponse, UserDTO, UserUpdate } from "@squelch/shared";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
-import { userQueryKeys } from "./query-keys.user";
+import { userQueryKeys } from "./user.query-keys";
 
 export function useUpdateUser() {
   const queryClient = useQueryClient();

@@ -1,7 +1,7 @@
 import type { IconType } from "react-icons";
 import { IoMdTrophy } from "react-icons/io";
 import { MdLibraryAddCheck, MdUpload } from "react-icons/md";
-import { useGetUserProgress } from "../../../../features/user/hooks/queries.hooks";
+import { useGetUserProgress } from "../../../../features/user/hooks/user.queries";
 
 export function UserProgressCards() {
   const { data: userProgress } = useGetUserProgress();
@@ -83,7 +83,8 @@ export function ProgressCard({
               strokeDasharray={2 * Math.PI * 18}
               strokeDashoffset={
                 2 * Math.PI * 18 -
-                Math.min((progress ?? 0) / (finalProgress ?? 1), 1) * (2 * Math.PI * 18)
+                Math.min((progress ?? 0) / (finalProgress ?? 1), 1) *
+                  (2 * Math.PI * 18)
               }
               strokeLinecap="round"
             />

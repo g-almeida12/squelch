@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useGetUser } from "../../features/user/hooks/queries.hooks";
+import { useGetUser } from "../../features/user/hooks/user.queries";
 import { APP_ROUTES } from "../../config/constants";
 
 export function PrivateRoute() {
