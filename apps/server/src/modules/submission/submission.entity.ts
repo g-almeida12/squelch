@@ -4,6 +4,8 @@ export type SubmissionEntity = {
   id: Id;
   user_id: Id;
   challenge_id: Id;
+  challenge_title: string;
+  challenge_group_title: string;
   submitted_query: string;
   date: string;
   success: boolean;
@@ -29,6 +31,8 @@ export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
     id: submission.id,
     userId: submission.user_id,
     challengeId: submission.challenge_id,
+    challengeTitle: submission.challenge_title,
+    challengeGroupTitle: submission.challenge_group_title,
     submittedQuery: submission.submitted_query,
     success: !!submission.success,
     userQueryResult: JSON.parse(submission.user_query_result),

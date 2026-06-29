@@ -18,25 +18,52 @@ export class SubmissionRepository implements ISubmissionRepository {
       VALUES (@userId, @challengeId, @submittedQuery, @success, @userQueryResult, @date)
     `);
     this.findByIdStmt = db.prepare(`
-      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result 
-      FROM submissions
-      WHERE id = @submissionId 
-      AND user_id = @userId
+      SELECT  
+        s.id, 
+        s.user_id, 
+        c.id as challenge_id, 
+        c.title as challenge_title, 
+        c.group_title as challenge_group_title, 
+        s.submitted_query, 
+        s.date, s.success, 
+        s.user_query_result
+      FROM submissions s
+      JOIN challenges c ON s.challenge_id = c.id
+      WHERE s.id = @submissionId 
+      AND s.user_id = @userId
     `);
     this.findByUserIdStmt = db.prepare(`
-      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result
-      FROM submissions
-      WHERE user_id = ?
-      ORDER BY date ASC
+      SELECT
+        s.id, 
+        s.user_id, 
+        c.id as challenge_id, 
+        c.title as challenge_title, 
+        c.group_title as challenge_group_title, 
+        s.submitted_query, 
+        s.date, s.success, 
+        s.user_query_result
+      FROM submissions s
+      JOIN challenges c ON s.challenge_id = c.id
+      WHERE s.user_id = ?
+      ORDER BY s.date ASC
     `);
     this.findByChallengeIdStmt = db.prepare(`
-      SELECT id, user_id, challenge_id, submitted_query, date, success, user_query_result
-      FROM submissions
-      WHERE challenge_id = @challengeId
-      AND user_id = @userId
+      SELECT 
+        s.id, 
+        s.user_id, 
+        c.id as challenge_id, 
+        c.title as challenge_title, 
+        c.group_title as challenge_group_title, 
+        s.submitted_query, 
+        s.date, s.success, 
+        s.user_query_result
+      FROM submissions s
+      JOIN challenges c ON s.challenge_id = c.id
+      WHERE s.challenge_id = @challengeId
+      AND s.user_id = @userId
     `);
     this.deleteAllUserSubmissionsStmt = db.prepare(
-      `DELETE FROM submissions WHERE id = ?`,
+      `DELETE FROM submissions WHERE user_id = ?`,
     );
   }
 

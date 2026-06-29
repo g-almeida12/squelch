@@ -34,6 +34,8 @@ export const SubmissionDTOSchema = SubmissionBaseSchema.extend({
   id: IdSchema,
   userId: IdSchema,
   userQueryResult: QueryResultSchema,
+  challengeTitle: z.string(),
+  challengeGroupTitle: z.string(),
   success: z.boolean(),
 });
 
