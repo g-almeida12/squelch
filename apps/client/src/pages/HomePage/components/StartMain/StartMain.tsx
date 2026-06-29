@@ -1,6 +1,7 @@
 import { useGetUser } from "../../../../features/user/hooks/user.queries";
 import { ResumeChallenge } from "../ResumeChallenge";
 import { UserProgressCards } from "../UserProgressCards";
+import { UserSubmissionCards } from "../UserSubmissionCards";
 
 export function StartMain() {
   const { data: user } = useGetUser();
@@ -17,12 +18,14 @@ export function StartMain() {
 
   return (
     <>
-      <h1 className="mt-4 text-2xl tracking-wide font-heading font-medium">
+      <h1 className="mt-4 text-[25px] font-heading font-bold tracking-wide">
         {greeting}, {user ? user.name : ".."}.
       </h1>
       <UserProgressCards />
 
       <ResumeChallenge />
+
+      <UserSubmissionCards />
     </>
   );
 }

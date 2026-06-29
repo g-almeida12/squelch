@@ -31,7 +31,7 @@ export function useGetSubmission(id: number) {
 }
 
 export function useGetUserSubmissions() {
-  return useQuery<SubmissionDTO, ErrorResponse>({
+  return useQuery<SubmissionDTO[], ErrorResponse>({
     queryKey: submissionQueryKeys.USER_SUBMISSIONS,
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER_SUBMISSIONS, {
@@ -44,7 +44,7 @@ export function useGetUserSubmissions() {
 }
 
 export function useGetChallengeSubmissions(id: number) {
-  return useQuery<SubmissionDTO, ErrorResponse>({
+  return useQuery<SubmissionDTO[], ErrorResponse>({
     queryKey: submissionQueryKeys.CHALLENGES(id),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGES_SUBMISSIONS(id), {

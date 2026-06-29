@@ -6,8 +6,8 @@ export function ResumeChallenge() {
   const { data: challengeResume } = useGetChallengeResume();
 
   return (
-    <div>
-      <h2 className="mb-2 text-xl">Continue sua jornada</h2>
+    <section className="mt-8">
+      <h2 className="mb-2 text-[21px] font-medium">Continue sua jornada</h2>
 
       {challengeResume ? (
         <div className="flex flex-col w-full max-w-sm min-w-72 rounded-1 p-2 bg-dark select-none">
@@ -49,7 +49,7 @@ export function ResumeChallenge() {
       ) : (
         <ResumeChallengeSkeleton />
       )}
-    </div>
+    </section>
   );
 }
 

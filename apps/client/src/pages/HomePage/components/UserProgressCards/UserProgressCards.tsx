@@ -7,8 +7,8 @@ export function UserProgressCards() {
   const { data: userProgress } = useGetUserProgress();
 
   return (
-    <>
-      <div className="flex flex-row items-center justify-between gap-4 w-full max-w-7xl mt-4 mr-auto">
+    <section>
+      <div className="flex flex-row items-center justify-between gap-4 w-full max-w-7xl mt-4 m-auto">
         <ProgressCard
           Icon={MdLibraryAddCheck}
           title="Tarefas Concluídas"
@@ -30,8 +30,8 @@ export function UserProgressCards() {
         />
       </div>
 
-      <hr className="my-5 text-subtle" />
-    </>
+      <hr className="mt-5 text-subtle" />
+    </section>
   );
 }
 
