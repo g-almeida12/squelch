@@ -1,7 +1,7 @@
 import { Sidebar, TabSwitchView } from "../../components";
-import { StartMain } from "./components";
+import { SubmissionsMain, StartMain } from "./components";
 
-const HOMEPAGE_TABS = ["Início", "Histórico"];
+const HOMEPAGE_TABS = ["Início", "Submissões"];
 
 export function HomePage() {
   return (
@@ -10,9 +10,7 @@ export function HomePage() {
         tabs={HOMEPAGE_TABS}
         tabContent={[
           <StartMain />,
-          <div>
-            <h1>Histórico</h1>
-          </div>,
+          <SubmissionsMain />
         ]}
       />
       <Sidebar />

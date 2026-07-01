@@ -1,2 +1,1 @@
-export { StartMain } from "./StartMain";
 export { SubmissionsMain } from './SubmissionsMain';
