@@ -1,5 +1,5 @@
 import { useGetUserSubmissions } from "../../../../features/submission/submission.queries";
-import { UserSubmissionsInfo } from "../UserSubmissionsInfo/UserSubmissionsInfo";
+import { SubmissionsInfo } from "../SubmissionsInfo/SubmissionsInfo";
 
 export function SubmissionsMain() {
   const { data: userSubmissions } = useGetUserSubmissions();
@@ -10,7 +10,7 @@ export function SubmissionsMain() {
         Seus dados das submissões
       </h1>
 
-      <UserSubmissionsInfo userSubmissions={userSubmissions} />
+      <SubmissionsInfo userSubmissions={userSubmissions} />
     </>
   );
 }

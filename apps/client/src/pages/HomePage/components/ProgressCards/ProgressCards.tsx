@@ -3,7 +3,7 @@ import { IoMdTrophy } from "react-icons/io";
 import { MdLibraryAddCheck, MdUpload } from "react-icons/md";
 import { useGetUserProgress } from "../../../../features/user/hooks/user.queries";
 
-export function UserProgressCards() {
+export function ProgressCards() {
   const { data: userProgress } = useGetUserProgress();
 
   return (

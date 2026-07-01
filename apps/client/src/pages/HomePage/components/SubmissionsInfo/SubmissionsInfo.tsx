@@ -1,14 +1,14 @@
 import type { SubmissionDTO } from "@squelch/shared";
 
-interface UserSubmissionsInfoProps {
+interface SubmissionsInfoProps {
   userSubmissions: SubmissionDTO[] | undefined;
 }
 
-export function UserSubmissionsInfo({
+export function SubmissionsInfo({
   userSubmissions,
-}: UserSubmissionsInfoProps) {
+}: SubmissionsInfoProps) {
   if (!userSubmissions) {
-    return <UserSubmissionsInfoSkeleton />;
+    return <SubmissionsInfoSkeleton />;
   }
 
   const successQuant = userSubmissions?.filter((s) => s.success).length;
@@ -51,6 +51,6 @@ export function UserSubmissionsInfo({
   );
 }
 
-function UserSubmissionsInfoSkeleton() {
+function SubmissionsInfoSkeleton() {
   return <div></div>;
 }

@@ -1,6 +1,6 @@
 import { useGetUser } from "../../../../features/user/hooks/user.queries";
 import { ResumeChallenge } from "../ResumeChallenge";
-import { UserProgressCards } from "../UserProgressCards";
+import { ProgressCards } from "../ProgressCards";
 
 export function StartMain() {
   const { data: user } = useGetUser();
@@ -21,7 +21,7 @@ export function StartMain() {
         {greeting}, {user ? user.name : ".."}.
       </h1>
       
-      <UserProgressCards />
+      <ProgressCards />
 
       <ResumeChallenge />
     </>
