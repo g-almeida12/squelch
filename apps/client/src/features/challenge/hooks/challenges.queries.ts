@@ -16,7 +16,7 @@ export function useGetChallenge(id: number) {
         withCredentials: true,
         withXSRFToken: true,
       });
-      
+
       return response.data.body;
     },
   });

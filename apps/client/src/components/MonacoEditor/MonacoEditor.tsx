@@ -15,7 +15,7 @@ const setEditorTheme = (monaco: Monaco) => {
       { token: "number", foreground: "419AFA" },
     ],
     colors: {
-      "editor.background": "#060C14",
+      "editor.background": "#03070A",
       "editor.foreground": "#F8F8F2",
       "editorLineNumber.foreground": "#6272A4",
       "editor.lineHighlightBackground": "#242638",
@@ -23,9 +23,19 @@ const setEditorTheme = (monaco: Monaco) => {
   });
 };
 
-export function MonacoEditor() {
+interface MonacoEditorProps {
+  readOnly?: boolean;
+  value?: string;
+  height?: string;
+}
+
+export function MonacoEditor({
+  readOnly = false,
+  value = "",
+  height = "h-80",
+}: MonacoEditorProps) {
   return (
-    <div className="bg-[#060C14] h-80 rounded-1 overflow-hidden">
+    <div className={`bg-[#03070A] rounded-1 overflow-hidden ${height}`}>
       <div className="h-8 bg-gray-800 flex items-center justify-start gap-2 px-4 mb-2">
         <span className="size-4 bg-red-700 rounded-full"></span>
         <span className="size-4 bg-yellow-500 rounded-full"></span>
@@ -40,7 +50,9 @@ export function MonacoEditor() {
           minimap: { enabled: false },
           fontSize: 14,
           automaticLayout: true,
+          readOnly,
         }}
+        value={value}
       />
     </div>
   );
