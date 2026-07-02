@@ -45,7 +45,7 @@ export class SubmissionRepository implements ISubmissionRepository {
       FROM submissions s
       JOIN challenges c ON s.challenge_id = c.id
       WHERE s.user_id = ?
-      ORDER BY s.date ASC
+      ORDER BY s.date DESC
     `);
     this.findByChallengeIdStmt = db.prepare(`
       SELECT 
@@ -61,6 +61,7 @@ export class SubmissionRepository implements ISubmissionRepository {
       JOIN challenges c ON s.challenge_id = c.id
       WHERE s.challenge_id = @challengeId
       AND s.user_id = @userId
+      ORDER BY s.date DESC
     `);
     this.deleteAllUserSubmissionsStmt = db.prepare(
       `DELETE FROM submissions WHERE user_id = ?`,

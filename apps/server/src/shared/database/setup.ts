@@ -28,7 +28,7 @@ function setupDatabase() {
       success BOOLEAN NOT NULL,
       submitted_query TEXT NOT NULL,
       user_query_result TEXT NOT NULL,
-      date TEXT DEFAULT CURRENT_TIMESTAMP,
+      date TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
       FOREIGN KEY (challenge_id) REFERENCES challenges(id) ON DELETE CASCADE
     );
