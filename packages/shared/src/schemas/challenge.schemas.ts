@@ -9,6 +9,7 @@ const ChallengeBaseSchema = z.object({
     .string()
     .min(1, "O texto em markdown do desafio precisa ser fornecido."),
   groupSlug: z.string().min(1, "O grupo do desafio precisa ser fornecido."),
+  groupTitle: z.string().min(1, "O título do grupo do desafio precisa ser fornecido."),
   difficulty: ChallengesDifficultiesSchema,
 });
 export const ChallengeDTOSchema = ChallengeBaseSchema.extend({

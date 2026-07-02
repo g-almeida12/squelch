@@ -1,10 +1,7 @@
 import { UserRegister, UserAuthDTO, UserLogin } from "@squelch/shared";
-import {
-  IAuthRepository,
-  IAuthService,
-} from "./auth.interfaces.js";
+import { IAuthRepository, IAuthService } from "./auth.interfaces.js";
 import { IUserRepository } from "../user/index.js";
-import {ApplicationError} from "../../shared/errors/index.js";
+import { ApplicationError } from "../../shared/errors/index.js";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
 import { envConfig } from "../../config/env.config.js";
@@ -161,7 +158,7 @@ export class AuthService implements IAuthService {
 
     await this.authRepository.revokeToken(
       registeredRefreshToken.id,
-      "ROTATION",
+      new Date().toISOString(),
     );
 
     const refreshToken = randomUUID();

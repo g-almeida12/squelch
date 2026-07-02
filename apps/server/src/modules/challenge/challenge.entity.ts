@@ -9,6 +9,7 @@ export type ChallengeEntity = {
   id: Id;
   title: string;
   group_slug: string;
+  group_title: string;
   markdown: string;
   difficulty: ChallengeDifficulties;
   validation_query: string;
@@ -30,6 +31,7 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
     id: challenge.id,
     title: challenge.title,
     groupSlug: challenge.group_slug,
+    groupTitle: challenge.group_title,
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
   };

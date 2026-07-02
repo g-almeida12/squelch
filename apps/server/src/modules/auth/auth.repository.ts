@@ -13,11 +13,8 @@ export class AuthRepository implements IAuthRepository {
   private findRefreshTokenByTokenStmt: Statement;
   private revokeTokenStmt: Statement;
   private invalidateRefreshTokensStmt: Statement;
-
-  // Injections
-  private userRepository: IUserRepository;
-  constructor(userRepository: IUserRepository) {
-    // Prepared statments
+  constructor(private userRepository: IUserRepository) {
+    this.userRepository = userRepository;
     this.registerUserStmt = db.prepare(
       "INSERT INTO users (name, email, password) VALUES (@name, @email, @password)",
     );
@@ -33,9 +30,6 @@ export class AuthRepository implements IAuthRepository {
     this.invalidateRefreshTokensStmt = db.prepare(
       "UPDATE refresh_tokens SET revoked_at = @revokedAt, revocation_reason = @revocationReason WHERE user_id = @userId",
     );
-
-    // Injections
-    this.userRepository = userRepository;
   }
 
   async register(newUser: UserRegister): Promise<UserEntity> {
