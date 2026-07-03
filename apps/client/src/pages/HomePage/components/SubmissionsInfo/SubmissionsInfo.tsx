@@ -21,7 +21,7 @@ export function SubmissionsInfo({ userSubmissions }: SubmissionsInfoProps) {
 
         <div className="relative flex flex-row items-center justify-between mt-4">
           <div className="flex flex-col gap-2 items-start justify-center flex-1 h-15 px-4">
-            <p className="text-xl">Envios corretas: {successQuant}</p>
+            <p className="text-xl">Envios corretos: {successQuant}</p>
             <div className="relative w-full h-1.5 rounded-full bg-subtle">
               <span
                 className={`absolute block left-0 top-0 bottom-0 rounded-full bg-green-500`}

@@ -8,7 +8,8 @@ import {
   useRunQuery,
   useValidateQuery,
 } from "../../../../features/submission/submission.mutations";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AvaliableTables } from "../AvaliableTables";
 
 type SubmissionResult = {
   success: boolean;
@@ -16,6 +17,7 @@ type SubmissionResult = {
 } | null;
 
 export function ChallengeMain() {
+  const resultSectionRef = useRef<HTMLElement>(null);
   const [userQueryResult, setUserQueryResult] = useState<QueryResultDTO>([]);
   const [submissionResult, setSubmissionResult] =
     useState<SubmissionResult>(null);
@@ -23,6 +25,14 @@ export function ChallengeMain() {
   const { data: challenge } = useGetChallenge(Number(challengeId));
   const runQueryMutation = useRunQuery();
   const validateQueryMutation = useValidateQuery();
+
+  useEffect(() => {
+    if (!submissionResult) return;
+
+    if (resultSectionRef.current) {
+      resultSectionRef.current.scrollIntoView();
+    }
+  }, [submissionResult]);
 
   if (!challenge) {
     return <ChallengeMainSkeleton />;
@@ -59,29 +69,43 @@ export function ChallengeMain() {
 
   return (
     <>
-      <Button to={APP_ROUTES.HOME} variant="ghost-primary">
-        Página principal
-      </Button>
-      <p className="mt-10 text-2xl font-semibold font-heading tracking-wider">
-        {challenge.groupTitle} - {challenge.title}
-      </p>
-      <div className="prose prose-invert text-[17px] max-w-5xl mt-2">
-        <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
-      </div>
-      <div className="w-full grid grid-cols-2 gap-4 mt-4">
-        <div className="flex-1">
-          <MonacoEditor
-            forSubmission
-            onTestClick={handleRunQuery}
-            onValidateClick={handleValidateQuery}
-          />
+      <section>
+        {/* Challenge description */}
+        <Button to={APP_ROUTES.HOME} variant="ghost-primary">
+          Página principal
+        </Button>
+        <h2 className="mt-10 text-2xl font-semibold font-heading tracking-wider">
+          {challenge.groupTitle} - {challenge.title}
+        </h2>
+        <div className="prose prose-invert text-[17px] max-w-5xl my-2">
+          <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
         </div>
-        <div className="flex-1">
-          <QueryResult userQueryResult={userQueryResult} height="h-80" />
-        </div>
-      </div>
 
-      <div aria-live="polite" aria-atomic="true">
+        <AvaliableTables
+          challengeId={challengeId ? Number(challengeId) : undefined}
+        />
+
+        {/* User's query editor */}
+        <div className="w-full grid grid-cols-2 gap-4 mt-4">
+          <div className="flex-1">
+            <MonacoEditor
+              forSubmission
+              onTestClick={handleRunQuery}
+              onValidateClick={handleValidateQuery}
+            />
+          </div>
+          <div className="flex-1">
+            <QueryResult userQueryResult={userQueryResult} height="h-80" />
+          </div>
+        </div>
+      </section>
+
+      {/* Submission result feedback */}
+      <section
+        aria-live="polite"
+        aria-atomic="true"
+        ref={resultSectionRef}
+      >
         {submissionResult?.success === true ? (
           <div className="mt-8">
             <h2 className="p-2 rounded-1 bg-green-600 text-2xl font-heading font-semibold">
@@ -107,11 +131,31 @@ export function ChallengeMain() {
             </div>
           )
         )}
-      </div>
+      </section>
     </>
   );
 }
 
 function ChallengeMainSkeleton() {
-  return <div></div>;
+  return (
+    <section>
+      <Button to={APP_ROUTES.HOME} variant="ghost-primary">
+        Página principal
+      </Button>
+
+      {/* Challenge description */}
+      <div className="h-10 w-xl mt-10 mb-3 rounded-1 bg-surface animate-pulse"></div>
+      <div className="h-28 w-5xl mb-2 rounded-1 bg-surface animate-pulse"></div>
+      <div className="h-7 w-sm rounded-1 bg-surface animate-pulse"></div>
+
+      {/* Avaliable tables */}
+      <div className="h-10 w-full rounded-1 mt-10 bg-surface animate-pulse"></div>
+
+      {/* User's query editor */}
+      <div className="w-full grid grid-cols-2 gap-4 mt-4">
+        <div className="h-80 w-full rounded-1 bg-surface animate-pulse"></div>
+        <div className="h-80 w-full rounded-1 bg-surface animate-pulse"></div>
+      </div>
+    </section>
+  );
 }

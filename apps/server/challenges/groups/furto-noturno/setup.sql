@@ -38,7 +38,7 @@ CREATE TABLE acessos (
     pessoa_id INTEGER,
     sala_id INTEGER,
     data_hora TEXT NOT NULL,
-    acao TEXT CHECK(acao IN ('Entrada', 'Saida')),
+    acao TEXT NOT NULL,
     FOREIGN KEY (pessoa_id) REFERENCES pessoas(id),
     FOREIGN KEY (sala_id) REFERENCES salas(id)
 );
