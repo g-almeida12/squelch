@@ -15,7 +15,7 @@ export class UserRepository implements IUserRepository {
   constructor() {
     this.getUserProgressInfoStmt = db.prepare(`
             WITH user_completed_challenges AS (
-              SELECT challenge_id 
+              SELECT DISTINCT challenge_id 
               FROM submissions 
               WHERE user_id = @userId AND success = 1
             ), group_progress AS (
