@@ -33,6 +33,10 @@ const HomePage = lazy(() =>
   })),
 );
 
+const ChallengePage = lazy(() =>
+  import("../pages").then((module) => ({ default: module.ChallengePage })),
+);
+
 export const router = createBrowserRouter([
   // Public routes
   {
@@ -51,8 +55,9 @@ export const router = createBrowserRouter([
       {
         element: <PrivateRoute />,
         children: [
-          { path: "/", element: <Navigate to={APP_ROUTES.HOME} /> },
+          { path: "/home/challenges/:challengeId", element: <ChallengePage /> },
           { path: "/home", element: <HomePage /> },
+          { path: "/", element: <Navigate to={APP_ROUTES.HOME} /> },
         ],
       },
     ],

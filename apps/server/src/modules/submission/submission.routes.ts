@@ -9,7 +9,7 @@ export const submissionRouter = Router({ mergeParams: true });
 submissionRouter.use(authenticationMiddleware);
 
 // Run query route
-submissionRouter.get(
+submissionRouter.post(
   "/challenges/:challengeId/queries/run",
   async (req, res) => {
     const { success, statusCode, body } = await submissionController.runQuery(

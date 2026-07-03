@@ -1,6 +1,8 @@
 import { MonacoEditor } from "../../../../components";
 
 export function EditorPreview() {
+  const defaultValue = `-- Clique aqui e tente modificar essa query!\nSELECT nome, habilidade \nFROM usuarios \nWHERE nivel = 'avançado'\nAND curiosidade = 'alta';`;
+
   return (
     <section className="flex items-center justify-center min-h-150">
       <div className="max-w-6xl m-auto flex flex-row gap-4">
@@ -20,7 +22,7 @@ export function EditorPreview() {
         </div>
 
         <div className="flex-1 h-full">
-          <MonacoEditor />
+          <MonacoEditor value={defaultValue} />
         </div>
       </div>
     </section>

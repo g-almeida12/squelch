@@ -4,19 +4,6 @@ import type { ErrorResponse, SubmissionDTO } from "@squelch/shared";
 import api from "../../api/axios.api";
 import { API_ROUTES } from "../../config/constants";
 
-export function useRunQuery(id: number) {
-  return useQuery<SubmissionDTO, ErrorResponse>({
-    queryKey: submissionQueryKeys.RUN(id),
-    queryFn: async () => {
-      const response = await api.get(API_ROUTES.QUERY_RUN(id), {
-        withCredentials: true,
-        withXSRFToken: true,
-      });
-      return response.data.body;
-    },
-  });
-}
-
 export function useGetSubmission(id: number) {
   return useQuery<SubmissionDTO, ErrorResponse>({
     queryKey: submissionQueryKeys.SUBMISSION(id),
@@ -27,6 +14,7 @@ export function useGetSubmission(id: number) {
       });
       return response.data.body;
     },
+    enabled: !!id,
   });
 }
 
@@ -53,5 +41,6 @@ export function useGetChallengeSubmissions(id: number) {
       });
       return response.data.body;
     },
+    enabled: !!id,
   });
 }

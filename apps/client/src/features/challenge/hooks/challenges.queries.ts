@@ -19,6 +19,7 @@ export function useGetChallenge(id: number) {
 
       return response.data.body;
     },
+    enabled: !!id,
   });
 }
 

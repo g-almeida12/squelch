@@ -2,31 +2,39 @@ import type { QueryResultDTO } from "@squelch/shared";
 
 interface QueryResultProps {
   userQueryResult: QueryResultDTO;
+  height?: string;
 }
 
-export function QueryResult({ userQueryResult }: QueryResultProps) {
+export function QueryResult({
+  userQueryResult,
+  height = "h-60",
+}: QueryResultProps) {
   const rows = userQueryResult ?? [];
   const headers = Object.keys(rows[0] ?? {}).toSorted();
   const hasRows = rows.length > 0;
 
   return (
-    <div className="bg-[#03070A] rounded-1 overflow-hidden h-60 flex flex-col border border-white/5">
+    <div
+      className={`bg-[#03070A] rounded-1 overflow-hidden flex flex-col ${height}`}
+      aria-live="polite"
+      aria-atomic="true"
+    >
       {/* Toolbar */}
       <div className="h-8 shrink-0 bg-gray-800 flex items-center justify-between gap-2 px-4">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5" aria-hidden="true">
           <span className="size-4 bg-red-700 rounded-full"></span>
           <span className="size-4 bg-yellow-500 rounded-full"></span>
           <span className="size-4 bg-green-700 rounded-full"></span>
         </div>
         <span className="text-[12px] font-mono text-gray-400">
           {hasRows
-            ? `${rows.length} row${rows.length === 1 ? "" : "s"}`
-            : "no rows"}
+            ? `${rows.length} linha${rows.length === 1 ? "" : "s"}`
+            : "0 linhas"}
         </span>
       </div>
 
       {/* Scrollable table area */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-scroll">
         {hasRows ? (
           <table className="w-full border-separate border-spacing-0 text-left text-xs font-mono">
             <thead className="sticky top-0 bg-[#0A1014] z-10">

@@ -21,7 +21,7 @@ export class ChallengeRepository implements IChallengeRepository {
       LIMIT 1
     `);
     this.findByIdStmt = db.prepare(`
-      SELECT id, title, group_slug, markdown, difficulty, validation_query
+      SELECT id, title, group_slug, group_title, markdown, difficulty, validation_query
       FROM challenges
       WHERE id = ?
     `);

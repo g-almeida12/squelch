@@ -3,16 +3,38 @@ import api from "../../api/axios.api";
 import { API_ROUTES } from "../../config/constants";
 import type {
   ErrorResponse,
-  SubmissionDTO,
+  QueryResultDTO,
   SubmissionValidation,
+  SubmissionValidationDTO,
 } from "@squelch/shared";
 import { submissionQueryKeys } from "./submission.query-keys";
+
+export function useRunQuery() {
+  return useMutation<
+    QueryResultDTO,
+    ErrorResponse,
+    { id: number; submittedQuery: string }
+  >({
+    mutationFn: async ({ id, submittedQuery }) => {
+      const response = await api.post(
+        API_ROUTES.QUERY_RUN(id),
+        { submittedQuery },
+        {
+          withCredentials: true,
+          withXSRFToken: true,
+        },
+      );
+
+      return response.data.body;
+    },
+  });
+}
 
 export function useValidateQuery() {
   const queryClient = useQueryClient();
 
   return useMutation<
-    SubmissionDTO,
+    SubmissionValidationDTO,
     ErrorResponse,
     { id: number; submission: SubmissionValidation }
   >({
@@ -26,15 +48,12 @@ export function useValidateQuery() {
       return response.data.body;
     },
 
-    onSuccess: async (submission) => {
+    onSuccess: async (validation) => {
       await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.RUN(submission.id),
+        queryKey: submissionQueryKeys.CHALLENGES(validation.submission.challengeId),
       });
       await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.CHALLENGES(submission.challengeId),
-      });
-      await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.SUBMISSION(submission.id),
+        queryKey: submissionQueryKeys.SUBMISSION(validation.submission.id),
       });
       await queryClient.invalidateQueries({
         queryKey: submissionQueryKeys.USER_SUBMISSIONS,

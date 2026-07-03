@@ -3,6 +3,7 @@ import {
   IdSchema,
   QueryResultDTO,
   SubmissionDTO,
+  SubmissionValidationDTO,
   SubmissionValidationSchema,
 } from "@squelch/shared";
 import { ApplicationError } from "../../shared/errors/index.js";
@@ -48,7 +49,7 @@ export class SubmissionController {
     challengeId: unknown,
     userId: unknown,
   ): Promise<
-    HTTPResponse<{ submission: SubmissionDTO; errorMessages: string[] | null }>
+    HTTPResponse<SubmissionValidationDTO>
   > {
     try {
       const submissionValidation =

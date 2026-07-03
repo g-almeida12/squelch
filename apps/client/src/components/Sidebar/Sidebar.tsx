@@ -3,6 +3,8 @@ import { FaCaretUp } from "react-icons/fa";
 import { RiMenuFold2Fill } from "react-icons/ri";
 import { SIDEBAR_GROUP_LINKS } from "./sidebar-challenges";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { APP_ROUTES } from "../../config/constants";
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -122,9 +124,12 @@ export function Sidebar() {
                         key={c.id}
                       >
                         <div className="h-full w-9 min-w-9 shrink-0"></div>
-                        <button className="w-full block truncate text-tx-overlay text-[15px] line-clamp-1 text-left cursor-pointer">
+                        <Link
+                          to={APP_ROUTES["CHALLENGE"](c.id)}
+                          className="w-full block truncate text-tx-overlay text-[15px] line-clamp-1 text-left cursor-pointer"
+                        >
                           {c.title}
-                        </button>
+                        </Link>
                       </li>
                     ))}
                   </ul>

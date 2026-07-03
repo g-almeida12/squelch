@@ -1,4 +1,7 @@
 import Editor, { type Monaco } from "@monaco-editor/react";
+import type { editor as MonacoEditorNS } from "monaco-editor";
+import { Button } from "../Button";
+import { useRef } from "react";
 
 const setEditorTheme = (monaco: Monaco) => {
   monaco.editor.defineTheme("squelch", {
@@ -27,25 +30,51 @@ interface MonacoEditorProps {
   readOnly?: boolean;
   value?: string;
   height?: string;
+  forSubmission?: boolean;
+  onTestClick?: (submittedQuery: string) => void;
+  onValidateClick?: (submittedQuery: string) => void;
 }
 
 export function MonacoEditor({
   readOnly = false,
   value = "",
   height = "h-80",
+  forSubmission = false,
+  onTestClick,
+  onValidateClick,
 }: MonacoEditorProps) {
+  const monacoRef = useRef<MonacoEditorNS.IStandaloneCodeEditor | null>(null);
+
   return (
     <div className={`bg-[#03070A] rounded-1 overflow-hidden ${height}`}>
-      <div className="h-8 bg-gray-800 flex items-center justify-start gap-2 px-4 mb-2">
-        <span className="size-4 bg-red-700 rounded-full"></span>
-        <span className="size-4 bg-yellow-500 rounded-full"></span>
-        <span className="size-4 bg-green-700 rounded-full"></span>
+      <div className="h-8 bg-gray-800 flex items-center justify-between gap-2 px-4 mb-2">
+        <div className="flex items-center justify-start gap-2">
+          <span className="size-4 bg-red-700 rounded-full"></span>
+          <span className="size-4 bg-yellow-500 rounded-full"></span>
+          <span className="size-4 bg-green-700 rounded-full"></span>
+        </div>
+
+        {forSubmission && (
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="ghost-primary"
+              small
+              onClick={() => onTestClick?.(monacoRef.current?.getValue() ?? "")}
+            >
+              Testar query
+            </Button>
+            <Button small onClick={() => onValidateClick?.(monacoRef.current?.getValue() ?? "")}>
+              Validar query
+            </Button>
+          </div>
+        )}
       </div>
       <Editor
         defaultLanguage="sql"
-        defaultValue={`-- Clique aqui e tente modificar essa query!\nSELECT nome, habilidade \nFROM usuarios \nWHERE nivel = 'avançado'\nAND curiosidade = 'alta';`}
+        defaultValue={value}
         theme="squelch"
         beforeMount={setEditorTheme}
+        onMount={(editor) => (monacoRef.current = editor)}
         options={{
           minimap: { enabled: false },
           fontSize: 14,
