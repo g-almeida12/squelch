@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server:dev": "nodemon --exec tsx ./src/index.ts",
-    "server:build": "tsc -b ./tsconfig.json"
+    "server:build": "tsc -b ./tsconfig.json",
+    "server:start": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "Gabriel Almeida",
@@ -31,6 +32,6 @@
     "@types/jsonwebtoken": "^9.0.10",
     "nodemon": "^3.1.14",
     "tsx": "^4.22.0",
-    "typecript": "^0.0.1-security"
+    "typescript": "^6.0.3"
   }
 }
