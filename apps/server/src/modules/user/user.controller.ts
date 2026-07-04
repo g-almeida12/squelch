@@ -1,11 +1,11 @@
 import {
-  HTTPResponse,
   IdSchema,
   UserUpdateSchema,
   UserDTO,
   UserProgressDTO,
 } from "@squelch/shared";
 import { ApplicationError } from "../../shared/errors/index.js";
+import { HTTPResponse } from "../../shared/types/index.js";
 import { IUserService } from "./user.interfaces.js";
 import { mapUserDTO, mapUserProgressDTO } from "./user.entity.js";
 

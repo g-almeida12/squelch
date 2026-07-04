@@ -2,7 +2,6 @@ import {
   ChallengeDTO,
   ChallengeList,
   ChallengeResume,
-  HTTPResponse,
   IdSchema,
 } from "@squelch/shared";
 import { IChallengeService } from "./challenge.interfaces.js";
@@ -12,6 +11,7 @@ import {
   mapChallengeList,
   mapChallengeResumeDTO,
 } from "./challenge.entity.js";
+import { HTTPResponse } from "../../shared/types/index.js";
 
 export class ChallengeController {
   constructor(private challengeService: IChallengeService) {

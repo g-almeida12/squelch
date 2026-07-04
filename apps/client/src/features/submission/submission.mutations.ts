@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../api/axios.api";
 import { API_ROUTES } from "../../config/constants";
 import type {
-  ErrorResponse,
+  ErrorPayload,
   QueryResultDTO,
   SubmissionValidation,
   SubmissionValidationDTO,
@@ -12,7 +12,7 @@ import { submissionQueryKeys } from "./submission.query-keys";
 export function useRunQuery() {
   return useMutation<
     QueryResultDTO,
-    ErrorResponse,
+    ErrorPayload,
     { id: number; submittedQuery: string }
   >({
     mutationFn: async ({ id, submittedQuery }) => {
@@ -35,7 +35,7 @@ export function useValidateQuery() {
 
   return useMutation<
     SubmissionValidationDTO,
-    ErrorResponse,
+    ErrorPayload,
     { id: number; submission: SubmissionValidation }
   >({
     mutationFn: async ({ id, submission }) => {

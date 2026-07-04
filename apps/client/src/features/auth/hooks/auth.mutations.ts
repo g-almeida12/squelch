@@ -2,7 +2,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import type {
   UserRegister,
   UserAuthDTO,
-  ErrorResponse,
+  ErrorPayload,
   UserLogin,
 } from "@squelch/shared";
 import api from "../../../api/axios.api";
@@ -12,7 +12,7 @@ import { userQueryKeys } from "../../user/hooks/user.query-keys";
 export function useRegisterUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<UserAuthDTO, ErrorResponse, UserRegister>({
+  return useMutation<UserAuthDTO, ErrorPayload, UserRegister>({
     mutationFn: async (newUser) => {
       const response = await api.post(API_ROUTES.REGISTER, newUser);
       return response.data;
@@ -26,7 +26,7 @@ export function useRegisterUser() {
 export function useLoginUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<UserAuthDTO, ErrorResponse, UserLogin>({
+  return useMutation<UserAuthDTO, ErrorPayload, UserLogin>({
     mutationFn: async (user) => {
       const response = await api.post(API_ROUTES.LOGIN, user);
       return response.data;
@@ -40,7 +40,7 @@ export function useLoginUser() {
 export function useLogoutUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<null, ErrorResponse, null>({
+  return useMutation<null, ErrorPayload, null>({
     mutationFn: async () => {
       const response = await api.post(API_ROUTES.LOGOUT, {});
       return response.data;

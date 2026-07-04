@@ -1,5 +1,4 @@
 import {
-  HTTPResponse,
   IdSchema,
   QueryResultDTO,
   SubmissionDTO,
@@ -7,6 +6,7 @@ import {
   SubmissionValidationSchema,
 } from "@squelch/shared";
 import { ApplicationError } from "../../shared/errors/index.js";
+import { HTTPResponse } from "../../shared/types/index.js";
 import { ISubmissionService } from "./submission.interfaces.js";
 import { mapSubmissionDTO } from "./submission.entity.js";
 

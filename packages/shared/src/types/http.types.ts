@@ -1,14 +1,10 @@
-export type HTTPResponse<B> = SuccessResponse<B> | ErrorResponse;
-
-export type SuccessResponse<B> = {
+export type SuccessPayload<B> = {
   success: true;
-  statusCode: HTTPStatusCode;
   body: B;
 };
 
-export type ErrorResponse = {
+export type ErrorPayload = {
   success: false;
-  statusCode: HTTPStatusCode;
   body: {
     message: string;
     invalidFields?: { message?: string }[];

@@ -1,11 +1,12 @@
 import {
   UserAuthDTO,
-  HTTPResponse,
   UserLoginSchema,
   UserRegisterSchema,
 } from "@squelch/shared";
 import { AuthService } from "./auth.service.js";
 import { ApplicationError } from "../../shared/errors/index.js";
+import { HTTPResponse } from "../../shared/types/index.js";
+
 
 export class AuthController {
   constructor(private authService: AuthService) {

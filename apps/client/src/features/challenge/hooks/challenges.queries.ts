@@ -3,14 +3,14 @@ import type {
   ChallengeDTO,
   ChallengeList,
   ChallengeResume,
-  ErrorResponse,
+  ErrorPayload,
 } from "@squelch/shared";
 import { CHALLENGE_QUERY_KEYS } from "./challenge.query-keys";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
 
 export function useGetChallenge(id: number) {
-  return useQuery<ChallengeDTO, ErrorResponse>({
+  return useQuery<ChallengeDTO, ErrorPayload>({
     queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE(id),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE(id), {
@@ -25,7 +25,7 @@ export function useGetChallenge(id: number) {
 }
 
 export function useGetChallengeList() {
-  return useQuery<ChallengeList, ErrorResponse>({
+  return useQuery<ChallengeList, ErrorPayload>({
     queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE_LIST,
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_LIST, {
@@ -39,7 +39,7 @@ export function useGetChallengeList() {
 }
 
 export function useGetChallengeResume() {
-  return useQuery<ChallengeResume | null, ErrorResponse>({
+  return useQuery<ChallengeResume | null, ErrorPayload>({
     queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE_RESUME,
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_RESUME, {
