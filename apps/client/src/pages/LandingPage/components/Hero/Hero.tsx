@@ -4,8 +4,7 @@ import { APP_ROUTES } from "../../../../config/constants";
 import { HeroCard } from "./HeroCard";
 import { Navbar } from "../Navbar";
 import { HiWindow } from "react-icons/hi2";
-import { BsFillMortarboardFill } from "react-icons/bs";
-import { BsGraphUpArrow } from "react-icons/bs";
+import { MdExtension, MdOfflineBolt } from "react-icons/md";
 
 export function Hero() {
   return (
@@ -46,18 +45,18 @@ export function Hero() {
             resultados e valida seu conhecimento na hora.
           </p>
         </HeroCard>
-        <HeroCard Icon={BsFillMortarboardFill} title="Aprenda facilmente">
+        <HeroCard Icon={MdExtension} title="Desvende mistérios">
           <p>
             Comece do SELECT * até as queries mais complexas. Resolva desafios
             através de exercícios criados para fixar a sintaxe e a lógica de
             forma instintiva.
           </p>
         </HeroCard>
-        <HeroCard Icon={BsGraphUpArrow} title="Evolua suas técnicas">
+        <HeroCard Icon={MdOfflineBolt} title="Iniciante ao avançado">
           <p>
-            Um ambiente seguro para testar qualquer comando. Nossa validação
-            inteligente ajuda você a encontrar o erro e entender como chegar na
-            solução ideal de forma descontraída.
+            Cansou do básico? Nosso site começa do fácil até os níveis mais
+            difíceis. Problemas complexos feitos sob medida para quem adora
+            achar a solução pelo puro prazer de ver o código rodar.
           </p>
         </HeroCard>
       </div>
