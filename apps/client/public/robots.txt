@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /home
+
+Allow: /landing-page
+Allow: /login
+
+Sitemap: https://squelch.vercel.app/sitemap.xml
