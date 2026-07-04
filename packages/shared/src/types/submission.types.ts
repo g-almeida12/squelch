@@ -1,6 +1,6 @@
-import { SubmissionDTO } from "../schemas/submissions.schemas"
+import type { SubmissionDTO } from "../schemas";
 
 export type SubmissionValidationDTO = {
   submission: SubmissionDTO;
   errorMessages: string[] | null;
-}
+};
