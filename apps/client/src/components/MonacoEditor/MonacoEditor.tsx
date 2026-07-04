@@ -1,5 +1,5 @@
 import Editor, { type Monaco } from "@monaco-editor/react";
-import type { editor as MonacoEditorNS } from "monaco-editor";
+import { editor as MonacoEditorNS } from "monaco-editor";
 import { Button } from "../Button";
 import { useRef } from "react";
 
@@ -45,6 +45,29 @@ export function MonacoEditor({
 }: MonacoEditorProps) {
   const monacoRef = useRef<MonacoEditorNS.IStandaloneCodeEditor | null>(null);
 
+  // Add listener to trigger the run and validation callbacks by a shortcut
+  const handleEditorMount = (
+    editor: MonacoEditorNS.IStandaloneCodeEditor,
+    monaco: Monaco,
+  ) => {
+    monacoRef.current = editor;
+
+    // 'Crtl + Enter' trigger run query action
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+      const value = editor.getValue();
+      onTestClick?.(value);
+    });
+
+    // 'Crtl + Shift + Enter' trigger validate query action
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.Enter,
+      () => {
+        const value = editor.getValue();
+        onValidateClick?.(value);
+      },
+    );
+  };
+
   return (
     <div className={`bg-[#03070A] rounded-1 overflow-hidden ${height}`}>
       <div className="h-8 bg-gray-800 flex items-center justify-between gap-2 px-4 mb-2">
@@ -57,13 +80,20 @@ export function MonacoEditor({
         {forSubmission && (
           <div className="flex items-center justify-center gap-2">
             <Button
+              onClick={() => onTestClick?.(monacoRef.current?.getValue() ?? "")}
               variant="ghost-primary"
               small
-              onClick={() => onTestClick?.(monacoRef.current?.getValue() ?? "")}
+              title="Ctrl + Enter"
             >
               Testar query
             </Button>
-            <Button small onClick={() => onValidateClick?.(monacoRef.current?.getValue() ?? "")}>
+            <Button
+              onClick={() =>
+                onValidateClick?.(monacoRef.current?.getValue() ?? "")
+              }
+              small
+              title="Ctrl + Shift + Enter"
+            >
               Validar query
             </Button>
           </div>
@@ -74,7 +104,7 @@ export function MonacoEditor({
         defaultValue={value}
         theme="squelch"
         beforeMount={setEditorTheme}
-        onMount={(editor) => (monacoRef.current = editor)}
+        onMount={handleEditorMount}
         options={{
           minimap: { enabled: false },
           fontSize: 14,

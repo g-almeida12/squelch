@@ -30,7 +30,7 @@
   #root,
   html,
   body {
-    @apply min-h-dvh w-full overflow-x-hidden scroll-smooth bg-main text-tx-main font-body;
+    @apply min-h-dvh w-full min-w-[320px] overflow-x-hidden scroll-smooth bg-main text-tx-main font-body;
   }
 }
 
