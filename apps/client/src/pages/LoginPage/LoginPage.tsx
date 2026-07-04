@@ -25,7 +25,8 @@ export function LoginPage() {
 
   useEffect(() => {
     document.title = "Squelch - Registre-se";
-  }, []);
+    queryClient.clear();
+  }, [queryClient]);
 
   const handleLoginSubmittion = (user: UserLogin) => {
     loginMutation.mutate(user, {

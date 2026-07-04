@@ -1,6 +1,5 @@
 import axios from "axios";
-import { type ErrorResponse, type UserAuthDTO } from "@squelch/shared";
-import { _rootQueryClient } from "../config/query-client.config";
+import type { ErrorResponse, UserAuthDTO } from "@squelch/shared";
 import { API_ROUTES } from "../config/constants";
 
 const api = axios.create({
@@ -28,7 +27,7 @@ api.interceptors.response.use(
   async (err) => {
     const originalRequest = err.config;
     if (originalRequest.url?.includes(API_ROUTES.REFRESH)) {
-      return Promise.reject(err);
+      return Promise.reject(formatGenericError(err));
     }
 
     if (
@@ -38,39 +37,36 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const response = await api.post<UserAuthDTO>(
-          API_ROUTES.REFRESH,
+        const response = await axios.post<UserAuthDTO>(
+          `${API_ROUTES.BASE_URL}${API_ROUTES.REFRESH}`,
           {},
           { withCredentials: true },
         );
 
         sessionStorage.setItem("xsrf-token", response.data.xsrfToken);
+        originalRequest.headers["X-XSRF-TOKEN"] = response.data.xsrfToken;
         return api(originalRequest);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (authErr: any) {
-        _rootQueryClient.clear();
-
-        const isApiError = !!authErr.response?.data;
-        const refreshErr: ErrorResponse = {
-          statusCode: isApiError ? authErr.response?.status : 500,
-          body: isApiError ? authErr.response?.data : err.response?.message,
-          success: false,
-        };
-
-        return Promise.reject(refreshErr);
+        return Promise.reject(formatGenericError(authErr));
       }
     }
 
-    const isApiError = !!err.response?.data;
-    const unhandledError: ErrorResponse = {
-      statusCode: isApiError ? err.response?.status : 500,
-      body: isApiError ? err.response?.data : err.response?.message,
-      success: false,
-    };
-
-    return Promise.reject(unhandledError);
+    return Promise.reject(formatGenericError(err));
   },
 );
 
 export default api;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function formatGenericError(err: any) {
+  const isApiError = !!err.response?.data;
+  const formatedError: ErrorResponse = {
+    statusCode: isApiError ? err.response?.status : 500,
+    body: isApiError ? err.response?.data : err.response?.message,
+    success: false,
+  };
+
+  return formatedError;
+}

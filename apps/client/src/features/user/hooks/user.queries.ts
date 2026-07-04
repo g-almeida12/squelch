@@ -22,14 +22,7 @@ export function useGetUser() {
     staleTime: Infinity,
     refetchOnWindowFocus: false,
 
-    retry: (failureCount, err) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (err.statusCode === 401 || (err as any)?.response?.status === 401) {
-        return false;
-      }
-
-      return failureCount < 3;
-    },
+    retry: false
   });
 }
 
