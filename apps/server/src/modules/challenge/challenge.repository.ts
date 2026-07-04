@@ -16,7 +16,13 @@ export class ChallengeRepository implements IChallengeRepository {
   private findByIdStmt: Statement;
   constructor() {
     this.getChallengeResumeStmt = db.prepare(`
-      SELECT c.id, c.title, c.group_slug, c.group_title, c.difficulty, COUNT(s.id) as total_submissions, MAX(s.date) as last_submission_date
+      SELECT 
+        c.id, c.title, 
+        c.group_slug, 
+        c.group_title, 
+        c.difficulty, 
+        COUNT(s.id) as total_submissions, 
+        MAX(s.date) as last_submission_date
       FROM challenges c
       JOIN submissions s ON c.id = s.challenge_id
       WHERE s.user_id = @userId
@@ -26,9 +32,16 @@ export class ChallengeRepository implements IChallengeRepository {
       LIMIT 1
     `);
     this.getChallengeListStmt = db.prepare(`
-      SELECT c.id, c.title, c.group_slug, c.group_title, c.difficulty, COALESCE(s.success, 0) as completed_by_user
+      SELECT 
+        c.id, 
+        c.title,
+        c.group_slug, 
+        c.group_title, 
+        c.difficulty, 
+        COALESCE(MAX(s.success), 0) as completed_by_user
       FROM challenges c
       LEFT JOIN submissions s ON c.id = s.challenge_id AND s.user_id = ?
+      GROUP BY c.id
       ORDER BY c.position ASC
     `);
     this.findByIdStmt = db.prepare(`
@@ -59,6 +72,7 @@ export class ChallengeRepository implements IChallengeRepository {
         userId,
       ) as ChallengeListItemEntity[];
 
+      console.log('\n\n\n\n\n', challengeList, "\n\n\n\n")
       return challengeList;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
