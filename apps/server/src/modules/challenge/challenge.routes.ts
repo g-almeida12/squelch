@@ -16,6 +16,14 @@ challengeRouter.get("/challenges/resume", async (req: AuthRequest, res) => {
   return res.status(statusCode).json({ success, body });
 });
 
+// Get challenge list to display in the sidebar
+challengeRouter.get("/challenges/list", async (req: AuthRequest, res) => {
+  const { success, statusCode, body } =
+    await challengeController.getChallengeList(req.user?.id);
+
+  return res.status(statusCode).json({ success, body });
+});
+
 // Find by ID route
 challengeRouter.get("/challenges/:challengeId", async (req, res) => {
   const { success, statusCode, body } = await challengeController.findById(

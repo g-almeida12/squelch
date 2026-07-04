@@ -1,6 +1,10 @@
 import { Id } from "@squelch/shared";
 import { Statement } from "better-sqlite3";
-import { ChallengeEntity, ChallengeResumeEntity } from "./challenge.entity.js";
+import {
+  ChallengeEntity,
+  ChallengeListItemEntity,
+  ChallengeResumeEntity,
+} from "./challenge.entity.js";
 import { IChallengeRepository } from "./challenge.interfaces.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { db } from "../../shared/database/index.js";
@@ -8,6 +12,7 @@ import { db } from "../../shared/database/index.js";
 export class ChallengeRepository implements IChallengeRepository {
   // Prepared Statments
   private getChallengeResumeStmt: Statement;
+  private getChallengeListStmt: Statement;
   private findByIdStmt: Statement;
   constructor() {
     this.getChallengeResumeStmt = db.prepare(`
@@ -19,6 +24,12 @@ export class ChallengeRepository implements IChallengeRepository {
       HAVING MAX(s.success) = 0
       ORDER BY last_submission_date DESC
       LIMIT 1
+    `);
+    this.getChallengeListStmt = db.prepare(`
+      SELECT c.id, c.title, c.group_slug, c.group_title, c.difficulty, COALESCE(s.success, 0) as completed_by_user
+      FROM challenges c
+      LEFT JOIN submissions s ON c.id = s.challenge_id AND s.user_id = ?
+      ORDER BY c.position ASC
     `);
     this.findByIdStmt = db.prepare(`
       SELECT id, title, group_slug, group_title, markdown, difficulty, validation_query
@@ -37,6 +48,18 @@ export class ChallengeRepository implements IChallengeRepository {
       }
 
       return challengeResume;
+    } catch (err) {
+      throw ApplicationError.repositoryError(err);
+    }
+  }
+
+  async getChallengeList(userId: Id): Promise<ChallengeListItemEntity[]> {
+    try {
+      const challengeList = this.getChallengeListStmt.all(
+        userId,
+      ) as ChallengeListItemEntity[];
+
+      return challengeList;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

@@ -11,6 +11,7 @@ function setupDatabase() {
 
     CREATE TABLE IF NOT EXISTS challenges (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      position INTEGER NOT NULL,
       title TEXT UNIQUE NOT NULL,
       markdown TEXT NOT NULL,
       validation_query TEXT NOT NULL,

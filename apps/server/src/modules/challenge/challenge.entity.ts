@@ -1,6 +1,7 @@
 import {
   ChallengeDifficulties,
   ChallengeDTO,
+  ChallengeListItem,
   ChallengeResume,
   Id,
 } from "@squelch/shared";
@@ -26,6 +27,15 @@ export type ChallengeResumeEntity = {
   last_submission_date: string;
 };
 
+export type ChallengeListItemEntity = {
+  id: Id;
+  group_slug: string;
+  title: string;
+  difficulty: ChallengeDifficulties;
+  group_title: string;
+  completed_by_user: boolean;
+};
+
 export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
   return {
     id: challenge.id,
@@ -35,6 +45,26 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
   };
+}
+
+export function mapChallengeList(
+  challengeList: ChallengeListItemEntity[],
+): Record<string, ChallengeListItem[]> {
+  const sanitizedChallengeList: ChallengeListItem[] = challengeList.map(
+    (c) => ({
+      id: c.id,
+      title: c.title,
+      completedByUser: c.completed_by_user,
+      difficulty: c.difficulty,
+      groupSlug: c.group_slug,
+      groupTitle: c.group_title,
+    }),
+  );
+
+  return Object.groupBy(sanitizedChallengeList, (c) => c.groupTitle) as Record<
+    string,
+    ChallengeListItem[]
+  >;
 }
 
 export function mapChallengeResumeDTO(

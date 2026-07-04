@@ -33,5 +33,6 @@ export const API_ROUTES = {
 
   // Challenge URL
   CHALLENGE: (id: number) => `${API_BASE_URL}/challenges/${id}` as const,
+  CHALLENGE_LIST: `${API_BASE_URL}/challenges/list`,
   CHALLENGE_RESUME: `${API_BASE_URL}/challenges/resume`,
 } as const;

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type {
   ChallengeDTO,
+  ChallengeList,
   ChallengeResume,
   ErrorResponse,
 } from "@squelch/shared";
@@ -20,6 +21,20 @@ export function useGetChallenge(id: number) {
       return response.data.body;
     },
     enabled: !!id,
+  });
+}
+
+export function useGetChallengeList() {
+  return useQuery<ChallengeList, ErrorResponse>({
+    queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE_LIST,
+    queryFn: async () => {
+      const response = await api.get(API_ROUTES.CHALLENGE_LIST, {
+        withCredentials: true,
+        withXSRFToken: true,
+      });
+
+      return response.data.body;
+    },
   });
 }
 
