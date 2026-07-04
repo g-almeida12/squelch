@@ -1,11 +1,12 @@
-import type { UserDTO, ErrorPayload, UserProgressDTO } from "@squelch/shared";
+import type { UserDTO, UserProgressDTO } from "@squelch/shared";
 import { useQuery } from "@tanstack/react-query";
 import { userQueryKeys } from "./user.query-keys";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
+import type { ExtendedErrorPayload } from "../../../types";
 
 export function useGetUser() {
-  return useQuery<UserDTO, ErrorPayload>({
+  return useQuery<UserDTO, ExtendedErrorPayload>({
     queryKey: userQueryKeys.USER,
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER, {
@@ -23,7 +24,7 @@ export function useGetUser() {
 }
 
 export function useGetUserProgress() {
-  return useQuery<UserProgressDTO, ErrorPayload>({
+  return useQuery<UserProgressDTO, ExtendedErrorPayload>({
     queryKey: userQueryKeys.USER_PROGRESS,
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER_PROGRESS, {

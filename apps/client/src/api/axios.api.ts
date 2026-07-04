@@ -1,6 +1,7 @@
 import axios from "axios";
-import type { ErrorResponse, UserAuthDTO } from "@squelch/shared";
+import type { UserAuthDTO } from "@squelch/shared";
 import { API_ROUTES } from "../config/constants";
+import type { ExtendedErrorPayload } from "../types";
 
 const api = axios.create({
   baseURL: API_ROUTES.BASE_URL,
@@ -62,7 +63,7 @@ export default api;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function formatGenericError(err: any) {
   const isApiError = !!err.response?.data;
-  const formatedError: ErrorResponse = {
+  const formatedError: ExtendedErrorPayload = {
     statusCode: isApiError ? err.response?.status : 500,
     body: isApiError ? err.response?.data : err.response?.message,
     success: false,
