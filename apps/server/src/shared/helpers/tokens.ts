@@ -10,13 +10,13 @@ const COOKIES = {
   ACCESS_TOKEN: {
     ...cookieOptionsBase,
     httpOnly: true,
-    maxAge: 1000, //! CHANGE TO 15 minutes
+    maxAge: 1000 * 60 * 15, // 15 minutes
     path: "/",
   },
   REFRESH_TOKEN: {
     ...cookieOptionsBase,
     httpOnly: true,
-    maxAge: 1000, //! CHANGE TO 7 days
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     path: "/auth/refresh",
   },
   XSRF_TOKEN: {
