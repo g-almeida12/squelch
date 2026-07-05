@@ -42,7 +42,7 @@ export class SubmissionService implements ISubmissionService {
       const userAnswer = userAnswerStmt.all() as QueryRunEntity[];
 
       return userAnswer;
-    } catch (err) {
+    } catch (err: any) {
       if (err instanceof SqliteError) {
         switch (err.code) {
           case "SQLITE_READONLY":

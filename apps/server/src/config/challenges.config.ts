@@ -1,6 +1,5 @@
 import Database from "better-sqlite3";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import {} from "node:fs/promises";
 import { join } from "node:path";
 import { db } from "../shared/database/connection.js";
 
