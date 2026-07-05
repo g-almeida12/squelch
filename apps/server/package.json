@@ -1,6 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "private": true,
   "description": "API for Squelch",
   "main": "index.js",
   "scripts": {
