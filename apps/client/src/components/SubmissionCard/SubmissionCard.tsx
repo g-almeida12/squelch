@@ -8,7 +8,11 @@ interface SubmissionCardProps {
   onToggle: () => void;
 }
 
-export function SubmissionCard({ submission, isOpen, onToggle }: SubmissionCardProps) {
+export function SubmissionCard({
+  submission,
+  isOpen,
+  onToggle,
+}: SubmissionCardProps) {
   return (
     <div className="overflow-hidden rounded-1">
       <div
@@ -40,11 +44,16 @@ export function SubmissionCard({ submission, isOpen, onToggle }: SubmissionCardP
 
       <div className="p-2 bg-dark">
         <p className="text-tx-overlay">
-          Enviado em:{" "}
+          Enviada em:{" "}
           {new Date(submission.date).toLocaleDateString("pt-BR", {
             year: "numeric",
             month: "short",
             day: "numeric",
+          })}{" "}
+          às{" "}
+          {new Date(submission.date).toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
           })}
         </p>
 

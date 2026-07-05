@@ -52,12 +52,21 @@ export class SubmissionService implements ISubmissionService {
               [{ field: "submittedQuery", message: err.message }],
             );
 
-          case "SQLITE_ERROR":
-            throw new ApplicationError(
-              "Sintaxe inválida para a query fornecida.",
-              422,
-              [{ field: "submittedQuery", message: err.message }],
-            );
+          case "SQLITE_ERROR": {
+            let errorMessage: string;
+            const sqliteErrorMessage = err.message.toLowerCase();
+            if (sqliteErrorMessage.includes("no such column")) {
+              errorMessage = "Uma ou mais colunas fornecidas não existem.";
+            } else if (sqliteErrorMessage.includes("no such table")) {
+              errorMessage = "Uma ou mais tabelas fornecidas não existem.";
+            } else {
+              errorMessage = "Sintaxe inválida ou erro estrutural na query.";
+            }
+
+            throw new ApplicationError(errorMessage, 422, [
+              { field: "submittedQuery", message: err.message },
+            ]);
+          }
 
           default:
             throw new ApplicationError("Erro desconhecido do SQLite.", 500, [

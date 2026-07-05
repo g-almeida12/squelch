@@ -57,6 +57,7 @@ export function ChallengeMain() {
     if (!submittedQuery) return;
 
     const date = new Date();
+    console.log(date);
     validateQueryMutation.mutate(
       { id: Number(challengeId!), submission: { submittedQuery, date } },
       {

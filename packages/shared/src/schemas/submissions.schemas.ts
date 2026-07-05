@@ -13,18 +13,8 @@ const SubmissionBaseSchema = z.object({
   date: z.coerce
     .date()
     .default(() => new Date())
-    .transform((val) => {
-      const d = val.toISOString().split("T")[0];
-      return new Date(`${d}T12:00:00Z`);
-    })
-    .refine((val) => {
-      const currentNormalizedDate =
-        new Date().toISOString().split("T")[0] + "T12:00:00Z";
-      if (val.getTime() > new Date(currentNormalizedDate).getTime()) {
-        return false;
-      } else {
-        return true;
-      }
+    .refine((val) => val.getTime() <= new Date().getTime(), {
+      error: "Data de submissão não pode ser no futuro.",
     }),
 });
 export const SubmissionValidationSchema = SubmissionBaseSchema.omit({
