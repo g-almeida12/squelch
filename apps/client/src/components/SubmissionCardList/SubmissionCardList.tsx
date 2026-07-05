@@ -4,10 +4,14 @@ import { SubmissionCard } from "..";
 
 interface SubmissionCardListProps {
   userSubmissions: SubmissionDTO[] | undefined;
+  isFetching: boolean;
+  isError: boolean;
 }
 
 export function SubmissionCardList({
   userSubmissions,
+  isFetching,
+  isError,
 }: SubmissionCardListProps) {
   const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
 
@@ -41,18 +45,43 @@ export function SubmissionCardList({
 
   return (
     <section className="flex flex-col gap-2 mt-8">
-      {userSubmissions.map((s) => (
-        <SubmissionCard
-          submission={s}
-          isOpen={!!openGroups[s.id]}
-          onToggle={() => toggleGroups(s.id)}
-          key={s.id}
-        />
-      ))}
+
+      {/* Fallback logic */}
+      {(() => {
+        if (isFetching) {
+          return <SubmissionCardListSkeleton />;
+        }
+
+        if (isError) {
+          return (
+            <p className="text-tx-overlay">
+              Não foi possível carregar as submissões.
+            </p>
+          );
+        }
+
+        return userSubmissions.map((s) => (
+          <SubmissionCard
+            submission={s}
+            isOpen={!!openGroups[s.id]}
+            onToggle={() => toggleGroups(s.id)}
+            key={s.id}
+          />
+        ));
+      })()}
     </section>
   );
 }
 
 function SubmissionCardListSkeleton() {
-  return <div></div>;
+  return Array.from({ length: 4 }).map((_, idx) => (
+    <div
+      className="relative w-full h-28 rounded-1 p-2 bg-surface animate-pulse"
+      key={idx}
+    >
+      <span className="block w-70 h-7 rounded-1 bg-overlay animate-pulse"></span>
+      <span className="block w-90 h-5 mt-2 rounded-md bg-overlay animate-pulse"></span>
+      <span className="absolute bottom-2 block w-60 h-5 rounded-md bg-overlay animate-pulse"></span>
+    </div>
+  ));
 }

@@ -65,7 +65,7 @@ function formatGenericError(err: any) {
   const isApiError = !!err.response?.data;
   const formatedError: ExtendedErrorPayload = {
     statusCode: isApiError ? err.response?.status : 500,
-    body: isApiError ? err.response?.data : err.response?.message,
+    body: isApiError ? err.response?.data.body : err.response?.message,
     success: false,
   };
 

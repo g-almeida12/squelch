@@ -10,3 +10,4 @@ export { AlertDialog } from "./AlertDialog";
 export { QueryResult } from "./QueryResult";
 export { SubmissionCardList } from "./SubmissionCardList";
 export { SubmissionCard } from "./SubmissionCard";
+export { ProgressCard } from "./ProgressCard";

@@ -5,9 +5,11 @@ import { useGetChallengeSubmissions } from "../../../../features/submission/subm
 
 export function HistoryMain() {
   const { challengeId } = useParams<{ challengeId: string }>();
-  const { data: challengeSubmissions } = useGetChallengeSubmissions(
-    Number(challengeId!),
-  );
+  const {
+    data: challengeSubmissions,
+    isFetching,
+    isError,
+  } = useGetChallengeSubmissions(Number(challengeId!));
 
   return (
     <section>
@@ -18,7 +20,11 @@ export function HistoryMain() {
         Últimas submissões
       </h2>
 
-      <SubmissionCardList userSubmissions={challengeSubmissions} />
+      <SubmissionCardList
+        userSubmissions={challengeSubmissions}
+        isFetching={isFetching}
+        isError={isError}
+      />
     </section>
   );
 }

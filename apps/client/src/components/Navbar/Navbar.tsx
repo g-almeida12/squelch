@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { useGetUser } from "../../features/user/hooks/user.queries";
-import { UserConfig } from "./UserConfig";
+import { UserConfig } from "./components";
 
 interface NavbarProps {
   tabs: readonly string[];
@@ -14,7 +14,7 @@ export function Navbar({
   activeTab,
   handleActiveTabChange,
 }: NavbarProps) {
-  const { data: user, isFetching } = useGetUser();
+  const { data: user, isFetching, isError } = useGetUser();
   const [isUserConfigOpen, setIsUserConfigOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -79,6 +79,7 @@ export function Navbar({
           <UserConfig
             user={user}
             isFetching={isFetching}
+            isError={isError}
             onClose={() => setIsUserConfigOpen(false)}
           />
         )}

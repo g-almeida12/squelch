@@ -2,11 +2,15 @@ import type { QueryResultDTO } from "@squelch/shared";
 
 interface QueryResultProps {
   userQueryResult: QueryResultDTO;
+  isPending?: boolean;
+  isError?: boolean;
   height?: string;
 }
 
 export function QueryResult({
   userQueryResult,
+  isPending=false,
+  isError=false,
   height = "h-60",
 }: QueryResultProps) {
   const rows = userQueryResult ?? [];
@@ -29,53 +33,82 @@ export function QueryResult({
         <span className="text-[12px] font-mono text-gray-400">
           {hasRows
             ? `${rows.length} linha${rows.length === 1 ? "" : "s"}`
-            : "0 linhas"}
+            : isPending
+              ? "Carregando..."
+              : "0 linhas"}
         </span>
       </div>
 
       {/* Scrollable table area */}
       <div className="flex-1 overflow-scroll">
-        {hasRows ? (
-          <table className="w-full border-separate border-spacing-0 text-left text-xs font-mono">
-            <thead className="sticky top-0 bg-[#0A1014] z-10">
-              <tr>
-                {headers.map((header) => (
-                  <th
-                    key={header}
-                    className="px-4 py-2 border-b border-accent-primary font-semibold uppercase tracking-wide text-[11px] text-accent-primary whitespace-nowrap"
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, rowIndex) => (
-                <tr
-                  key={rowIndex}
-                  className={`${
-                    rowIndex % 2 === 0 ? "bg-white/2" : "bg-transparent"
-                  } hover:bg-emerald-400/6 transition-colors`}
-                >
+        {/* Fallback logic */}
+        {(() => {
+          if (isPending) {
+            return (
+              <div className="h-full flex items-center justify-center">
+                <span className="text-xs font-mono text-gray-500">
+                  Executando query. Aguarde...
+                </span>
+              </div>
+            );
+          }
+
+          if (isError) {
+            return (
+              <div className="h-full flex items-center justify-center">
+                <span className="text-xs font-mono text-gray-500">
+                  Não foi possível extrair os dados.
+                </span>
+              </div>
+            );
+          }
+
+          if (!hasRows) {
+            return (
+              <div className="h-full flex items-center justify-center">
+                <span className="text-xs font-mono text-gray-500">
+                  Parece que sua query não encontrou nada...
+                </span>
+              </div>
+            );
+          }
+
+          return (
+            <table className="w-full border-separate border-spacing-0 text-left text-xs font-mono">
+              <thead className="sticky top-0 bg-[#0A1014] z-10">
+                <tr>
                   {headers.map((header) => (
-                    <td
+                    <th
                       key={header}
-                      className="px-4 py-1.5 text-gray-300 whitespace-nowrap border-b border-white/5"
+                      className="px-4 py-2 border-b border-accent-primary font-semibold uppercase tracking-wide text-[11px] text-accent-primary whitespace-nowrap"
                     >
-                      {formatCell(row[header])}
-                    </td>
+                      {header}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <span className="text-xs font-mono text-gray-500">
-              Parece que sua query não encontrou nada...
-            </span>
-          </div>
-        )}
+              </thead>
+              <tbody>
+                {rows.map((row, rowIndex) => (
+                  <tr
+                    key={rowIndex}
+                    className={`${
+                      rowIndex % 2 === 0 ? "bg-white/2" : "bg-transparent"
+                    } hover:bg-emerald-400/6 transition-colors`}
+                  >
+                    {headers.map((header) => (
+                      <td
+                        key={header}
+                        className="px-4 py-1.5 text-gray-300 whitespace-nowrap border-b border-white/5"
+                      >
+                        {formatCell(row[header])}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          );
+        })()}
       </div>
     </div>
   );

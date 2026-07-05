@@ -1,21 +1,27 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { IoIosClose } from "react-icons/io";
-import { AlertDialog, Button } from "../";
+import { AlertDialog, Button } from "../../..";
 import { useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "../../config/constants";
-import { useLogoutUser } from "../../features/auth/hooks/auth.mutations";
-import { useDeleteUser } from "../../features/user/hooks/user.mutations";
+import { APP_ROUTES } from "../../../../config/constants";
+import { useLogoutUser } from "../../../../features/auth/hooks/auth.mutations";
+import { useDeleteUser } from "../../../../features/user/hooks/user.mutations";
 import { useEffect, useState } from "react";
 import type { UserDTO } from "@squelch/shared";
-import { ProfileUpdate } from "./ProfileUpdate";
+import { ProfileUpdate } from "../";
 
 interface UserConfigProps {
   user: UserDTO | undefined;
   isFetching: boolean;
+  isError: boolean;
   onClose: () => void;
 }
 
-export function UserConfig({ user, isFetching, onClose }: UserConfigProps) {
+export function UserConfig({
+  user,
+  isFetching,
+  isError,
+  onClose,
+}: UserConfigProps) {
   const navigate = useNavigate();
   const logoutMutation = useLogoutUser();
   const deleteMutation = useDeleteUser();
@@ -84,17 +90,41 @@ export function UserConfig({ user, isFetching, onClose }: UserConfigProps) {
             <IoIosClose size={40} className="text-tx-main" aria-hidden={true} />
           </button>
 
-          <div className="flex flex-row gap-2 items-center w-full mt-2">
-            <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
-            <div className="flex flex-col items-start justify-center">
-              <strong className="text-xl font-medium">
-                {user ? user.name : ""}
-              </strong>
-              <p className="italic text-tx-overlay max-w-58.25 truncate">
-                {user ? user.email : ""}
-              </p>
-            </div>
-          </div>
+          {/* Fallback logic */}
+          {(() => {
+            console.log(user);
+            if (isFetching) {
+              return (
+                <div className="flex flex-row gap-2 items-center w-full mt-2">
+                  <div className="size-13 shrink-0 rounded-full bg-subtle animate-pulse"></div>
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full h-7 rounded-1 bg-overlay animate-pulse"></div>
+                    <div className="w-full max-w-50 h-6 mt-1 rounded-1 bg-overlay animate-pulse"></div>
+                  </div>
+                </div>
+              );
+            }
+
+            if (isError) {
+              return (
+                <p className="text-tx-overlay">
+                  Não foi possível carregar suas informações.
+                </p>
+              );
+            }
+
+            return (
+              <div className="flex flex-row gap-2 items-center w-full mt-2">
+                <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
+                <div className="flex flex-col items-start justify-center">
+                  <strong className="text-xl font-medium">{user!.name}</strong>
+                  <p className="italic text-tx-overlay max-w-58.25 truncate">
+                    {user!.email}
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
 
           <Button
             onClick={() => setIsProfileUpdateOpen(true)}

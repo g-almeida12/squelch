@@ -3,7 +3,11 @@ import { SubmissionCardList } from "../../../../components/SubmissionCardList";
 import { SubmissionsInfo } from "../SubmissionsInfo";
 
 export function SubmissionsMain() {
-  const { data: userSubmissions } = useGetUserSubmissions();
+  const {
+    data: userSubmissions,
+    isFetching,
+    isError,
+  } = useGetUserSubmissions();
 
   return (
     <>
@@ -11,9 +15,17 @@ export function SubmissionsMain() {
         Seus dados das submissões
       </h1>
 
-      <SubmissionsInfo userSubmissions={userSubmissions} />
+      <SubmissionsInfo
+        userSubmissions={userSubmissions}
+        isFetching={isFetching}
+        isError={isError}
+      />
 
-      <SubmissionCardList userSubmissions={userSubmissions} />
+      <SubmissionCardList
+        userSubmissions={userSubmissions}
+        isFetching={isFetching}
+        isError={isError}
+      />
     </>
   );
 }

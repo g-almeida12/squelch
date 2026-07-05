@@ -22,7 +22,11 @@ export function ChallengeMain() {
   const [submissionResult, setSubmissionResult] =
     useState<SubmissionResult>(null);
   const { challengeId } = useParams<Record<string, string>>();
-  const { data: challenge } = useGetChallenge(Number(challengeId));
+  const {
+    data: challenge,
+    isFetching,
+    isError,
+  } = useGetChallenge(Number(challengeId));
   const runQueryMutation = useRunQuery();
   const validateQueryMutation = useValidateQuery();
 
@@ -70,42 +74,74 @@ export function ChallengeMain() {
   return (
     <>
       <section>
-        {/* Challenge description */}
-        <Button to={APP_ROUTES.HOME} variant="ghost-primary">
-          Página principal
-        </Button>
-        <h2 className="mt-10 text-2xl font-semibold font-heading tracking-wider">
-          {challenge.groupTitle} - {challenge.title}
-        </h2>
-        <div className="prose prose-invert text-[17px] max-w-5xl my-2">
-          <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
-        </div>
+        {/* Fallback logic */}
+        {(() => {
+          if (isFetching) {
+            return <ChallengeMainSkeleton />;
+          }
 
-        <AvaliableTables
-          challengeId={challengeId ? Number(challengeId) : undefined}
-        />
+          if (isError) {
+            return (
+              <>
+                <Button to={APP_ROUTES.HOME} variant="ghost-primary">
+                  Página principal
+                </Button>
+                <p className="mt-10 text-tx-overlay">
+                  Não foi possível caregar o desafio.
+                </p>
+              </>
+            );
+          }
 
-        {/* User's query editor */}
-        <div className="w-full grid grid-cols-2 gap-4 mt-4">
-          <div className="flex-1">
-            <MonacoEditor
-              forSubmission
-              onTestClick={handleRunQuery}
-              onValidateClick={handleValidateQuery}
-            />
-          </div>
-          <div className="flex-1">
-            <QueryResult userQueryResult={userQueryResult} height="h-80" />
-          </div>
-        </div>
+          return (
+            <>
+              {/* Challenge description */}
+              <Button to={APP_ROUTES.HOME} variant="ghost-primary">
+                Página principal
+              </Button>
+              <h2 className="mt-10 text-2xl font-semibold font-heading tracking-wider">
+                {challenge.groupTitle} - {challenge.title}
+              </h2>
+              <div className="prose prose-invert text-[17px] max-w-5xl my-2">
+                <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
+              </div>
+
+              <AvaliableTables
+                challengeId={challengeId ? Number(challengeId) : undefined}
+              />
+
+              {/* User's query editor */}
+              <div className="relative w-full grid grid-cols-2 gap-x-4 gap-y-1 mt-14">
+                {(runQueryMutation.isError ||
+                  validateQueryMutation.isError) && (
+                  <p className="absolute -top-8 col-span-2 text-red-400">
+                    {runQueryMutation.error?.body.message ||
+                      validateQueryMutation.error?.body.message}
+                  </p>
+                )}
+                <div className="flex-1">
+                  <MonacoEditor
+                    forSubmission
+                    onTestClick={handleRunQuery}
+                    onValidateClick={handleValidateQuery}
+                  />
+                </div>
+                <div className="flex-1">
+                  <QueryResult
+                    userQueryResult={userQueryResult}
+                    isPending={runQueryMutation.isPending}
+                    isError={runQueryMutation.isError}
+                    height="h-80"
+                  />
+                </div>
+              </div>
+            </>
+          );
+        })()}
       </section>
 
       {/* Submission result feedback */}
-      <section
-        aria-live="polite"
-        aria-atomic="true"
-        ref={resultSectionRef}
-      >
+      <section aria-live="polite" aria-atomic="true" ref={resultSectionRef}>
         {submissionResult?.success === true ? (
           <div className="mt-8">
             <h2 className="p-2 rounded-1 bg-green-600 text-2xl font-heading font-semibold">
@@ -138,7 +174,7 @@ export function ChallengeMain() {
 
 function ChallengeMainSkeleton() {
   return (
-    <section>
+    <>
       <Button to={APP_ROUTES.HOME} variant="ghost-primary">
         Página principal
       </Button>
@@ -156,6 +192,6 @@ function ChallengeMainSkeleton() {
         <div className="h-80 w-full rounded-1 bg-surface animate-pulse"></div>
         <div className="h-80 w-full rounded-1 bg-surface animate-pulse"></div>
       </div>
-    </section>
+    </>
   );
 }
