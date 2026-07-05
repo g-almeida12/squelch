@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdSchema } from "./id.schemas";
+import { IdSchema } from "./id.schemas.js";
 
 export const ChallengesDifficultiesSchema = z.enum(["EASY", "MEDIUM", "HARD"]);
 

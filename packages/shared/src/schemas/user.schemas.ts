@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IdSchema } from "./id.schemas";
+import { IdSchema } from "./id.schemas.js";
 
 const UserBaseSchema = z.object({
   name: z.string().min(1, "Mínimo de 1 caractere."),
