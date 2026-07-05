@@ -1,4 +1,5 @@
-import { ErrorResponse, HTTPStatusCode } from "@squelch/shared";
+import { HTTPStatusCode } from "@squelch/shared";
+import { ErrorResponse } from "../types/index.js";
 
 export class ApplicationError extends Error {
   constructor(
