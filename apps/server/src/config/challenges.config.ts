@@ -18,11 +18,6 @@ function populateChallengeDatabases() {
           "groups",
           group.name,
         );
-        if (!existsSync(folderPath)) {
-          throw new Error(
-            `[challenges.config.ts] Folder for group slug '${group.name}' not created.`,
-          );
-        }
 
         const sqlSetup = join(folderPath, "setup.sql");
         if (!existsSync(sqlSetup)) {

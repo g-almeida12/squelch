@@ -116,6 +116,6 @@ INSERT INTO mensagens (remetente_id, destinatario_id, data_hora, conteudo) VALUE
 (88, 42, '2026-04-15 17:55:00', 'Motor ligado. O carro tá pronto, só vem.'),
 (88, 10, '2026-04-15 18:35:10', 'A encomenda foi entregue na portaria.'),
 (88, 55, '2026-04-15 18:35:25', 'Pode fechar o portão dos fundos.'),
-(88, 99, '2026-04-15 18:35:50', 'Feito. Estamos na estrada.'),=
+(88, 99, '2026-04-15 18:35:50', 'Feito. Estamos na estrada.'),
 (99, 100, '2026-04-15 10:00:00', 'Por favor, revise o quadro da sala 3.'),
 (55, 10, '2026-04-15 18:00:00', 'Meu turno acabou, tô indo nessa.');
