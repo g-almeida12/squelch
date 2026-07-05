@@ -1,56 +1,6 @@
-import type { SubmissionDTO } from "@squelch/shared";
-import { useState } from "react";
 import { FaCaretUp } from "react-icons/fa";
-import { MonacoEditor, QueryResult } from "../../../../components";
-
-interface SubmissionCardsProps {
-  userSubmissions: SubmissionDTO[] | undefined;
-}
-
-export function SubmissionCards({ userSubmissions }: SubmissionCardsProps) {
-  const [openGroups, setOpenGroups] = useState<Record<number, boolean>>({});
-
-  const toggleGroups = (id: number) => {
-    if (!userSubmissions) {
-      return;
-    }
-
-    const newValues: Record<number, boolean> = {};
-    for (let i = 0; i < (userSubmissions ?? []).length; i++) {
-      newValues[userSubmissions[i]["id"]] = false;
-    }
-    setOpenGroups((prev) => ({ ...newValues, [id]: !prev[id] }));
-  };
-
-  if (!userSubmissions) {
-    return (
-      <section className="mt-8">
-        <SubmissionCardsSkeleton />
-      </section>
-    );
-  }
-
-  if (userSubmissions?.length === 0) {
-    return (
-      <section className="mt-8">
-        <p className="text-tx-overlay">Está tão vazio aqui...</p>
-      </section>
-    );
-  }
-
-  return (
-    <section className="flex flex-col gap-2 mt-8">
-      {userSubmissions.map((s) => (
-        <SubmissionCard
-          submission={s}
-          isOpen={!!openGroups[s.id]}
-          onToggle={() => toggleGroups(s.id)}
-          key={s.id}
-        />
-      ))}
-    </section>
-  );
-}
+import { MonacoEditor, QueryResult } from "..";
+import type { SubmissionDTO } from "@squelch/shared";
 
 interface SubmissionCardProps {
   submission: SubmissionDTO;
@@ -58,7 +8,7 @@ interface SubmissionCardProps {
   onToggle: () => void;
 }
 
-function SubmissionCard({ submission, isOpen, onToggle }: SubmissionCardProps) {
+export function SubmissionCard({ submission, isOpen, onToggle }: SubmissionCardProps) {
   return (
     <div className="overflow-hidden rounded-1">
       <div
@@ -119,8 +69,4 @@ function SubmissionCard({ submission, isOpen, onToggle }: SubmissionCardProps) {
       </div>
     </div>
   );
-}
-
-function SubmissionCardsSkeleton() {
-  return <div></div>;
 }

@@ -1,5 +1,5 @@
 import { useGetUserSubmissions } from "../../../../features/submission/submission.queries";
-import { SubmissionCards } from "../SubmissionCards";
+import { SubmissionCardList } from "../../../../components/SubmissionCardList";
 import { SubmissionsInfo } from "../SubmissionsInfo";
 
 export function SubmissionsMain() {
@@ -13,7 +13,7 @@ export function SubmissionsMain() {
 
       <SubmissionsInfo userSubmissions={userSubmissions} />
 
-      <SubmissionCards userSubmissions={userSubmissions} />
+      <SubmissionCardList userSubmissions={userSubmissions} />
     </>
   );
 }

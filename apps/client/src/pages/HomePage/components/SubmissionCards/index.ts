@@ -1,1 +1,0 @@
-export { SubmissionCards } from './SubmissionCards';
