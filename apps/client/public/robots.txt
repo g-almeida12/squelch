@@ -5,4 +5,4 @@ Disallow: /home
 Allow: /landing-page
 Allow: /login
 
-Sitemap: https://squelch.vercel.app/sitemap.xml
+Sitemap: https://squelch-sql.vercel.app/sitemap.xml
