@@ -6,7 +6,7 @@ export const APP_ROUTES = {
   CHALLENGE: (id: number) => `/home/challenges/${id}` as const,
 } as const;
 
-export const API_BASE_URL = "https://api-squelch.onrender.com";
+export const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const API_ROUTES = {
   // Base URL

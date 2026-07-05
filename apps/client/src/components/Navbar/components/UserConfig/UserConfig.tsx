@@ -90,7 +90,6 @@ export function UserConfig({
             <IoIosClose size={40} className="text-tx-main" aria-hidden={true} />
           </button>
 
-          {/* Fallback logic */}
           {(() => {
             console.log(user);
             if (isFetching) {
