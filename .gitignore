@@ -2,6 +2,7 @@ node_modules
 dist
 .VSCodeCounter
 
+stats.html
 .env
 todo.txt
 tsconfig.tsbuildinfo

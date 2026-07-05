@@ -10,5 +10,9 @@
   ],
   "devDependencies": {
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "dompurify": "^3.5.0",
+    "monaco-editor": "0.53.0"
   }
 }

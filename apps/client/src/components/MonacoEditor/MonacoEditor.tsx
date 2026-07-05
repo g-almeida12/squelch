@@ -1,5 +1,5 @@
 import Editor, { type Monaco } from "@monaco-editor/react";
-import { editor as MonacoEditorNS } from "monaco-editor";
+import type { editor as MonacoEditorNS } from "monaco-editor";
 import { Button } from "../Button";
 import { useRef } from "react";
 

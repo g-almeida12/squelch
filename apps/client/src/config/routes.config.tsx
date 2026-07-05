@@ -6,35 +6,35 @@ import { PrivateRoute } from "../components";
 import { APP_ROUTES } from "./constants";
 
 const LandingPage = lazy(() =>
-  import("../pages").then((module) => ({
+  import("../pages/LandingPage").then((module) => ({
     default: module.LandingPage,
   })),
 );
 
 const NotFoundPage = lazy(() =>
-  import("../pages").then((module) => ({ default: module.NotFoundPage })),
+  import("../pages/NotFoundPage").then((module) => ({ default: module.NotFoundPage })),
 );
 
 const RegisterPage = lazy(() =>
-  import("../pages").then((module) => ({
+  import("../pages/RegisterPage").then((module) => ({
     default: module.RegisterPage,
   })),
 );
 
 const LoginPage = lazy(() =>
-  import("../pages").then((module) => ({
+  import("../pages/LoginPage").then((module) => ({
     default: module.LoginPage,
   })),
 );
 
 const HomePage = lazy(() =>
-  import("../pages").then((module) => ({
+  import("../pages/HomePage").then((module) => ({
     default: module.HomePage,
   })),
 );
 
 const ChallengePage = lazy(() =>
-  import("../pages").then((module) => ({ default: module.ChallengePage })),
+  import("../pages/ChallengePage").then((module) => ({ default: module.ChallengePage })),
 );
 
 export const router = createBrowserRouter([
