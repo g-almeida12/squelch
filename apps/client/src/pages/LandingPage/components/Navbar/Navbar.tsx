@@ -3,7 +3,7 @@ import { Button } from "../../../../components";
 
 export function Navbar() {
   return (
-    <nav className="flex flex-row w-full justify-between items-center p-8 h-14">
+    <nav className="flex flex-row w-full justify-between items-center h-14">
       <div
         className="size-11 rounded-full bg-accent-primary flex justify-center items-center cursor-pointer select-none"
         aria-label="Voltar para página inicial"
@@ -16,7 +16,7 @@ export function Navbar() {
         </div>
       </div>
 
-      <ul className="flex flex-row gap-4">
+      <ul className="flex flex-row">
         <li>
           <Button to={APP_ROUTES.REGISTER} customClassName="text-[14px]">
             Registre-se agora
@@ -26,7 +26,7 @@ export function Navbar() {
           <Button
             to={APP_ROUTES.LOGIN}
             variant="ghost-primary"
-            customClassName="text-[14px]"
+            customClassName="text-[14px] hidden"
           >
             Acesse o site
           </Button>

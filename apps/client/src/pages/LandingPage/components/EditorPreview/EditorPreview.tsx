@@ -4,8 +4,9 @@ export function EditorPreview() {
   const defaultValue = `-- Clique aqui e tente modificar essa query!\nSELECT nome, habilidade \nFROM usuarios \nWHERE nivel = 'avançado'\nAND curiosidade = 'alta';`;
 
   return (
-    <section className="flex items-center justify-center min-h-150">
-      <div className="max-w-6xl m-auto flex flex-row gap-4">
+    <section className="flex items-center justify-center min-h-150 mb-25 sm:mb-0">
+      <div className="max-w-6xl m-auto flex flex-col gap-4 sm:flex-row">
+        {/* Text content */}
         <div className="flex-1">
           <h2 className="text-3xl/[3rem] font-medium mb-3 ">
             Seu primeiro{" "}
@@ -21,6 +22,7 @@ export function EditorPreview() {
           </p>
         </div>
 
+        {/* Editor */}
         <div className="flex-1 h-full">
           <MonacoEditor value={defaultValue} />
         </div>

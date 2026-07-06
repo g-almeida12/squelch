@@ -3,7 +3,7 @@ import { APP_ROUTES } from "../../../../config/constants";
 
 export function CallToAction() {
   return (
-    <section className="bg-surface pt-25 pb-50 text-center">
+    <section className="bg-surface pt-25 pb-50 text-center -mx-4 px-4">
       <h2 className="text-4xl/[3rem] font-medium mb-1">
         Pronto para decifrar o próximo mistério?
       </h2>

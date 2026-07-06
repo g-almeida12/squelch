@@ -12,8 +12,8 @@ export function Hero() {
       <Navbar />
 
       {/* Text content and image container */}
-      <div className="flex flex-row items-center justify-between max-w-5xl m-auto mt-16">
-        <div className="max-w-md">
+      <div className="flex flex-col items-center justify-between max-w-5xl m-auto mt-16 sm:flex-row">
+        <div className="max-w-md text-center">
           <h1 className="font-semibold tracking-wide text-4xl/[3rem]">
             Squelch: Resolva mistérios usando SQL
           </h1>
@@ -21,12 +21,17 @@ export function Hero() {
             A plataforma interativa para praticar SQL de um jeito inovador e
             direto no seu navegador.
           </p>
-          <Button to={APP_ROUTES.REGISTER} customClassName="mt-12">
-            Registre-se agora
-          </Button>
+          <div className="flex flex-col gap-2 w-fit m-auto mt-12">
+            <Button to={APP_ROUTES.REGISTER}>
+              Registre-se agora
+            </Button>
+            <Button to={APP_ROUTES.REGISTER} variant="ghost-primary" customClassName="sm:hidden">
+              Acesse nosso site
+            </Button>
+          </div>
         </div>
 
-        <div className="flex items-center justify-end">
+        <div className="items-center justify-end mt-12 hidden sm:flex">
           <img
             src={heroImg}
             alt="Representação de uma estrutura de banco de dados"
@@ -37,7 +42,7 @@ export function Hero() {
       </div>
 
       {/* Cards container */}
-      <div className="flex flex-row gap-4 justify-center max-w-6xl m-auto mt-30 ">
+      <div className="flex flex-col gap-2 justify-center max-w-6xl m-auto mt-30 sm:flex-row sm:gap-4">
         <HeroCard Icon={HiWindow} title="Editor Integrado">
           <p>
             Escreva suas queries no mesmo editor usado pelos profissionais. Aqui

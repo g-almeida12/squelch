@@ -8,7 +8,7 @@ import {
 
 export function LandingPage() {
   return (
-    <main>
+    <main className="p-4 pb-0">
       <Hero/>
       <AppSteps />
       <EditorPreview />

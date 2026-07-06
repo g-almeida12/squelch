@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="h-10 bg-surface flex items-center justify-center">
+    <footer className="min-h-10 bg-surface flex items-center justify-center -mx-4 px-4">
       <p className="text-center">
         <small className="text-[14px]">
           Desenvolvido por{" "}
