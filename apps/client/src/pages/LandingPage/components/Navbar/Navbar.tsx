@@ -3,7 +3,7 @@ import { Button } from "../../../../components";
 
 export function Navbar() {
   return (
-    <nav className="flex flex-row w-full justify-between items-center h-14">
+    <nav className="flex flex-row w-full justify-between items-center">
       <div
         className="size-11 rounded-full bg-accent-primary flex justify-center items-center cursor-pointer select-none"
         aria-label="Voltar para página inicial"

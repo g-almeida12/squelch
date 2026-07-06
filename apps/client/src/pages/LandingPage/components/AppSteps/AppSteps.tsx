@@ -2,7 +2,7 @@ import { AppStepsCard } from "./AppStepsCard";
 
 export function AppSteps() {
   return (
-    <section className="flex flex-col gap-4 mb-50 md:gap-14 lg:mb-25">
+    <section className="max-w-6xl mx-auto flex flex-col gap-4 mb-50 md:gap-14 lg:mb-25">
       <AppStepsCard title="1° Passo: Escolha o seu caso" imgSrc="" imgAlt="">
         <p>
           Explore nosso arquivo de enigmas interativos. De pequenos mistérios
