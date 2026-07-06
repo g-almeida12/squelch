@@ -51,7 +51,7 @@ export function LoginPage() {
   return (
     <main className="min-h-dvh flex flex-row w-full p-0 bg-dark">
       {/* Text content */}
-      <div className="w-5/8 pb-8 pt-15 rounded-r-3xl bg-main">
+      <div className="w-full pb-8 pt-25 px-4 bg-main md:w-5/8 md:rounded-r-3xl md:pt-15">
         <div className="text-center">
           <h1 className="text-3xl">Conecte-se agora</h1>
           <p className="max-w-90 m-auto text-tx-overlay">
@@ -75,7 +75,7 @@ export function LoginPage() {
       </div>
 
       {/* Visual content */}
-      <div className="bg-dark flex-1">
+      <div className="flex-1 absolute md:static md:bg-dark">
         <div className="flex flex-row gap-1 items-center justify-start p-4">
           <div
             className="size-11 rounded-full bg-accent-primary flex justify-center items-center  select-none"
