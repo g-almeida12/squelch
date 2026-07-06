@@ -16,7 +16,7 @@ export function Navbar() {
         </div>
       </div>
 
-      <ul className="flex flex-row">
+      <ul className="flex flex-row sm:gap-2">
         <li>
           <Button to={APP_ROUTES.REGISTER} customClassName="text-[14px]">
             Registre-se agora
@@ -26,7 +26,7 @@ export function Navbar() {
           <Button
             to={APP_ROUTES.LOGIN}
             variant="ghost-primary"
-            customClassName="text-[14px] hidden"
+            customClassName="text-[14px] hidden sm:block"
           >
             Acesse o site
           </Button>

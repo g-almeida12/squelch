@@ -12,7 +12,7 @@ export function Hero() {
       <Navbar />
 
       {/* Text content and image container */}
-      <div className="flex flex-col items-center justify-between max-w-5xl m-auto mt-16 sm:flex-row">
+      <div className="flex flex-col items-center justify-between max-w-5xl m-auto mt-16 lg:flex-row">
         <div className="max-w-md text-center">
           <h1 className="font-semibold tracking-wide text-4xl/[3rem]">
             Squelch: Resolva mistérios usando SQL
@@ -22,16 +22,18 @@ export function Hero() {
             direto no seu navegador.
           </p>
           <div className="flex flex-col gap-2 w-fit m-auto mt-12">
-            <Button to={APP_ROUTES.REGISTER}>
-              Registre-se agora
-            </Button>
-            <Button to={APP_ROUTES.REGISTER} variant="ghost-primary" customClassName="sm:hidden">
+            <Button to={APP_ROUTES.REGISTER}>Registre-se agora</Button>
+            <Button
+              to={APP_ROUTES.REGISTER}
+              variant="ghost-primary"
+              customClassName="sm:hidden"
+            >
               Acesse nosso site
             </Button>
           </div>
         </div>
 
-        <div className="items-center justify-end mt-12 hidden sm:flex">
+        <div className="items-center justify-end mt-12 hidden lg:flex lg:mt-0">
           <img
             src={heroImg}
             alt="Representação de uma estrutura de banco de dados"
@@ -42,7 +44,7 @@ export function Hero() {
       </div>
 
       {/* Cards container */}
-      <div className="flex flex-col gap-2 justify-center max-w-6xl m-auto mt-30 sm:flex-row sm:gap-4">
+      <div className="flex flex-col gap-2 justify-center items-center max-w-6xl m-auto mt-30 md:flex-row md:gap-4 md:items-stretch">
         <HeroCard Icon={HiWindow} title="Editor Integrado">
           <p>
             Escreva suas queries no mesmo editor usado pelos profissionais. Aqui
