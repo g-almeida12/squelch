@@ -46,10 +46,7 @@ export function ResumeChallenge() {
               {challengeResume!.groupTitle} - {challengeResume!.title}
             </h3>
             <p className="text-tx-overlay text-sm">
-              Tentativas: {challengeResume!.totalSubmissions}
-            </p>
-            <p className="text-tx-overlay text-sm">
-              Última tentativa em:{" "}
+              Última vez:{" "}
               {new Date(challengeResume!.lastSubmissionDate).toLocaleDateString(
                 "pt-BR",
                 {
@@ -57,7 +54,21 @@ export function ResumeChallenge() {
                   month: "short",
                   day: "numeric",
                 },
+              )}{" "}
+              às{" "}
+              {new Date(challengeResume!.lastSubmissionDate).toLocaleTimeString(
+                "pt-BR",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
               )}
+            </p>
+            <p className="text-tx-overlay text-sm">
+              {challengeResume!.totalSubmissions}{" "}
+              {challengeResume!.totalSubmissions === 1
+                ? "tentativa"
+                : "tentativas"}
             </p>
 
             <Button

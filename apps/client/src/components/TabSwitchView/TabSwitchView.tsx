@@ -12,7 +12,7 @@ export function TabSwitchView({ tabs, tabContent }: TabSwitchViewProps) {
 
   return (
     <div className="flex flex-col w-full max-w-[calc(100%-52px)] min-h-dvh ml-13">
-      <Main customClassName="isolate">{tabContent[activeTab]}</Main>
+      <Main>{tabContent[activeTab]}</Main>
       <Navbar
         tabs={tabs}
         activeTab={activeTab}

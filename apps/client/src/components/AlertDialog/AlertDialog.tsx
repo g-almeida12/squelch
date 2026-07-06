@@ -46,7 +46,7 @@ export function AlertDialog({
   return (
     <dialog
       id={`modal - ${title}`}
-      className="fixed top-1/2 left-1/2 -translate-1/2 w-full max-w-100 p-2 rounded-1 bg-overlay text-tx-main text-center backdrop:bg-[#00000099]"
+      className="fixed top-1/2 left-1/2 -translate-1/2 w-[calc(100%-16px)] max-w-100 p-2 rounded-1 bg-overlay text-tx-main text-center backdrop:bg-[#00000099]"
     >
       <h2 className="mb-1 font-semibold text-xl">{title}</h2>
       <hr />

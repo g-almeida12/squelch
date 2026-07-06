@@ -1,5 +1,5 @@
 import { useGetUserSubmissions } from "../../../../features/submission/hooks/submission.queries";
-import { SubmissionCardList } from "../../../../components/SubmissionCardList";
+import { SubmissionCardList } from "../../../../components";
 import { SubmissionsInfo } from "../SubmissionsInfo";
 
 export function SubmissionsMain() {

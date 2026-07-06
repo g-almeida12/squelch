@@ -1,4 +1,5 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { Root } from "@radix-ui/react-portal";
 import { IoIosClose } from "react-icons/io";
 import { AlertDialog, Button } from "../../..";
 import { useNavigate } from "react-router-dom";
@@ -67,14 +68,14 @@ export function UserConfig({
   };
 
   return (
-    <>
+    <Root>
       <FocusScope
         trapped={!isProfileUpdateOpen}
         loop={!isProfileUpdateOpen}
         asChild
       >
         <aside
-          className={`flex flex-col items-start justify-start transition-all duration-300 ease-in-out fixed z-201 top-0 right-0 bottom-0 bg-surface w-80 p-2`}
+          className="flex flex-col items-start justify-start transition-all duration-300 ease-in-out fixed z-201 top-0 right-0 bottom-0 bg-surface w-full p-2 sm:w-80"
           id="user-profile"
           aria-label="Configurações do usuário"
         >
@@ -90,6 +91,8 @@ export function UserConfig({
             <IoIosClose size={40} className="text-tx-main" aria-hidden={true} />
           </button>
 
+          {/* User information */}
+          {/* Fallback logic */}
           {(() => {
             console.log(user);
             if (isFetching) {
@@ -148,6 +151,7 @@ export function UserConfig({
             />
           )}
 
+          {/* User auth options */}
           <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 p-2">
             <Button
               onClick={() =>
@@ -189,6 +193,6 @@ export function UserConfig({
         onClick={onClose}
         className={`fixed z-200 left-0 right-0 bottom-0 top-0 bg-[#00000054]`}
       />
-    </>
+    </Root>
   );
 }

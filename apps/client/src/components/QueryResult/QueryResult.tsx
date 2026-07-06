@@ -19,7 +19,7 @@ export function QueryResult({
 
   return (
     <div
-      className={`bg-[#03070A] rounded-1 overflow-hidden flex flex-col ${height}`}
+      className={`rounded-1 overflow-hidden flex flex-col bg-[#03070A] ${height}`}
       aria-live="polite"
       aria-atomic="true"
     >

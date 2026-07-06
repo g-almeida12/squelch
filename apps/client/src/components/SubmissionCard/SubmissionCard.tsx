@@ -59,8 +59,8 @@ export function SubmissionCard({
 
         {isOpen && (
           <div className="mt-8" id={`list-${submission.id}`}>
-            <div className="flex flex-row gap-4 items-center justify-between">
-              <div className="flex-1">
+            <div className="flex flex-col gap-4 items-center justify-between sm:flex-row">
+              <div className="flex-1 w-full">
                 <p className="mb-2 text-xl">Sua query:</p>
                 <MonacoEditor
                   readOnly
@@ -68,7 +68,7 @@ export function SubmissionCard({
                   height="h-60"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 w-full">
                 <p className="mb-2 text-xl">Sua resposta:</p>
                 <QueryResult userQueryResult={submission.userQueryResult} />
               </div>

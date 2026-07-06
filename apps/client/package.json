@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-focus-scope": "^1.1.10",
+    "@radix-ui/react-portal": "^1.1.13",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-query": "^5.101.0",
     "axios": "^1.18.0",

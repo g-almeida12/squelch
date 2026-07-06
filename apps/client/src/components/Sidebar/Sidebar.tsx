@@ -24,7 +24,7 @@ export function Sidebar() {
     <>
       <FocusScope trapped={isOpen} loop={isOpen} asChild>
         <aside
-          className={`transition-all fixed z-101 top-0 bottom-0 flex flex-col overflow-x-hidden overflow-y-auto w-13 p-2 bg-surface ${isOpen ? "w-65" : "w-13"}`}
+          className={`transition-all fixed z-101 top-0 bottom-0 left-0 flex flex-col overflow-x-hidden overflow-y-auto w-13 p-2 bg-surface ${isOpen ? "w-65" : "w-13"}`}
           id="sidebar"
           aria-label="Menu lateral de desafios"
         >

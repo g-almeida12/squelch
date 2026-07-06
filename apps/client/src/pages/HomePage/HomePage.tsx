@@ -8,10 +8,7 @@ export function HomePage() {
     <div className="flex flex-row min-h-dvh">
       <TabSwitchView
         tabs={HOMEPAGE_TABS}
-        tabContent={[
-          <StartMain />,
-          <SubmissionsMain />
-        ]}
+        tabContent={[<StartMain />, <SubmissionsMain />]}
       />
       <Sidebar />
     </div>

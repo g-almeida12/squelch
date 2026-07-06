@@ -1,4 +1,5 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
+import { Root } from "@radix-ui/react-portal";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdEmail, MdAccountCircle } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -65,10 +66,10 @@ export function ProfileUpdate({
   };
 
   return (
-    <>
+    <Root>
       <FocusScope trapped={true} loop={true} asChild>
         <div
-          className={`transition-all w-80 p-2 fixed z-301 top-0 bottom-0 bg-surface right-0 `}
+          className="transition-all w-full p-2 fixed z-301 top-0 bottom-0 right-0 bg-surface sm:w-80"
         >
           <button
             onClick={onClose}
@@ -135,6 +136,6 @@ export function ProfileUpdate({
         onClick={onClose}
         className="fixed z-300 left-0 right-0 bottom-0 top-0"
       ></div>
-    </>
+    </Root>
   );
 }
