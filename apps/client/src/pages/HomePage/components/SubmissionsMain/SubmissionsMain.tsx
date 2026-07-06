@@ -1,4 +1,4 @@
-import { useGetUserSubmissions } from "../../../../features/submission/submission.queries";
+import { useGetUserSubmissions } from "../../../../features/submission/hooks/submission.queries";
 import { SubmissionCardList } from "../../../../components/SubmissionCardList";
 import { SubmissionsInfo } from "../SubmissionsInfo";
 

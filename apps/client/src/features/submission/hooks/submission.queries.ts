@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { submissionQueryKeys } from "./submission.query-keys";
 import type { SubmissionDTO } from "@squelch/shared";
-import api from "../../api/axios.api";
-import { API_ROUTES } from "../../config/constants";
-import type { ExtendedErrorPayload } from "../../types";
+import api from "../../../api/axios.api";
+import { API_ROUTES } from "../../../config/constants";
+import type { ExtendedErrorPayload } from "../../../types";
 
 export function useGetSubmission(id: number) {
   return useQuery<SubmissionDTO, ExtendedErrorPayload>({

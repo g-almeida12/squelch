@@ -7,7 +7,7 @@ import { useGetChallenge } from "../../../../features/challenge/hooks/challenges
 import {
   useRunQuery,
   useValidateQuery,
-} from "../../../../features/submission/submission.mutations";
+} from "../../../../features/submission/hooks/submission.mutations";
 import { useEffect, useRef, useState } from "react";
 import { AvaliableTables } from "../AvaliableTables";
 

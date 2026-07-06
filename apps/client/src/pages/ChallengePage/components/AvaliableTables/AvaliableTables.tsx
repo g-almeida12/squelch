@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaCaretUp } from "react-icons/fa";
-import { useRunQuery } from "../../../../features/submission/submission.mutations";
+import { useRunQuery } from "../../../../features/submission/hooks/submission.mutations";
 
 type AvaliableTables = {
   tableName: string;

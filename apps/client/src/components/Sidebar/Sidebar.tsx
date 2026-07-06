@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { APP_ROUTES } from "../../config/constants";
 
 export function Sidebar() {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data: challengeList, isFetching, isError } = useGetChallengeList();
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function Sidebar() {
           </div>
 
           {/* Toggle button */}
-          <div className="flex items-center justify-start mb-3.5 border-b border-solid p-1 border-subtle">
+          <div className="flex items-center justify-start mb-3.5 border-b border-solid py-1 pl-0.5 border-subtle">
             <button
               onClick={() => setIsOpen((prev) => !prev)}
               className="p-1 cursor-pointer"

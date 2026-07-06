@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Button, SubmissionCardList } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
-import { useGetChallengeSubmissions } from "../../../../features/submission/submission.queries";
+import { useGetChallengeSubmissions } from "../../../../features/submission/hooks/submission.queries";
 
 export function HistoryMain() {
   const { challengeId } = useParams<{ challengeId: string }>();
