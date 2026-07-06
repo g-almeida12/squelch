@@ -114,7 +114,14 @@ export function UserConfig({
 
             return (
               <div className="flex flex-row gap-2 items-center w-full mt-2">
-                <div className="size-13 shrink-0 rounded-full bg-subtle"></div>
+                <div className="size-13 shrink-0 rounded-full">
+                  <img
+                    src={`https://api.dicebear.com/9.x/shapes/svg?seed=${user!.name}`}
+                    alt=""
+                    className="w-full h-full rounded-full bg-gray-100"
+                    aria-hidden="true"
+                  />
+                </div>
                 <div className="flex flex-col items-start justify-center">
                   <strong className="text-xl font-medium">{user!.name}</strong>
                   <p className="italic text-tx-overlay max-w-58.25 truncate">
