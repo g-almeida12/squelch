@@ -7,7 +7,7 @@ import type { ExtendedErrorPayload } from "../../../types";
 
 export function useGetSubmission(id: number) {
   return useQuery<SubmissionDTO, ExtendedErrorPayload>({
-    queryKey: submissionQueryKeys.SUBMISSION(id),
+    queryKey: submissionQueryKeys.submission(id),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.SUBMISSION(id), {
         withCredentials: true,
@@ -21,7 +21,7 @@ export function useGetSubmission(id: number) {
 
 export function useGetUserSubmissions() {
   return useQuery<SubmissionDTO[], ExtendedErrorPayload>({
-    queryKey: submissionQueryKeys.USER_SUBMISSIONS,
+    queryKey: submissionQueryKeys.user(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER_SUBMISSIONS, {
         withCredentials: true,
@@ -34,7 +34,7 @@ export function useGetUserSubmissions() {
 
 export function useGetChallengeSubmissions(id: number) {
   return useQuery<SubmissionDTO[], ExtendedErrorPayload>({
-    queryKey: submissionQueryKeys.CHALLENGES(id),
+    queryKey: submissionQueryKeys.challenge(id),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGES_SUBMISSIONS(id), {
         withCredentials: true,

@@ -4,14 +4,14 @@ import type {
   ChallengeList,
   ChallengeResume,
 } from "@squelch/shared";
-import { CHALLENGE_QUERY_KEYS } from "./challenge.query-keys";
+import { challengeQueryKeys } from "./challenge.query-keys";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
 import type { ExtendedErrorPayload } from "../../../types";
 
 export function useGetChallenge(id: number) {
   return useQuery<ChallengeDTO, ExtendedErrorPayload>({
-    queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE(id),
+    queryKey: challengeQueryKeys.challenge(id),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE(id), {
         withCredentials: true,
@@ -26,7 +26,7 @@ export function useGetChallenge(id: number) {
 
 export function useGetChallengeList() {
   return useQuery<ChallengeList, ExtendedErrorPayload>({
-    queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE_LIST,
+    queryKey: challengeQueryKeys.list(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_LIST, {
         withCredentials: true,
@@ -40,7 +40,7 @@ export function useGetChallengeList() {
 
 export function useGetChallengeResume() {
   return useQuery<ChallengeResume | null, ExtendedErrorPayload>({
-    queryKey: CHALLENGE_QUERY_KEYS.CHALLENGE_RESUME,
+    queryKey: challengeQueryKeys.resume(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_RESUME, {
         withCredentials: true,

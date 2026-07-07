@@ -5,9 +5,9 @@ import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
 import type { ExtendedErrorPayload } from "../../../types";
 
-export function useGetUser() {
+export function useGetUserProfile() {
   return useQuery<UserDTO, ExtendedErrorPayload>({
-    queryKey: userQueryKeys.USER,
+    queryKey: userQueryKeys.profile(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER, {
         withCredentials: true,
@@ -25,7 +25,7 @@ export function useGetUser() {
 
 export function useGetUserProgress() {
   return useQuery<UserProgressDTO, ExtendedErrorPayload>({
-    queryKey: userQueryKeys.USER_PROGRESS,
+    queryKey: userQueryKeys.progress(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.USER_PROGRESS, {
         withCredentials: true,

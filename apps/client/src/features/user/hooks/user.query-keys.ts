@@ -1,4 +1,5 @@
 export const userQueryKeys = {
-  USER: ["user"] as const,
-  USER_PROGRESS: ["user", "progress"] as const,
-};
+  all: ["user"] as const,
+  profile: () => [...userQueryKeys.all, "profile"] as const,
+  progress: () => [...userQueryKeys.all, "progress"] as const,
+} as const;

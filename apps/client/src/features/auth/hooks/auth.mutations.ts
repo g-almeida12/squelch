@@ -18,7 +18,7 @@ export function useRegisterUser() {
       return response.data;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.USER });
+      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
     },
   });
 }
@@ -32,7 +32,7 @@ export function useLoginUser() {
       return response.data;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.USER });
+      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
     },
   });
 }

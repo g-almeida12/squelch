@@ -8,6 +8,7 @@ import type {
 } from "@squelch/shared";
 import { submissionQueryKeys } from "./submission.query-keys";
 import type { ExtendedErrorPayload } from "../../../types";
+import { challengeQueryKeys } from "../../challenge/hooks/challenge.query-keys";
 
 export function useRunQuery() {
   return useMutation<
@@ -48,15 +49,15 @@ export function useValidateQuery() {
       return response.data.body;
     },
 
-    onSuccess: async (validation) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.CHALLENGES(validation.submission.challengeId),
+        queryKey: submissionQueryKeys.all,
       });
       await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.SUBMISSION(validation.submission.id),
+        queryKey: challengeQueryKeys.list(),
       });
       await queryClient.invalidateQueries({
-        queryKey: submissionQueryKeys.USER_SUBMISSIONS,
+        queryKey: challengeQueryKeys.resume(),
       });
     },
   });

@@ -1,9 +1,9 @@
-import { useGetUser } from "../../../../features/user/hooks/user.queries";
+import { useGetUserProfile } from "../../../../features/user/hooks/user.queries";
 import { ResumeChallenge } from "../ResumeChallenge";
 import { ProgressCards } from "../ProgressCards";
 
 export function StartMain() {
-  const { data: user } = useGetUser();
+  const { data: user } = useGetUserProfile();
 
   const hour = new Date().getHours();
   let greeting: string;
@@ -18,9 +18,9 @@ export function StartMain() {
   return (
     <>
       <h1 className="mt-4 text-[25px] font-heading font-semibold tracking-wide">
-        {greeting}, {user ? user.name : ".."}.
+        {user?.name ? `${greeting}, ${user.name}.` : `${greeting}.`}
       </h1>
-      
+
       <ProgressCards />
 
       <ResumeChallenge />

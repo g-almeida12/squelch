@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useGetUser } from "../../features/user/hooks/user.queries";
+import { useGetUserProfile } from "../../features/user/hooks/user.queries";
 import { APP_ROUTES } from "../../config/constants";
 
 export function PrivateRoute() {
-  const { isFetching, isError } = useGetUser();
+  const { isLoading, isError } = useGetUserProfile();
 
   if (isError) {
     return <Navigate to={APP_ROUTES.LOGIN} replace />;
-  } else if (isFetching) {
+  } else if (isLoading) {
     return <LoadingFallback />;
   }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
-import { useGetUser } from "../../features/user/hooks/user.queries";
+import { useGetUserProfile } from "../../features/user/hooks/user.queries";
 import { UserConfig } from "./components";
 
 interface NavbarProps {
@@ -14,7 +14,7 @@ export function Navbar({
   activeTab,
   handleActiveTabChange,
 }: NavbarProps) {
-  const { data: user, isFetching, isError } = useGetUser();
+  const { data: user, isFetching, isError } = useGetUserProfile();
   const [isUserConfigOpen, setIsUserConfigOpen] = useState<boolean>(false);
 
   useEffect(() => {

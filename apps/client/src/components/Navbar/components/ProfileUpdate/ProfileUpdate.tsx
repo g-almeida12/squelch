@@ -11,9 +11,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { Input, Button } from "../../..";
-import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateUser } from "../../../../features/user/hooks/user.mutations";
-import { userQueryKeys } from "../../../../features/user/hooks/user.query-keys";
 
 interface ProfileUpdateProps {
   user: UserDTO | undefined;
@@ -26,7 +24,6 @@ export function ProfileUpdate({
   isFetching,
   onClose,
 }: ProfileUpdateProps) {
-  const queryClient = useQueryClient();
   const updateMutation = useUpdateUser();
   const {
     register,
@@ -50,10 +47,7 @@ export function ProfileUpdate({
 
   const handleFormSubmit = (user: UserUpdate) => {
     updateMutation.mutate(user, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: userQueryKeys.USER });
-        onClose();
-      },
+      onSuccess: onClose,
       onError: (err) => {
         if (err.statusCode === 409) {
           setError("root", { message: "Email já cadastrado." });
@@ -68,9 +62,7 @@ export function ProfileUpdate({
   return (
     <Root>
       <FocusScope trapped={true} loop={true} asChild>
-        <div
-          className="transition-all w-full p-2 fixed z-301 top-0 bottom-0 right-0 bg-surface sm:w-80"
-        >
+        <div className="transition-all w-full p-2 fixed z-301 top-0 bottom-0 right-0 bg-surface sm:w-80">
           <button
             onClick={onClose}
             className="cursor-pointer -ml-2"

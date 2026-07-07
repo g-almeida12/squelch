@@ -46,7 +46,7 @@ export function RegisterPage() {
   const handleRegisterSubmittion = (newUser: UserRegister) => {
     registerMutation.mutate(newUser, {
       onSuccess: (registeredUser) => {
-        queryClient.setQueryData(userQueryKeys.USER, registeredUser);
+        queryClient.setQueryData(userQueryKeys.profile(), registeredUser);
         navigate(APP_ROUTES.HOME);
       },
       onError: (err) => {

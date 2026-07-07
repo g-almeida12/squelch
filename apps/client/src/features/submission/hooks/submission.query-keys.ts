@@ -1,5 +1,8 @@
 export const submissionQueryKeys = {
-  CHALLENGES: (id: number) => ["challenge", id, "submissions"] as const,
-  SUBMISSION: (id: number) => ["submission", id] as const,
-  USER_SUBMISSIONS: ["submissions"] as const,
-};
+  all: ["submissions"] as const,
+  challenge: (id: number) =>
+    [...submissionQueryKeys.all, "challenge", id] as const,
+  submission: (id: number) =>
+    [...submissionQueryKeys.all, "details", id] as const,
+  user: () => [...submissionQueryKeys.all, "user"] as const,
+} as const;
