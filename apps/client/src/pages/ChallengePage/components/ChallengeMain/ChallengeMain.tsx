@@ -112,10 +112,10 @@ export function ChallengeMain() {
               />
 
               {/* User's query editor */}
-              <div className="relative w-full grid grid-cols-2 gap-x-4 gap-y-1 mt-14">
+              <div className="relative w-full flex flex-col gap-y-4 mt-10 lg:grid lg:grid-cols-2 lg:gap-x-1">
                 {(runQueryMutation.isError ||
                   validateQueryMutation.isError) && (
-                  <p className="absolute -top-8 col-span-2 text-red-400">
+                  <p className="col-span-2 text-red-400">
                     {runQueryMutation.error?.body.message ||
                       validateQueryMutation.error?.body.message}
                   </p>

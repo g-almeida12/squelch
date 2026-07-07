@@ -62,7 +62,7 @@ export function AvaliableTables({ challengeId }: AvaliableTablesProps) {
         (avaliableTables.length === 0 ? (
           <TablesSkeleton />
         ) : (
-          <div className="grid grid-cols-4 gap-2 mt-4">
+          <div className="flex flex-col gap-2 mt-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {avaliableTables.map(({ tableName, properties }) => (
               <div
                 className="overflow-hidden rounded-md bg-[#2c384a]"

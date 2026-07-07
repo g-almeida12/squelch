@@ -85,7 +85,7 @@ export function MonacoEditor({
               small
               title="Ctrl + Enter"
             >
-              Testar query
+              Testar
             </Button>
             <Button
               onClick={() =>
@@ -94,7 +94,7 @@ export function MonacoEditor({
               small
               title="Ctrl + Shift + Enter"
             >
-              Validar query
+              Validar
             </Button>
           </div>
         )}

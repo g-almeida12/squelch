@@ -46,7 +46,7 @@ export function QueryResult({
           if (isPending) {
             return (
               <div className="h-full flex items-center justify-center">
-                <span className="text-xs font-mono text-gray-500">
+                <span className="p-1 text-center text-xs font-mono text-gray-500">
                   Executando query. Aguarde...
                 </span>
               </div>
@@ -56,7 +56,7 @@ export function QueryResult({
           if (isError) {
             return (
               <div className="h-full flex items-center justify-center">
-                <span className="text-xs font-mono text-gray-500">
+                <span className="p-2 text-center text-xs font-mono text-gray-500">
                   Não foi possível extrair os dados.
                 </span>
               </div>
@@ -66,7 +66,7 @@ export function QueryResult({
           if (!hasRows) {
             return (
               <div className="h-full flex items-center justify-center">
-                <span className="text-xs font-mono text-gray-500">
+                <span className="p-2 text-center text-xs font-mono text-gray-500">
                   Parece que sua query não encontrou nada...
                 </span>
               </div>
