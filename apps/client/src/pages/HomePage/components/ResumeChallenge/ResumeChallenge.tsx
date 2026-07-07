@@ -42,7 +42,7 @@ export function ResumeChallenge() {
 
         return (
           <div className="flex flex-col w-full max-w-sm min-w-72 rounded-1 p-2 bg-dark select-none">
-            <h3 className="truncate">
+            <h3 className="truncate font-heading font-semibold [font-variant-caps:small-caps]">
               {challengeResume!.groupTitle} - {challengeResume!.title}
             </h3>
             <p className="text-tx-overlay text-sm">

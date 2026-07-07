@@ -35,14 +35,16 @@ export function SubmissionsInfo({
 
           return (
             <>
-              <p className="pl-4 text-tx-overlay sm:text-lg">
+              <p className="pl-4 text-tx-overlay font-heading font-semibold [font-variant-caps:small-caps] sm:text-lg">
                 Submissões totais: {userSubmissions!.length}
               </p>
 
               <div className="relative flex flex-col gap-3 items-center justify-between mt-4 sm:flex-row sm:gap-0">
                 {/* Correct attempts */}
                 <div className="flex flex-col gap-0.5 items-start justify-center flex-1 w-full h-15 px-4 sm:w-fit sm:gap-2">
-                  <p className="text-xl">Envios corretos: {successQuant}</p>
+                  <p className="text-xl font-heading font-semibold [font-variant-caps:small-caps]">
+                    Envios Corretos: {successQuant}
+                  </p>
                   <div className="relative w-full h-1.5 rounded-full bg-subtle">
                     <span
                       className={`absolute block left-0 top-0 bottom-0 rounded-full bg-green-500`}
@@ -57,7 +59,9 @@ export function SubmissionsInfo({
 
                 {/* Wrong attempts */}
                 <div className="flex flex-col gap-0.5 items-start justify-center flex-1 w-full h-15 px-4 sm:w-fit sm:gap-2">
-                  <p className="text-xl">Envios errados: {failureQuant}</p>
+                  <p className="text-xl font-heading font-semibold [font-variant-caps:small-caps]">
+                    Envios Errados: {failureQuant}
+                  </p>
                   <div className="relative w-full h-1.5 rounded-full bg-subtle">
                     <span
                       className={`absolute block left-0 top-0 bottom-0 rounded-full bg-red-500`}

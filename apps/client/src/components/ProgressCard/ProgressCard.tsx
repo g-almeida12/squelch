@@ -16,9 +16,9 @@ export function ProgressCard({
   hasProgressCircle,
 }: ProgressCardProps) {
   return (
-    <div className="flex flex-col gap-5 items-center justify-center w-full max-w-sm min-w-72 rounded-1 p-2 bg-surface select-none">
+    <div className="flex flex-col gap-5 items-center justify-center w-full max-w-sm min-w-68 rounded-1 p-2 bg-surface select-none">
       <p
-        className="flex flex-row items-center justify-start gap-2 text-tx-overlay text-[17px]"
+        className="flex flex-row items-center justify-start gap-2 text-tx-overlay font-heading font-semibold text-[17px] [font-variant-caps:small-caps]"
         id={`info-${title}`}
       >
         <Icon size={20} /> {title}

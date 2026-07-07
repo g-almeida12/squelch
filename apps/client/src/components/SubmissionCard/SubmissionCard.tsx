@@ -59,7 +59,7 @@ export function SubmissionCard({
 
         {isOpen && (
           <div className="mt-8" id={`list-${submission.id}`}>
-            <div className="flex flex-col gap-4 items-center justify-between sm:flex-row">
+            <div className="flex flex-col gap-4 items-center justify-between lg:flex-row">
               <div className="flex-1 w-full">
                 <p className="mb-2 text-xl">Sua query:</p>
                 <MonacoEditor
