@@ -11,18 +11,18 @@ export function NotFoundPage() {
   }, []);
 
   return (
-    <main className="w-full min-h-dvh flex items-center justify-center p-10">
-      <div className="w-full max-w-5xl flex flex-row items-stretch gap-20 mb-30">
+    <main className="w-full min-h-dvh flex items-center justify-center p-2 lg:p-10">
+      <div className="w-full max-w-5xl flex flex-col-reverse items-stretch gap-20 mb-30 text-center lg:text-left lg:flex-row">
         {/* Text content */}
-        <div className="max-w-xl">
+        <div className="max-w-xl text-center mx-auto lg:mx-0 lg:text-left">
           <h1
-            className="text-5xl font-bold tracking-wide font-features-['smcp'] font-heading"
+            className="hidden text-5xl font-bold tracking-wide font-features-['smcp'] font-heading lg:block"
             aria-describedby="h1-desc"
           >
             ERRO 404
           </h1>
           <p
-            className="text-3xl font-medium font-features-['smcp'] font-heading mb-10"
+            className="hidden text-3xl font-medium font-features-['smcp'] font-heading mb-10 lg:block"
             id="h1-desc"
           >
             Página não encontrada
@@ -39,7 +39,22 @@ export function NotFoundPage() {
         </div>
 
         {/* Editor content */}
-        <div className="w-full max-w-md flex flex-col">
+        <div className="w-full max-w-2xl flex flex-col mx-auto lg:mx-0">
+          {/* Display only on mobile screens */}
+          <h1
+            className="text-5xl font-bold tracking-wide font-features-['smcp'] font-heading lg:hidden"
+            aria-describedby="h1-desc"
+          >
+            ERRO 404
+          </h1>
+          <p
+            className="text-3xl font-medium font-features-['smcp'] font-heading mb-10 lg:hidden"
+            id="h1-desc"
+          >
+            Página não encontrada
+          </p>
+
+          {/* Editor */}
           <div className="w-full flex-1 rounded-1 overflow-hidden flex flex-col">
             <div className="h-8 bg-gray-800 flex items-center justify-start shrink-0 gap-2 px-4">
               <span className="size-4 bg-red-700 rounded-full"></span>
@@ -61,8 +76,7 @@ export function NotFoundPage() {
               </p>
               <p>
                 <span className="font-bold text-[#F6339A]">AND</span>{" "}
-                caminho_url{" "}
-                <span className="font-bold text-[#F6339A]">=</span>{" "}
+                caminho_url <span className="font-bold text-[#F6339A]">=</span>{" "}
                 <span className="font-bold text-[#0DD124]">
                   '{location.pathname}'
                 </span>
