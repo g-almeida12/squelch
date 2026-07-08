@@ -1,8 +1,12 @@
-import { useGetUserProfile } from "../../../../features/user/hooks/user.queries";
+import {
+  useGetUserProfile,
+  useGetUserProgress,
+} from "../../../../features/user/hooks/user.queries";
 import { ResumeChallenge } from "../ResumeChallenge";
 import { ProgressCards } from "../ProgressCards";
 
 export function StartMain() {
+  const { data: userProgress, isFetching, isError } = useGetUserProgress();
   const { data: user } = useGetUserProfile();
 
   const hour = new Date().getHours();
@@ -21,9 +25,14 @@ export function StartMain() {
         {user?.name ? `${greeting}, ${user.name}.` : `${greeting}.`}
       </h1>
 
-      <ProgressCards />
+      <ProgressCards userProgress={userProgress} isFetching={isFetching} isError={isError} />
 
-      <ResumeChallenge />
+      <ResumeChallenge
+        isGroupsCompleted={
+          !!userProgress &&
+          userProgress?.totalGroups === userProgress?.totalGroups
+        }
+      />
     </>
   );
 }

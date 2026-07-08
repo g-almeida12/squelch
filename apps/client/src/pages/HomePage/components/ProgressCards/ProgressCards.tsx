@@ -1,11 +1,19 @@
 import { IoMdTrophy } from "react-icons/io";
 import { MdLibraryAddCheck, MdUpload } from "react-icons/md";
-import { useGetUserProgress } from "../../../../features/user/hooks/user.queries";
 import { ProgressCard } from "../../../../components";
+import type { UserProgressDTO } from "@squelch/shared";
 
-export function ProgressCards() {
-  const { data: userProgress, isFetching, isError } = useGetUserProgress();
+interface ProgressCardsProps {
+  userProgress: UserProgressDTO | undefined;
+  isFetching: boolean;
+  isError: boolean;
+}
 
+export function ProgressCards({
+  userProgress,
+  isFetching,
+  isError,
+}: ProgressCardsProps) {
   return (
     <section className="w-full max-w-7xl mt-4">
       <div className="flex flex-col items-center justify-between gap-1.5 w-full max-w-3xl m-auto sm:grid sm:grid-cols-4 lg:flex lg:flex-row lg:gap-4 lg:max-w-fit">

@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { Sidebar, TabSwitchView } from "../../components";
 import { ChallengeMain, HistoryMain } from "./components";
 
@@ -8,9 +9,14 @@ export function ChallengePage() {
     <div className="flex flex-row min-h-dvh">
       <TabSwitchView
         tabs={CHALLENGE_TABS}
-        tabContent={[<ChallengeMain />, <HistoryMain />]}
+        tabContent={[<ChallengeMainWrapper />, <HistoryMain />]}
       />
       <Sidebar />
     </div>
   );
+}
+
+function ChallengeMainWrapper() {
+  const { challengeId } = useParams<Record<string, string>>();
+  return <ChallengeMain challengeId={Number(challengeId)} key={challengeId} />;
 }

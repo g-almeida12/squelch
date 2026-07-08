@@ -2,7 +2,11 @@ import { Button } from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
 import { useGetChallengeResume } from "../../../../features/challenge/hooks/challenges.queries";
 
-export function ResumeChallenge() {
+interface ResumeChallengeProps {
+  isGroupsCompleted: boolean;
+}
+
+export function ResumeChallenge({ isGroupsCompleted }: ResumeChallengeProps) {
   const {
     data: challengeResume,
     isFetching,
@@ -15,6 +19,18 @@ export function ResumeChallenge() {
 
       {/* Fallback logic */}
       {(() => {
+        if (isGroupsCompleted) {
+          return (
+            <div className="flex flex-col w-full max-w-sm min-w-72 min-h-35 rounded-1 p-2 bg-dark select-none">
+              <h3 className="font-medium">Parabéns! Todos os níveis foram concluídos.</h3>
+              <p className="text-tx-overlay text-sm">
+                Espero que tenha sido um ótimo passatempo. Obrigado pela jornada
+                até aqui!
+              </p>
+            </div>
+          );
+        }
+
         if (isFetching) {
           return <ResumeChallengeSkeleton />;
         }

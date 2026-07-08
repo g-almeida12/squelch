@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import type { QueryResultDTO, SubmissionValidationDTO } from "@squelch/shared";
 import { Button, MonacoEditor, QueryResult } from "../../../../components";
@@ -16,12 +15,15 @@ type SubmissionResult = {
   errorMessages: SubmissionValidationDTO["errorMessages"];
 } | null;
 
-export function ChallengeMain() {
+interface ChallengeMainProps {
+  challengeId: number;
+}
+
+export function ChallengeMain({ challengeId }: ChallengeMainProps) {
   const resultSectionRef = useRef<HTMLElement>(null);
   const [userQueryResult, setUserQueryResult] = useState<QueryResultDTO>([]);
   const [submissionResult, setSubmissionResult] =
     useState<SubmissionResult>(null);
-  const { challengeId } = useParams<Record<string, string>>();
   const {
     data: challenge,
     isFetching,
@@ -29,6 +31,13 @@ export function ChallengeMain() {
   } = useGetChallenge(Number(challengeId));
   const runQueryMutation = useRunQuery();
   const validateQueryMutation = useValidateQuery();
+
+  useEffect(() => {
+    runQueryMutation.reset();
+    validateQueryMutation.reset();
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [challengeId]);
 
   useEffect(() => {
     if (!submissionResult) return;
@@ -46,7 +55,7 @@ export function ChallengeMain() {
     if (!submittedQuery) return;
 
     runQueryMutation.mutate(
-      { id: Number(challengeId!), submittedQuery },
+      { id: challengeId, submittedQuery },
       {
         onSuccess: (queryResult) => setUserQueryResult(queryResult),
       },
@@ -58,7 +67,7 @@ export function ChallengeMain() {
 
     const date = new Date();
     validateQueryMutation.mutate(
-      { id: Number(challengeId!), submission: { submittedQuery, date } },
+      { id: challengeId, submission: { submittedQuery, date } },
       {
         onSuccess: (validation) => {
           setUserQueryResult(validation.submission.userQueryResult);
@@ -107,7 +116,7 @@ export function ChallengeMain() {
               </div>
 
               <AvaliableTables
-                challengeId={challengeId ? Number(challengeId) : undefined}
+                challengeId={challengeId ? challengeId : undefined}
               />
 
               {/* User's query editor */}
@@ -148,7 +157,7 @@ export function ChallengeMain() {
               Resposta Correta!
             </h2>
             <p className="pl-2 mt-2 text-lg text-tx-overlay">
-              Parabéns! Você está cada vez mais próximo de desvendar o mistério.
+              Mandou bem! Desafio concluído com sucesso.
             </p>
 
             <hr className="my-4 text-subtle" />
