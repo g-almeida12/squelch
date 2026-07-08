@@ -3,7 +3,9 @@ import { AppStepsCard } from "./AppStepsCard";
 export function AppSteps() {
   return (
     <section className="max-w-6xl mx-auto flex flex-col gap-4 mb-50 md:gap-14 lg:mb-25">
-      <AppStepsCard title="1° Passo: Escolha o seu caso" imgSrc="" imgAlt="">
+      <AppStepsCard
+        title="1° Passo: Escolha o seu caso"
+      >
         <p>
           Explore nosso arquivo de enigmas interativos. De pequenos mistérios
           cotidianos a conspirações complexas ocultas em linhas de tabelas,
@@ -12,8 +14,6 @@ export function AppSteps() {
       </AppStepsCard>
       <AppStepsCard
         title="2° Passo: Interrogue o Banco de Dados"
-        imgSrc=""
-        imgAlt=""
         variant="reversed"
       >
         <p>
@@ -22,7 +22,9 @@ export function AppSteps() {
           SELECT para extrair apenas a verdade que os dados tentam esconder.
         </p>
       </AppStepsCard>
-      <AppStepsCard title="3° Passo: Revele o segredo" imgSrc="" imgAlt="">
+      <AppStepsCard
+        title="3° Passo: Revele o segredo"
+      >
         <p>
           Execute sua query contra o banco de dados e veja o resultado na hora.
           Se a sua lógica estiver certa, o enigma é resolvido, a pista é

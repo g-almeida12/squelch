@@ -1,15 +1,11 @@
 interface AppStepsCardProps {
   title: string;
-  imgSrc: string;
-  imgAlt: string;
   variant?: "reversed" | "normal";
   children: React.ReactNode;
 }
 
 export function AppStepsCard({
   title,
-  imgSrc,
-  imgAlt,
   variant = "normal",
   children,
 }: AppStepsCardProps) {
@@ -28,9 +24,7 @@ export function AppStepsCard({
       </div>
 
       {/* Image */}
-      <div className="bg-tx-overlay flex-1 w-full m-auto aspect-video sm:w-[80%]">
-        <img src={imgSrc} alt={imgAlt} loading="lazy" />
-      </div>
+      <div className="bg-main flex items-center justify-center flex-1 w-full m-auto sm:w-[80%]"></div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export function Hero() {
 
       {/* Text content and image container */}
       <div className="flex flex-col items-center justify-between max-w-5xl m-auto mt-16 lg:flex-row">
-        <div className="max-w-md text-center">
+        <div className="max-w-md text-center lg:text-left">
           <h1 className="font-semibold tracking-wide text-4xl/[3rem]">
             Squelch: Resolva mistérios usando SQL
           </h1>
@@ -21,7 +21,7 @@ export function Hero() {
             A plataforma interativa para praticar SQL de um jeito inovador e
             direto no seu navegador.
           </p>
-          <div className="flex flex-col gap-2 w-fit m-auto mt-12">
+          <div className="flex flex-col gap-2 w-fit mx-auto mt-12 lg:mx-0">
             <Button to={APP_ROUTES.REGISTER}>Registre-se agora</Button>
             <Button
               to={APP_ROUTES.REGISTER}
