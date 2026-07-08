@@ -2,7 +2,7 @@ import type { UserLogin } from "@squelch/shared";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import { MdEmail } from "react-icons/md";
 import { PiPasswordFill } from "react-icons/pi";
-import { Input, Button } from "../../components";
+import { Input, Button } from "../../../../components";
 
 interface LoginFormProps {
   register: UseFormRegister<UserLogin>;

@@ -9,7 +9,7 @@ import { useRegisterUser } from "../../features/auth/hooks/auth.mutations";
 import { userQueryKeys } from "../../features/user/hooks/user.query-keys";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { RegisterForm } from "./RegisterForm";
+import { RegisterForm } from "./components";
 
 const ExtendedUserRegisterSchema = UserRegisterSchema.extend({
   confirmPassword: UserRegisterSchema.shape.password,

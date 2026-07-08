@@ -8,7 +8,7 @@ import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { useLoginUser } from "../../features/auth/hooks/auth.mutations";
 import { userQueryKeys } from "../../features/user/hooks/user.query-keys";
-import { LoginForm } from "./LoginForm";
+import { LoginForm } from "./components";
 
 export function LoginPage() {
   const queryClient = useQueryClient();

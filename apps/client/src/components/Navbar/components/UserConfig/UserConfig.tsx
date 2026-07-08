@@ -94,7 +94,6 @@ export function UserConfig({
           {/* User information */}
           {/* Fallback logic */}
           {(() => {
-            console.log(user);
             if (isFetching) {
               return (
                 <div className="flex flex-row gap-2 items-center w-full mt-2">
