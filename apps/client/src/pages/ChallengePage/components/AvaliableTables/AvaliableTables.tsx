@@ -76,6 +76,7 @@ export function AvaliableTables({ challengeId }: AvaliableTablesProps) {
                   {Object.entries(properties).map(([key, value], rowIndex) => (
                     <li
                       className={`px-2 py-1 ${rowIndex % 2 === 0 ? "bg-white/6" : "bg-transparent"}`}
+                      key={rowIndex}
                     >
                       <span>{key}</span> <span>{value}</span>
                     </li>
@@ -93,7 +94,10 @@ function TablesSkeleton() {
   return (
     <div className="grid grid-cols-4 gap-2 mt-4">
       {Array.from({ length: 4 }).map((_, idx) => (
-        <div className="h-50 w-full rounded-md bg-[#2c384a] animate-pulse" key={idx}></div>
+        <div
+          className="h-50 w-full rounded-md bg-[#2c384a] animate-pulse"
+          key={idx}
+        ></div>
       ))}
     </div>
   );

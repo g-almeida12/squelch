@@ -25,12 +25,16 @@ export function StartMain() {
         {user?.name ? `${greeting}, ${user.name}.` : `${greeting}.`}
       </h1>
 
-      <ProgressCards userProgress={userProgress} isFetching={isFetching} isError={isError} />
+      <ProgressCards
+        userProgress={userProgress}
+        isFetching={isFetching}
+        isError={isError}
+      />
 
       <ResumeChallenge
         isGroupsCompleted={
           !!userProgress &&
-          userProgress?.totalGroups === userProgress?.totalGroups
+          userProgress?.completedGroupSlugs.length === userProgress?.totalGroups
         }
       />
     </>

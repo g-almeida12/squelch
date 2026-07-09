@@ -9,6 +9,7 @@ import {
 } from "../../../../features/submission/hooks/submission.mutations";
 import { useEffect, useRef, useState } from "react";
 import { AvaliableTables } from "../AvaliableTables";
+import { challengeDifficultiesMap } from "../../../../features/challenge/helpers/constants";
 
 type SubmissionResult = {
   success: boolean;
@@ -111,6 +112,34 @@ export function ChallengeMain({ challengeId }: ChallengeMainProps) {
               <h2 className="mt-10 text-2xl font-semibold font-heading tracking-wider">
                 {challenge.groupTitle} - {challenge.title}
               </h2>
+              <div className="flex gap-2 items-center mt-1.5 mb-3">
+                <span
+                  className="text-tx-contrast py-0.5 px-2 rounded-sm border-2 font-bold tracking-wide"
+                  style={{
+                    backgroundColor:
+                      challenge.difficulty === "EASY"
+                        ? "#15BD20"
+                        : challenge.difficulty === "MEDIUM"
+                          ? "#De671D"
+                          : "#De1D1D",
+                    borderColor:
+                      challenge.difficulty === "EASY"
+                        ? "#15BD20"
+                        : challenge.difficulty === "MEDIUM"
+                          ? "#De671D"
+                          : "#De1D1D",
+                  }}
+                >
+                  {challengeDifficultiesMap[challenge.difficulty]}
+                </span>
+                <span
+                  className={`py-0.5 px-2 font-bold tracking-wide rounded-sm border-2 border-accent-primary ${challenge.completedByUser ? "bg-accent-primary text-tx-contrast" : "text-accent-primary"}`}
+                >
+                  {challenge.completedByUser ? "CONCLUÍDO" : "NÃO CONCLUÍDO"}
+                </span>
+              </div>
+              <hr className="mb-4" />
+
               <div className="prose prose-invert text-[17px] max-w-5xl my-2">
                 <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
               </div>

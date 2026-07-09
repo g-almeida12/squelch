@@ -1,9 +1,10 @@
-import type { ChallengeList } from "@squelch/shared";
-import { FaCaretUp } from "react-icons/fa";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaCaretUp } from "react-icons/fa";
+import type { ChallengeList } from "@squelch/shared";
+import { challengeDifficultiesMap } from "../../../features/challenge/helpers/constants";
 import { APP_ROUTES } from "../../../config/constants";
 import { GROUP_ICONS } from "../group-icons";
-import { useState } from "react";
 
 interface ChallengeNavbarProps {
   challengeList: ChallengeList;
@@ -68,6 +69,9 @@ export function ChallengeNavbar({
                 id={`list-${groupTitle}`}
               >
                 {challenges.map((c, idx) => {
+                  const mappedDifficulty =
+                    challengeDifficultiesMap[c.difficulty];
+
                   return (
                     <li
                       className={`flex flex-row items-center w-full h-7.5 border-l-2 font-heading ${
@@ -78,7 +82,23 @@ export function ChallengeNavbar({
                       data-id={c.id}
                       key={c.id}
                     >
-                      <div className="h-full w-9 min-w-9 shrink-0"></div>
+                      <div className="flex items-center justify-start h-full w-9 min-w-9 shrink-0 pl-1">
+                        <span
+                          className="h-4 w-6 px-2 rounded-sm text-base"
+                          style={{
+                            backgroundColor:
+                              c.difficulty === "EASY"
+                                ? "#15BD20"
+                                : c.difficulty === "MEDIUM"
+                                  ? "#De671D"
+                                  : "#De1D1D",
+                          }}
+                          title={
+                            mappedDifficulty[0].toUpperCase() +
+                            mappedDifficulty.slice(1).toLowerCase()
+                          }
+                        ></span>
+                      </div>
                       <Link
                         to={APP_ROUTES["CHALLENGE"](c.id)}
                         className={`w-full block truncate text-[15px] line-clamp-1 text-left cursor-pointer ${
