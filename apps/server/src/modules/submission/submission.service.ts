@@ -26,13 +26,14 @@ export class SubmissionService implements ISubmissionService {
     submittedQuery: string,
     challengeId: Id,
   ): Promise<QueryRunEntity[]> {
-    const challenge = await this.challengeService.findById(challengeId);
+    const challengeQueryInfo =
+      await this.challengeService.getChallengeQueryInfo(challengeId);
 
     const folderPath = join(
       process.cwd(),
       "challenges",
       "groups",
-      challenge.group_slug,
+      challengeQueryInfo.group_slug,
       "challenge.db",
     );
     const sandboxDb = new Database(folderPath, { readonly: true });
@@ -90,14 +91,15 @@ export class SubmissionService implements ISubmissionService {
     queryResult: QueryRunEntity[];
     errorMessages: string[] | null;
   }> {
-    const challenge = await this.challengeService.findById(challengeId);
+    const challengeQueryInfo =
+      await this.challengeService.getChallengeQueryInfo(challengeId);
 
     const userQueryResult = await this.runQuery(
       submission.submittedQuery,
       challengeId,
     );
     const expectedQueryResult = await this.runQuery(
-      challenge.validation_query,
+      challengeQueryInfo.validation_query,
       challengeId,
     );
 

@@ -7,12 +7,25 @@ import { ApplicationError } from "../../shared/errors/index.js";
 import {
   ChallengeEntity,
   ChallengeListItemEntity,
+  ChallengeQueryEntity,
   ChallengeResumeEntity,
 } from "./challenge.entity.js";
 
 export class ChallengeService implements IChallengeService {
   constructor(private challengeRepository: IChallengeRepository) {
     this.challengeRepository = challengeRepository;
+  }
+
+  async getChallengeQueryInfo(
+    challengeId: Id,
+  ): Promise<ChallengeQueryEntity> {
+    const challengeQueryInfo =
+      await this.challengeRepository.getChallengeQueryInfo(challengeId);
+    if (!challengeQueryInfo) {
+      throw new ApplicationError("Desafio não encontrado.", 404);
+    }
+
+    return challengeQueryInfo;
   }
 
   async getChallengeResume(userId: Id): Promise<ChallengeResumeEntity | null> {
@@ -29,8 +42,11 @@ export class ChallengeService implements IChallengeService {
     return challengeList;
   }
 
-  async findById(challengeId: Id): Promise<ChallengeEntity> {
-    const challenge = await this.challengeRepository.findById(challengeId);
+  async findById(challengeId: Id, userId: Id): Promise<ChallengeEntity> {
+    const challenge = await this.challengeRepository.findById(
+      challengeId,
+      userId,
+    );
     if (!challenge) {
       throw new ApplicationError("Desafio não encontrado.", 404);
     }

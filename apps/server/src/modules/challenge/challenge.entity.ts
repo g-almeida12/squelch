@@ -13,8 +13,15 @@ export type ChallengeEntity = {
   group_title: string;
   markdown: string;
   difficulty: ChallengeDifficulties;
+  completed_by_user: boolean;
   validation_query: string;
 };
+
+export type ChallengeQueryEntity = {
+  id: Id;
+  group_slug: string;
+  validation_query: string;
+}
 
 export type ChallengeResumeEntity = {
   id: Id;
@@ -44,6 +51,7 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
     groupTitle: challenge.group_title,
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
+    completedByUser: challenge.completed_by_user
   };
 }
 

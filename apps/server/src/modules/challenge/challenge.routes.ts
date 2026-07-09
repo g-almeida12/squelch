@@ -25,10 +25,14 @@ challengeRouter.get("/challenges/list", async (req: AuthRequest, res) => {
 });
 
 // Find by ID route
-challengeRouter.get("/challenges/:challengeId", async (req, res) => {
-  const { success, statusCode, body } = await challengeController.findById(
-    req.params?.challengeId,
-  );
+challengeRouter.get(
+  "/challenges/:challengeId",
+  async (req: AuthRequest, res) => {
+    const { success, statusCode, body } = await challengeController.findById(
+      req.params?.challengeId,
+      req.user?.id,
+    );
 
-  return res.status(statusCode).json({ success, body });
-});
+    return res.status(statusCode).json({ success, body });
+  },
+);

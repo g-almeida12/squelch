@@ -4,9 +4,7 @@ import { join } from "path";
 
 const dbPath = join(process.cwd(), "database.db");
 
-export const db = new Database(dbPath, {
-  verbose: console.log,
-});
+export const db = new Database(dbPath);
 
 db.pragma("journal_mode = WAL");
 db.pragma("foreign_keys = ON");

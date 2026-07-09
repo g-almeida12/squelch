@@ -1,4 +1,6 @@
 export type {
+  ChallengeDTO,
+  ChallengeDifficulties,
   ChallengeList,
   ChallengeListItem,
   ChallengeResume,

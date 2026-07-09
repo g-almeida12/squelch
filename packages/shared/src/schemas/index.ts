@@ -1,10 +1,3 @@
-export {
-  type ChallengeDTO,
-  ChallengeDTOSchema,
-  type ChallengeDifficulties,
-  ChallengesDifficultiesSchema,
-} from "./challenge.schemas.js";
-
 export { type Id, IdSchema } from "./id.schemas.js";
 
 export {

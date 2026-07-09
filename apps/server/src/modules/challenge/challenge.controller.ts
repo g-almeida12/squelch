@@ -62,14 +62,25 @@ export class ChallengeController {
     }
   }
 
-  async findById(challengeId: unknown): Promise<HTTPResponse<ChallengeDTO>> {
+  async findById(
+    challengeId: unknown,
+    userId: unknown,
+  ): Promise<HTTPResponse<ChallengeDTO>> {
     try {
-      const validation = IdSchema.safeParse(challengeId);
-      if (!validation.success) {
+      const challengeIdValidation = IdSchema.safeParse(challengeId);
+      if (!challengeIdValidation.success) {
         throw new ApplicationError("ID de desafio inválido fornecido.", 400);
       }
 
-      const challenge = await this.challengeService.findById(validation.data);
+      const userIdValidation = IdSchema.safeParse(userId);
+      if (!userIdValidation.success) {
+        throw new ApplicationError("ID de usuário inválido fornecido.", 400);
+      }
+
+      const challenge = await this.challengeService.findById(
+        challengeIdValidation.data,
+        userIdValidation.data,
+      );
       return {
         success: true,
         statusCode: 200,
