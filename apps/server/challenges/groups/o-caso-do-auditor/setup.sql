@@ -150,7 +150,7 @@ INSERT INTO consultas_medicas (pessoa_id, clinica, data_hora, tipo_ferimento) VA
 (6721, 'Hospital Beneficente', '2026-05-15 14:20:00', 'Fratura exposta no tornozelo'),
 (2055, 'Upa Central', '2026-05-15 21:10:00', 'Corte extenso no braço direito causado por ferramenta'),
 (9135, 'Pronto Atendimento Sol', '2026-05-15 11:15:00', 'Crise de enxaqueca severa'),
-(8743, 'Hospital São Lucas', '2026-05-15 23:55:00', 'Ferimento cortante no braço direito, hemorragia moderada'),
+(1194, 'Hospital São Lucas', '2026-05-15 23:55:00', 'Ferimento cortante no braço direito, hemorragia moderada'),
 (5012, 'Upa Norte', '2026-05-15 23:45:00', 'Exames de rotina admissionais'),
 (3291, 'Upa Central', '2026-05-15 18:30:00', 'Contusão muscular no ombro esquerdo');
 

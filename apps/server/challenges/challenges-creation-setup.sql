@@ -68,22 +68,22 @@ INSERT OR IGNORE INTO challenges
 (
   6,
   'O Intermediário Corporativo', 
-  'SELECT nome FROM pessoas WHERE id = 5012;', 
+  'SELECT nome, ocupacao FROM pessoas WHERE id = 5012;', 
   'HARD', 
   'o-caso-do-auditor', 
   'O Caso do Auditor', 
   'O executor confessou que foi pago para cometer o crime por meio de uma transferência bancária remota. Ele não sabe o valor exato, mas revelou que a quantia correspondia a exatamente **7 vezes o salário médio** do seu cargo.
 
-  Descubra o nome de quem autorizou o pagamento.'
+  Descubra o nome e a ocupação de quem autorizou o pagamento e sua empresa.'
 ),
 (
   7,
   'O Verdadeiro Mandante', 
-  'SELECT nome FROM pessoas WHERE id = 8743;', 
+  "SELECT nome, ocupacao, (SELECT nome_empresa FROM contas_bancarias WHERE numero_conta = '4028-5') as empresa FROM pessoas WHERE id = 8743;", 
   'MEDIUM', 
   'o-caso-do-auditor', 
   'O Caso do Auditor', 
   'A pessoa que autorizou a transferência alegou ter apenas seguido ordens recebidas por um e-mail interno enviado "de cima". Descobrimos também que a vítima era responsável pela auditoria financeira da empresa e havia agendado uma reunião urgente com a diretoria para expor uma grande fraude interna.
 
-  Descubra o nome do verdadeiro mandante do crime.'
+  Descubra o nome e a ocupação do verdadeiro mandante, além da empresa que agiu por trás do crime.'
 );
