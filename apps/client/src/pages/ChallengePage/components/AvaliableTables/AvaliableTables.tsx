@@ -48,13 +48,13 @@ export function AvaliableTables({ challengeId }: AvaliableTablesProps) {
           aria-controls={`avaliable-tables`}
         >
           <FaCaretUp
-            className={`text-tx-main ${isOpen ? "rotate-0" : "rotate-180"}`}
+            className={`text-tx-overlay ${isOpen ? "rotate-0" : "rotate-180"}`}
             size={24}
             aria-hidden={true}
           />
         </button>
 
-        <p className="font-medium">Tabelas disponíveis</p>
+        <p className="text-[15px] font-heading font-semibold text-tx-overlay">Tabelas disponíveis</p>
       </div>
 
       {/* Avaliable tables */}

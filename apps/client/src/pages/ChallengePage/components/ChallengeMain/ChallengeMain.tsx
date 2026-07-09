@@ -1,6 +1,11 @@
 import ReactMarkdown from "react-markdown";
 import type { QueryResultDTO, SubmissionValidationDTO } from "@squelch/shared";
-import { Button, MonacoEditor, QueryResult } from "../../../../components";
+import {
+  AnotationArea,
+  Button,
+  MonacoEditor,
+  QueryResult,
+} from "../../../../components";
 import { APP_ROUTES } from "../../../../config/constants";
 import { useGetChallenge } from "../../../../features/challenge/hooks/challenges.queries";
 import {
@@ -83,7 +88,7 @@ export function ChallengeMain({ challengeId }: ChallengeMainProps) {
 
   return (
     <>
-      <section>
+      <section className={submissionResult ? "mb-0" : "mb-10"}>
         {/* Fallback logic */}
         {(() => {
           if (isFetching) {
@@ -138,7 +143,7 @@ export function ChallengeMain({ challengeId }: ChallengeMainProps) {
                   {challenge.completedByUser ? "CONCLUÍDO" : "NÃO CONCLUÍDO"}
                 </span>
               </div>
-              <hr className="mb-4" />
+              <hr className="mb-6" />
 
               <div className="prose prose-invert text-[17px] max-w-5xl my-2">
                 <ReactMarkdown>{challenge.markdown}</ReactMarkdown>
@@ -171,6 +176,9 @@ export function ChallengeMain({ challengeId }: ChallengeMainProps) {
                     isError={runQueryMutation.isError}
                     height="h-80"
                   />
+                </div>
+                <div className="flex-1 col-span-2">
+                  <AnotationArea challengeId={challengeId} key={challengeId} />
                 </div>
               </div>
             </>

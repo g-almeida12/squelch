@@ -30,7 +30,7 @@ export function QueryResult({
           <span className="size-4 bg-yellow-500 rounded-full"></span>
           <span className="size-4 bg-green-700 rounded-full"></span>
         </div>
-        <span className="text-[12px] font-mono text-gray-400">
+        <span className="text-[12px] font-mono text-tx-overlay">
           {hasRows
             ? `${rows.length} linha${rows.length === 1 ? "" : "s"}`
             : isPending
