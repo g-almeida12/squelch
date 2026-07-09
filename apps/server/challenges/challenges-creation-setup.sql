@@ -79,7 +79,7 @@ INSERT OR IGNORE INTO challenges
 (
   7,
   'O Verdadeiro Mandante', 
-  `SELECT nome, ocupacao, (SELECT nome_empresa FROM contas_bancarias WHERE numero_conta = '4028-5') as empresa FROM pessoas WHERE id = 8743;`, 
+  'SELECT nome, ocupacao, (SELECT nome_empresa FROM contas_bancarias WHERE numero_conta = ''4028-5'') as empresa FROM pessoas WHERE id = 8743;', 
   'MEDIUM', 
   'o-caso-do-auditor', 
   'O Caso do Auditor', 
