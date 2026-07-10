@@ -80,7 +80,7 @@ INSERT OR IGNORE INTO challenges
   7,
   'O Verdadeiro Mandante', 
   'SELECT nome, ocupacao, (SELECT nome_empresa FROM contas_bancarias WHERE numero_conta = ''4028-5'') as empresa FROM pessoas WHERE id = 8743;', 
-  'MEDIUM', 
+  'HARD', 
   'o-caso-do-auditor', 
   'O Caso do Auditor', 
   'A pessoa que autorizou a transferência alegou ter apenas seguido ordens recebidas por um e-mail interno enviado "de cima". Descobrimos também que a vítima era responsável pela auditoria financeira da empresa e havia agendado uma reunião urgente com a diretoria para expor uma grande fraude interna.

@@ -16,6 +16,7 @@ export function useGetSubmission(id: number) {
       return response.data.body;
     },
     enabled: !!id,
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -29,6 +30,7 @@ export function useGetUserSubmissions() {
       });
       return response.data.body;
     },
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -43,5 +45,6 @@ export function useGetChallengeSubmissions(id: number) {
       return response.data.body;
     },
     enabled: !!id,
+    refetchOnWindowFocus: false,
   });
 }

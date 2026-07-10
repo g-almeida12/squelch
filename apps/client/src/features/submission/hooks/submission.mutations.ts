@@ -54,10 +54,7 @@ export function useValidateQuery() {
         queryKey: submissionQueryKeys.all,
       });
       await queryClient.invalidateQueries({
-        queryKey: challengeQueryKeys.list(),
-      });
-      await queryClient.invalidateQueries({
-        queryKey: challengeQueryKeys.resume(),
+        queryKey: challengeQueryKeys.all,
       });
     },
   });

@@ -18,7 +18,6 @@ export function useGetUserProfile() {
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
-
     retry: false,
   });
 }
@@ -34,5 +33,6 @@ export function useGetUserProgress() {
 
       return response.data.body;
     },
+    refetchOnWindowFocus: false,
   });
 }
