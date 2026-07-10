@@ -1,5 +1,5 @@
 # SQUELCH
-#### Video Demo:  <CHANGE_TO_URL>
+#### Website: http://squelch-sql.vercel.app/landing-page
 ## Description:
 
 Squelch is a fun, interactive web platform built for anyone who wants to learn or sharpen their SQL skills through puzzle-solving. Inspired directly by CS50x's "Fiftyville" problem set, the site captures that exact "eureka!" moment of using data to crack a case. Playing through Fiftyville was such an awesome experience that it sparked the idea to build an entire platform dedicated to data-driven detective mysteries. Instead of just running boring, repetitive commands, Squelch drops you into immersive scenarios—like investigating late-night heists or exposing corporate fraud—where writing raw SQL queries is the only way to find the culprit.
