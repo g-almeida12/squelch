@@ -1,9 +1,9 @@
-export type SuccessPayload<B> = {
+export type SuccessPayloadDTO<B> = {
   success: true;
   body: B;
 };
 
-export type ErrorPayload = {
+export type ErrorPayloadDTO = {
   success: false;
   body: {
     message: string;
@@ -12,7 +12,7 @@ export type ErrorPayload = {
   };
 };
 
-export type HTTPStatusCode =
+export type HTTPStatusCodeDTO =
   | 200
   | 201
   | 204

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { type UserRegister, UserRegisterSchema } from "@squelch/shared";
+import { type AuthRegister, AuthRegisterSchema } from "@squelch/shared";
 import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { useRegisterUser } from "../../features/auth/hooks/auth.mutations";
@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { RegisterForm } from "./components";
 
-const ExtendedUserRegisterSchema = UserRegisterSchema.extend({
-  confirmPassword: UserRegisterSchema.shape.password,
+const ExtendedUserRegisterSchema = AuthRegisterSchema.extend({
+  confirmPassword: AuthRegisterSchema.shape.password,
 }).superRefine((data, ctx) => {
   if (!data) return;
 
@@ -43,7 +43,7 @@ export function RegisterPage() {
     document.title = "Squelch - Registre-se";
   }, []);
 
-  const handleRegisterSubmittion = (newUser: UserRegister) => {
+  const handleRegisterSubmittion = (newUser: AuthRegister) => {
     registerMutation.mutate(newUser, {
       onSuccess: (registeredUser) => {
         queryClient.setQueryData(userQueryKeys.profile(), registeredUser);

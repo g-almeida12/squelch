@@ -1,9 +1,5 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import type {
-  UserRegister,
-  UserAuthDTO,
-  UserLogin,
-} from "@squelch/shared";
+import type { AuthRegister, AuthDTO, AuthLogin } from "@squelch/shared";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
 import { userQueryKeys } from "../../user/hooks/user.query-keys";
@@ -12,7 +8,7 @@ import type { ExtendedErrorPayload } from "../../../types";
 export function useRegisterUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<UserAuthDTO, ExtendedErrorPayload, UserRegister>({
+  return useMutation<AuthDTO, ExtendedErrorPayload, AuthRegister>({
     mutationFn: async (newUser) => {
       const response = await api.post(API_ROUTES.REGISTER, newUser);
       return response.data;
@@ -26,7 +22,7 @@ export function useRegisterUser() {
 export function useLoginUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<UserAuthDTO, ExtendedErrorPayload, UserLogin>({
+  return useMutation<AuthDTO, ExtendedErrorPayload, AuthLogin>({
     mutationFn: async (user) => {
       const response = await api.post(API_ROUTES.LOGIN, user);
       return response.data;

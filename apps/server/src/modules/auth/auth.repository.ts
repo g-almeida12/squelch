@@ -1,8 +1,8 @@
-import { UserRegister } from "@squelch/shared";
+import { AuthRegister } from "@squelch/shared";
 import { RunResult, Statement } from "better-sqlite3";
 import { IAuthRepository } from "./auth.interfaces.js";
 import { db } from "../../shared/database/index.js";
-import {ApplicationError} from "../../shared/errors/index.js";
+import { ApplicationError } from "../../shared/errors/index.js";
 import { RefreshTokenEntity } from "./auth.entity.js";
 import { IUserRepository, UserEntity } from "../user/index.js";
 
@@ -32,7 +32,7 @@ export class AuthRepository implements IAuthRepository {
     );
   }
 
-  async register(newUser: UserRegister): Promise<UserEntity> {
+  async register(newUser: AuthRegister): Promise<UserEntity> {
     try {
       const registerResult = this.registerUserStmt.run(newUser);
 

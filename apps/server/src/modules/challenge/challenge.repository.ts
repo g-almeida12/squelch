@@ -5,8 +5,8 @@ import {
   ChallengeListItemEntity,
   ChallengeQueryEntity,
   ChallengeResumeEntity,
-} from "./challenge.entity.js";
-import { IChallengeRepository } from "./challenge.interfaces.js";
+  IChallengeRepository,
+} from "./index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { db } from "../../shared/database/index.js";
 
@@ -91,14 +91,14 @@ export class ChallengeRepository implements IChallengeRepository {
 
   async getChallengeResume(userId: Id): Promise<ChallengeResumeEntity | null> {
     try {
-      const challengeResume = this.getChallengeResumeStmt.get({
+      const ChallengeResumeDTO = this.getChallengeResumeStmt.get({
         userId,
       }) as ChallengeResumeEntity | undefined;
-      if (!challengeResume) {
+      if (!ChallengeResumeDTO) {
         return null;
       }
 
-      return challengeResume;
+      return ChallengeResumeDTO;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

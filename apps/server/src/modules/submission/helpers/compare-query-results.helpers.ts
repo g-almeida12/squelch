@@ -1,4 +1,4 @@
-import { QueryRunEntity } from "../submission.entity.js";
+import { QueryRunEntity } from "../index.js";
 
 export type QueryValidationResult = {
   differenceInRows: number;

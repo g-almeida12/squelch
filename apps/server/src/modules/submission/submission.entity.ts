@@ -25,7 +25,6 @@ export type SubmissionSave = {
   userId: Id;
 }
 
-
 export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
   return {
     id: submission.id,

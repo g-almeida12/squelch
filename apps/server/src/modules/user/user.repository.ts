@@ -1,9 +1,8 @@
 import { Statement } from "better-sqlite3";
-import { UserEntity, UserProgressEntity } from "./user.entity.js";
-import { IUserRepository } from "./user.interfaces.js";
+import { Id } from "@squelch/shared";
 import { db } from "../../shared/database/index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { Id } from "@squelch/shared";
+import { UserEntity, UserProgressEntity, IUserRepository } from "./index.js";
 
 export class UserRepository implements IUserRepository {
   // Prepared statments

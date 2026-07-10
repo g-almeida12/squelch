@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UserAuthDTO } from "@squelch/shared";
+import type { AuthDTO } from "@squelch/shared";
 import { API_ROUTES } from "../config/constants";
 import type { ExtendedErrorPayload } from "../types";
 
@@ -38,7 +38,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const response = await axios.post<UserAuthDTO>(
+        const response = await axios.post<AuthDTO>(
           `${API_ROUTES.BASE_URL}${API_ROUTES.REFRESH}`,
           {},
           { withCredentials: true },

@@ -1,5 +1,5 @@
-import type { ErrorPayload, HTTPStatusCode } from "@squelch/shared";
+import type { ErrorPayloadDTO, HTTPStatusCodeDTO } from "@squelch/shared";
 
-export type ExtendedErrorPayload = ErrorPayload & {
-  statusCode: HTTPStatusCode
+export type ExtendedErrorPayload = ErrorPayloadDTO & {
+  statusCode: HTTPStatusCodeDTO
 }

@@ -1,16 +1,16 @@
 import {
   ChallengeDTO,
-  ChallengeList,
-  ChallengeResume,
+  ChallengeListDTO,
+  ChallengeResumeDTO,
   IdSchema,
 } from "@squelch/shared";
-import { IChallengeService } from "./challenge.interfaces.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import {
+  IChallengeService,
   mapChallengeDTO,
-  mapChallengeList,
+  mapChallengeListDTO,
   mapChallengeResumeDTO,
-} from "./challenge.entity.js";
+} from "./index.js";
 import { HTTPResponse } from "../../shared/types/index.js";
 
 export class ChallengeController {
@@ -20,20 +20,22 @@ export class ChallengeController {
 
   async getChallengeResume(
     userId: unknown,
-  ): Promise<HTTPResponse<ChallengeResume | null>> {
+  ): Promise<HTTPResponse<ChallengeResumeDTO | null>> {
     try {
       const idValidation = IdSchema.safeParse(userId);
       if (!idValidation.success) {
         throw new ApplicationError("ID de usuário inválido fornecido.", 400);
       }
 
-      const challengeResume = await this.challengeService.getChallengeResume(
+      const ChallengeResumeDTO = await this.challengeService.getChallengeResume(
         idValidation.data,
       );
       return {
         success: true,
         statusCode: 200,
-        body: challengeResume ? mapChallengeResumeDTO(challengeResume) : null,
+        body: ChallengeResumeDTO
+          ? mapChallengeResumeDTO(ChallengeResumeDTO)
+          : null,
       };
     } catch (err) {
       return ApplicationError.handleControllerError(err);
@@ -42,7 +44,7 @@ export class ChallengeController {
 
   async getChallengeList(
     userId: unknown,
-  ): Promise<HTTPResponse<ChallengeList>> {
+  ): Promise<HTTPResponse<ChallengeListDTO>> {
     try {
       const idValidation = IdSchema.safeParse(userId);
       if (!idValidation.success) {
@@ -55,7 +57,7 @@ export class ChallengeController {
       return {
         success: true,
         statusCode: 200,
-        body: mapChallengeList(challengeList),
+        body: mapChallengeListDTO(challengeList),
       };
     } catch (err) {
       return ApplicationError.handleControllerError(err);

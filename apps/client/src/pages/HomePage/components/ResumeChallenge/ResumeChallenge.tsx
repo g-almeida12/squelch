@@ -8,7 +8,7 @@ interface ResumeChallengeProps {
 
 export function ResumeChallenge({ isGroupsCompleted }: ResumeChallengeProps) {
   const {
-    data: challengeResume,
+    data: ChallengeResumeDTO,
     isFetching,
     isError,
   } = useGetChallengeResume();
@@ -22,7 +22,9 @@ export function ResumeChallenge({ isGroupsCompleted }: ResumeChallengeProps) {
         if (isGroupsCompleted) {
           return (
             <div className="flex flex-col w-full max-w-sm min-w-72 min-h-35 rounded-1 p-2 bg-dark select-none">
-              <h3 className="font-medium">Parabéns! Todos os níveis foram concluídos.</h3>
+              <h3 className="font-medium">
+                Parabéns! Todos os níveis foram concluídos.
+              </h3>
               <p className="text-tx-overlay text-sm">
                 Espero que tenha sido um ótimo passatempo. Obrigado pela jornada
                 até aqui!
@@ -45,7 +47,7 @@ export function ResumeChallenge({ isGroupsCompleted }: ResumeChallengeProps) {
           );
         }
 
-        if (challengeResume === null) {
+        if (ChallengeResumeDTO === null) {
           return (
             <div className="flex flex-col w-full max-w-sm min-w-72 min-h-35 rounded-1 p-2 bg-dark select-none">
               <h3>Nenhum desafio pendente encontrado.</h3>
@@ -59,36 +61,34 @@ export function ResumeChallenge({ isGroupsCompleted }: ResumeChallengeProps) {
         return (
           <div className="flex flex-col w-full max-w-sm min-w-72 rounded-1 p-2 bg-dark select-none">
             <h3 className="truncate font-heading font-semibold [font-variant-caps:small-caps]">
-              {challengeResume!.groupTitle} - {challengeResume!.title}
+              {ChallengeResumeDTO!.groupTitle} - {ChallengeResumeDTO!.title}
             </h3>
             <p className="text-tx-overlay text-sm">
               Última vez:{" "}
-              {new Date(challengeResume!.lastSubmissionDate).toLocaleDateString(
-                "pt-BR",
-                {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                },
-              )}{" "}
+              {new Date(
+                ChallengeResumeDTO!.lastSubmissionDate,
+              ).toLocaleDateString("pt-BR", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}{" "}
               às{" "}
-              {new Date(challengeResume!.lastSubmissionDate).toLocaleTimeString(
-                "pt-BR",
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                },
-              )}
+              {new Date(
+                ChallengeResumeDTO!.lastSubmissionDate,
+              ).toLocaleTimeString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
             <p className="text-tx-overlay text-sm">
-              {challengeResume!.totalSubmissions}{" "}
-              {challengeResume!.totalSubmissions === 1
+              {ChallengeResumeDTO!.totalSubmissions}{" "}
+              {ChallengeResumeDTO!.totalSubmissions === 1
                 ? "tentativa"
                 : "tentativas"}
             </p>
 
             <Button
-              to={APP_ROUTES.CHALLENGE(challengeResume!.id)}
+              to={APP_ROUTES.CHALLENGE(ChallengeResumeDTO!.id)}
               customClassName="mt-6  w-fit"
             >
               Retormar desafio

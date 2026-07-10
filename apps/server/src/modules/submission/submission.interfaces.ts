@@ -1,13 +1,5 @@
-import {
-  Id,
-  QueryResultDTO,
-  SubmissionValidation,
-} from "@squelch/shared";
-import {
-  QueryRunEntity,
-  SubmissionEntity,
-  SubmissionSave
-} from "./submission.entity.js";
+import { Id, QueryResultDTO, SubmissionValidation } from "@squelch/shared";
+import { QueryRunEntity, SubmissionEntity, SubmissionSave } from "./index.js";
 
 export interface ISubmissionRepository {
   save(submission: SubmissionSave): Promise<SubmissionEntity>;

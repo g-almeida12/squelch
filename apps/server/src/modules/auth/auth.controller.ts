@@ -1,21 +1,16 @@
-import {
-  UserAuthDTO,
-  UserLoginSchema,
-  UserRegisterSchema,
-} from "@squelch/shared";
-import { AuthService } from "./auth.service.js";
+import { AuthLoginSchema, AuthRegisterSchema } from "@squelch/shared";
+import { AuthService, AuthEntity } from "./index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { HTTPResponse } from "../../shared/types/index.js";
-
 
 export class AuthController {
   constructor(private authService: AuthService) {
     this.authService = authService;
   }
 
-  async register(newUser: unknown): Promise<HTTPResponse<UserAuthDTO>> {
+  async register(newUser: unknown): Promise<HTTPResponse<AuthEntity>> {
     try {
-      const validation = UserRegisterSchema.safeParse(newUser);
+      const validation = AuthRegisterSchema.safeParse(newUser);
       if (!validation.success) {
         const invalidFields = validation.error.issues.map((issue) => ({
           field: issue.path.join("."),
@@ -36,9 +31,9 @@ export class AuthController {
     }
   }
 
-  async login(user: unknown): Promise<HTTPResponse<UserAuthDTO>> {
+  async login(user: unknown): Promise<HTTPResponse<AuthEntity>> {
     try {
-      const validation = UserLoginSchema.safeParse(user);
+      const validation = AuthLoginSchema.safeParse(user);
       if (!validation.success) {
         const invalidFields = validation.error.issues.map((issue) => ({
           field: issue.path.join("."),
@@ -59,7 +54,7 @@ export class AuthController {
     }
   }
 
-  async refresh(token: unknown): Promise<HTTPResponse<UserAuthDTO>> {
+  async refresh(token: unknown): Promise<HTTPResponse<AuthEntity>> {
     try {
       if (!token || typeof token !== "string") {
         throw new ApplicationError(

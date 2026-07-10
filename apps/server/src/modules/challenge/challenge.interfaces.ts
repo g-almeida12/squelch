@@ -1,4 +1,9 @@
-import { ChallengeEntity, ChallengeListItemEntity, ChallengeQueryEntity, ChallengeResumeEntity } from "./challenge.entity.js";
+import {
+  ChallengeEntity,
+  ChallengeListItemEntity,
+  ChallengeQueryEntity,
+  ChallengeResumeEntity,
+} from "./index.js";
 import { Id } from "@squelch/shared";
 
 export interface IChallengeRepository {

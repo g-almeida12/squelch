@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { userController } from "../../config/factory.config.js";
 import {
   authenticationMiddleware,
   AuthRequest,
 } from "../../shared/middlewares/index.js";
 import { removeTokens } from "../../shared/helpers/index.js";
+import { userController } from "../../config/factory.config.js";
 
 export const userRouter = Router({ mergeParams: true });
 userRouter.use(authenticationMiddleware);

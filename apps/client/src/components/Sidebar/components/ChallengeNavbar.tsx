@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaCaretUp } from "react-icons/fa";
-import type { ChallengeList } from "@squelch/shared";
+import type { ChallengeListDTO } from "@squelch/shared";
 import { challengeDifficultiesMap } from "../../../features/challenge/helpers/constants";
 import { APP_ROUTES } from "../../../config/constants";
 import { GROUP_ICONS } from "../group-icons";
 
 interface ChallengeNavbarProps {
-  challengeList: ChallengeList;
+  challengeList: ChallengeListDTO;
   isSidebarOpen: boolean;
 }
 

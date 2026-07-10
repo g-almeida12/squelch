@@ -1,7 +1,6 @@
 import { UserUpdate, Id } from "@squelch/shared";
-import { IUserRepository, IUserService } from "./user.interfaces.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { UserEntity, UserProgressEntity } from "./user.entity.js";
+import { IUserRepository, IUserService, UserEntity, UserProgressEntity } from "./index.js";
 
 export  class UserService implements IUserService {
   constructor(private userRepository: IUserRepository) {

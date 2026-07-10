@@ -2,23 +2,19 @@ import { Id } from "@squelch/shared";
 import {
   IChallengeRepository,
   IChallengeService,
-} from "./challenge.interfaces.js";
-import { ApplicationError } from "../../shared/errors/index.js";
-import {
   ChallengeEntity,
   ChallengeListItemEntity,
   ChallengeQueryEntity,
   ChallengeResumeEntity,
-} from "./challenge.entity.js";
+} from "./index.js";
+import { ApplicationError } from "../../shared/errors/index.js";
 
 export class ChallengeService implements IChallengeService {
   constructor(private challengeRepository: IChallengeRepository) {
     this.challengeRepository = challengeRepository;
   }
 
-  async getChallengeQueryInfo(
-    challengeId: Id,
-  ): Promise<ChallengeQueryEntity> {
+  async getChallengeQueryInfo(challengeId: Id): Promise<ChallengeQueryEntity> {
     const challengeQueryInfo =
       await this.challengeRepository.getChallengeQueryInfo(challengeId);
     if (!challengeQueryInfo) {
@@ -29,10 +25,10 @@ export class ChallengeService implements IChallengeService {
   }
 
   async getChallengeResume(userId: Id): Promise<ChallengeResumeEntity | null> {
-    const challengeResume =
+    const ChallengeResumeDTO =
       await this.challengeRepository.getChallengeResume(userId);
 
-    return challengeResume;
+    return ChallengeResumeDTO;
   }
 
   async getChallengeList(userId: Id): Promise<ChallengeListItemEntity[]> {

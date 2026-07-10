@@ -1,10 +1,10 @@
-import { HTTPStatusCode } from "@squelch/shared";
+import { HTTPStatusCodeDTO } from "@squelch/shared";
 import { ErrorResponse } from "../types/index.js";
 
 export class ApplicationError extends Error {
   constructor(
     message: string,
-    public statusCode: HTTPStatusCode,
+    public statusCode: HTTPStatusCodeDTO,
     public invalidFields: { field: string; message: string }[] = [],
   ) {
     super(message);

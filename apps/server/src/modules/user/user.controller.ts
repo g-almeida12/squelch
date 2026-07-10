@@ -6,8 +6,7 @@ import {
 } from "@squelch/shared";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { HTTPResponse } from "../../shared/types/index.js";
-import { IUserService } from "./user.interfaces.js";
-import { mapUserDTO, mapUserProgressDTO } from "./user.entity.js";
+import { IUserService, mapUserDTO, mapUserProgressDTO } from "./index.js";
 
 export class UserController {
   constructor(private userService: IUserService) {

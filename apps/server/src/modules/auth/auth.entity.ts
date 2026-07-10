@@ -1,5 +1,11 @@
-import { Id, UserAuthDTO } from "@squelch/shared";
+import { Id, AuthDTO } from "@squelch/shared";
 import { UserEntity } from "../user/index.js";
+
+export type AuthEntity = UserEntity & {
+  access_token: string;
+  refresh_token: string;
+  xsrf_token: string;
+};
 
 export type RefreshTokenEntity = {
   id: Id;
@@ -10,19 +16,11 @@ export type RefreshTokenEntity = {
   revocation_reason: "ROTATION" | "SECURITY_BREACH" | "LOGOUT" | null;
 };
 
-export function mapAuthUserDTO(
-  user: UserEntity & {
-    accessToken: string;
-    refreshToken: string;
-    xsrfToken: string;
-  },
-): UserAuthDTO {
+export function mapAuthDTO(auth: AuthEntity): AuthDTO {
   return {
-    name: user.name,
-    email: user.email,
-    id: user.id,
-    accessToken: user.accessToken,
-    refreshToken: user.refreshToken,
-    xsrfToken: user.xsrfToken,
+    name: auth.name,
+    email: auth.email,
+    id: auth.id,
+    xsrfToken: auth.xsrf_token,
   };
 }

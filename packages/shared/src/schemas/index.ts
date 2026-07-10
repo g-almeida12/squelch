@@ -1,25 +1,17 @@
-export { type Id, IdSchema } from "./id.schemas.js";
+export { IdSchema } from "./id.schemas.js";
 
 export {
-  type QueryResultDTO,
-  QueryResultSchema,
-  type SubmissionDTO,
+  QueryResultDTOSchema,
   SubmissionDTOSchema,
-  type SubmissionValidation,
   SubmissionValidationSchema,
+  SubmissionBaseSchema,
 } from "./submissions.schemas.js";
 
 export {
-  type UserAuthDTO,
-  AuthUserDTOSchema,
-  type UserDTO,
+  UserBaseSchema,
   UserDTOSchema,
-  type UserLogin,
-  UserLoginSchema,
-  type UserProgressDTO,
   UserProgressDTOSchema,
-  type UserRegister,
-  UserRegisterSchema,
-  type UserUpdate,
   UserUpdateSchema,
 } from "./user.schemas.js";
+
+export { AuthLoginSchema, AuthRegisterSchema } from "./auth.schemas.js";

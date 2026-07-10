@@ -1,11 +1,11 @@
-import { UserRegister, UserAuthDTO, UserLogin } from "@squelch/shared";
+import { AuthRegister, AuthLogin } from "@squelch/shared";
 import { IAuthRepository, IAuthService } from "./auth.interfaces.js";
 import { IUserRepository } from "../user/index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
 import { envConfig } from "../../config/env.config.js";
-import { mapAuthUserDTO } from "./auth.entity.js";
+import { AuthEntity } from "./index.js";
 import { randomUUID, createHash } from "crypto";
 
 export class AuthService implements IAuthService {
@@ -17,7 +17,7 @@ export class AuthService implements IAuthService {
     this.userRepository = userRepository;
   }
 
-  async register(newUser: UserRegister): Promise<UserAuthDTO> {
+  async register(newUser: AuthRegister): Promise<AuthEntity> {
     const user = await this.userRepository.findByEmail(newUser.email);
     if (user) {
       throw new ApplicationError("Esse email já está registrado.", 409);
@@ -54,15 +54,15 @@ export class AuthService implements IAuthService {
       },
     );
 
-    return mapAuthUserDTO({
+    return {
       ...registeredUser,
-      accessToken,
-      refreshToken,
-      xsrfToken: randomUUID(),
-    });
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      xsrf_token: randomUUID(),
+    };
   }
 
-  async login(user: UserLogin): Promise<UserAuthDTO> {
+  async login(user: AuthLogin): Promise<AuthEntity> {
     const registeredUser = await this.userRepository.findByEmail(user.email);
     if (!registeredUser) {
       throw new ApplicationError("Email ou senha inválidos.", 422, [
@@ -104,15 +104,15 @@ export class AuthService implements IAuthService {
       },
     );
 
-    return mapAuthUserDTO({
+    return {
       ...registeredUser,
-      accessToken,
-      refreshToken,
-      xsrfToken: randomUUID(),
-    });
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      xsrf_token: randomUUID(),
+    };
   }
 
-  async refresh(token: string): Promise<UserAuthDTO> {
+  async refresh(token: string): Promise<AuthEntity> {
     const hashedToken = createHash("sha256").update(token).digest("hex");
     const registeredRefreshToken =
       await this.authRepository.findRefreshTokenByToken(hashedToken);
@@ -183,11 +183,11 @@ export class AuthService implements IAuthService {
       },
     );
 
-    return mapAuthUserDTO({
+    return {
       ...user,
-      accessToken,
-      refreshToken,
-      xsrfToken: randomUUID(),
-    });
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      xsrf_token: randomUUID(),
+    };
   }
 }

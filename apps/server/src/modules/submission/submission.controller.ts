@@ -7,8 +7,7 @@ import {
 } from "@squelch/shared";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { HTTPResponse } from "../../shared/types/index.js";
-import { ISubmissionService } from "./submission.interfaces.js";
-import { mapSubmissionDTO } from "./submission.entity.js";
+import { ISubmissionService, mapSubmissionDTO } from "./index.js";
 
 export class SubmissionController {
   constructor(private submissionService: ISubmissionService) {
@@ -48,9 +47,7 @@ export class SubmissionController {
     submission: unknown,
     challengeId: unknown,
     userId: unknown,
-  ): Promise<
-    HTTPResponse<SubmissionValidationDTO>
-  > {
+  ): Promise<HTTPResponse<SubmissionValidationDTO>> {
     try {
       const submissionValidation =
         SubmissionValidationSchema.safeParse(submission);

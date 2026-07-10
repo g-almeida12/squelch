@@ -1,17 +1,18 @@
+import { join } from "node:path";
+import Database, { SqliteError } from "better-sqlite3";
 import { SubmissionValidation, Id } from "@squelch/shared";
 import {
   ISubmissionRepository,
   ISubmissionService,
-} from "./submission.interfaces.js";
+  QueryRunEntity,
+  SubmissionEntity,
+} from "./index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
 import { IChallengeService } from "../challenge/index.js";
-import Database, { SqliteError } from "better-sqlite3";
-import { join } from "node:path";
 import {
   compareQueryResults,
   QueryValidationResult,
 } from "./helpers/compare-query-results.helpers.js";
-import { QueryRunEntity, SubmissionEntity } from "./submission.entity.js";
 
 export class SubmissionService implements ISubmissionService {
   constructor(

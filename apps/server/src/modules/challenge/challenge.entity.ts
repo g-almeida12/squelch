@@ -1,8 +1,9 @@
 import {
-  ChallengeDifficulties,
+  ChallengeDifficultiesDTO,
   ChallengeDTO,
-  ChallengeListItem,
-  ChallengeResume,
+  ChallengeListDTO,
+  ChallengeListItemDTO,
+  ChallengeResumeDTO,
   Id,
 } from "@squelch/shared";
 
@@ -12,7 +13,7 @@ export type ChallengeEntity = {
   group_slug: string;
   group_title: string;
   markdown: string;
-  difficulty: ChallengeDifficulties;
+  difficulty: ChallengeDifficultiesDTO;
   completed_by_user: boolean;
   validation_query: string;
 };
@@ -21,13 +22,13 @@ export type ChallengeQueryEntity = {
   id: Id;
   group_slug: string;
   validation_query: string;
-}
+};
 
 export type ChallengeResumeEntity = {
   id: Id;
   group_slug: string;
   title: string;
-  difficulty: ChallengeDifficulties;
+  difficulty: ChallengeDifficultiesDTO;
   user_id: Id;
   group_title: string;
   total_submissions: number;
@@ -38,7 +39,7 @@ export type ChallengeListItemEntity = {
   id: Id;
   group_slug: string;
   title: string;
-  difficulty: ChallengeDifficulties;
+  difficulty: ChallengeDifficultiesDTO;
   group_title: string;
   completed_by_user: boolean;
 };
@@ -51,14 +52,14 @@ export function mapChallengeDTO(challenge: ChallengeEntity): ChallengeDTO {
     groupTitle: challenge.group_title,
     difficulty: challenge.difficulty,
     markdown: challenge.markdown,
-    completedByUser: challenge.completed_by_user
+    completedByUser: challenge.completed_by_user,
   };
 }
 
-export function mapChallengeList(
+export function mapChallengeListDTO(
   challengeList: ChallengeListItemEntity[],
-): Record<string, ChallengeListItem[]> {
-  const sanitizedChallengeList: ChallengeListItem[] = challengeList.map(
+): ChallengeListDTO {
+  const sanitizedChallengeList: ChallengeListItemDTO[] = challengeList.map(
     (c) => ({
       id: c.id,
       title: c.title,
@@ -71,13 +72,13 @@ export function mapChallengeList(
 
   return Object.groupBy(sanitizedChallengeList, (c) => c.groupTitle) as Record<
     string,
-    ChallengeListItem[]
+    ChallengeListItemDTO[]
   >;
 }
 
 export function mapChallengeResumeDTO(
   challengeResume: ChallengeResumeEntity,
-): ChallengeResume {
+): ChallengeResumeDTO {
   return {
     id: challengeResume.id,
     title: challengeResume.title,

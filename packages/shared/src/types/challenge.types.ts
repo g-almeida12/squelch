@@ -1,18 +1,18 @@
-import type { Id } from "../schemas";
+import type { Id } from "./";
 
-export type ChallengeDifficulties = "EASY" | "MEDIUM" | "HARD";
+export type ChallengeDifficultiesDTO = "EASY" | "MEDIUM" | "HARD";
 
 export type ChallengeDTO = {
   title: string;
   markdown: string;
   groupSlug: string;
   groupTitle: string;
-  difficulty: ChallengeDifficulties;
+  difficulty: ChallengeDifficultiesDTO;
   completedByUser: boolean;
   id: Id;
 };
 
-export type ChallengeResume = Omit<
+export type ChallengeResumeDTO = Omit<
   ChallengeDTO,
   "markdown" | "completedByUser"
 > & {
@@ -21,6 +21,6 @@ export type ChallengeResume = Omit<
   lastSubmissionDate: Date;
 };
 
-export type ChallengeListItem = Omit<ChallengeDTO, "markdown">;
+export type ChallengeListItemDTO = Omit<ChallengeDTO, "markdown">;
 
-export type ChallengeList = Record<string, ChallengeListItem[]>;
+export type ChallengeListDTO = Record<string, ChallengeListItemDTO[]>;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { type UserLogin, UserLoginSchema } from "@squelch/shared";
+import { type AuthLogin, AuthLoginSchema } from "@squelch/shared";
 import { Button } from "../../components";
 import { APP_ROUTES } from "../../config/constants";
 import { useLoginUser } from "../../features/auth/hooks/auth.mutations";
@@ -19,8 +19,8 @@ export function LoginPage() {
     formState: { errors },
     setError,
     handleSubmit,
-  } = useForm<UserLogin>({
-    resolver: zodResolver(UserLoginSchema),
+  } = useForm<AuthLogin>({
+    resolver: zodResolver(AuthLoginSchema),
   });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function LoginPage() {
     queryClient.clear();
   }, [queryClient]);
 
-  const handleLoginSubmittion = (user: UserLogin) => {
+  const handleLoginSubmittion = (user: AuthLogin) => {
     loginMutation.mutate(user, {
       onSuccess: (loggedUser) => {
         queryClient.setQueryData(userQueryKeys.profile(), loggedUser);

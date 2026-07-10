@@ -1,5 +1,5 @@
 import { UserUpdate, Id } from "@squelch/shared";
-import { UserEntity, UserProgressEntity } from "./user.entity.js";
+import { UserEntity, UserProgressEntity } from "./index.js";
 
 export interface IUserRepository {
   getUserProgress(userId: Id): Promise<UserProgressEntity>;

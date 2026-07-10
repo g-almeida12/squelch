@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type {
   ChallengeDTO,
-  ChallengeList,
-  ChallengeResume,
+  ChallengeListDTO,
+  ChallengeResumeDTO,
 } from "@squelch/shared";
 import { challengeQueryKeys } from "./challenge.query-keys";
 import api from "../../../api/axios.api";
@@ -25,7 +25,7 @@ export function useGetChallenge(id: number) {
 }
 
 export function useGetChallengeList() {
-  return useQuery<ChallengeList, ExtendedErrorPayload>({
+  return useQuery<ChallengeListDTO, ExtendedErrorPayload>({
     queryKey: challengeQueryKeys.list(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_LIST, {
@@ -39,7 +39,7 @@ export function useGetChallengeList() {
 }
 
 export function useGetChallengeResume() {
-  return useQuery<ChallengeResume | null, ExtendedErrorPayload>({
+  return useQuery<ChallengeResumeDTO | null, ExtendedErrorPayload>({
     queryKey: challengeQueryKeys.resume(),
     queryFn: async () => {
       const response = await api.get(API_ROUTES.CHALLENGE_RESUME, {
