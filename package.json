@@ -4,6 +4,12 @@
   "type": "module",
   "private": true,
   "author": "Gabriel Almeida",
+  "scripts": {
+    "dev": "npm run shared:build -w @squelch/shared && npm run server:dev -w server && npm run client:dev -w client",
+    "setup": "npm run server:setup -w server",
+    "build": "npm run shared:build -w @squelch/shared && npm run server:build -w server && npm run client:build -w client",
+    "start": "npm run shared:build -w @squelch/shared && npm run server:start -w server && npm run client:start -w client"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"

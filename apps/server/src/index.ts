@@ -1,5 +1,3 @@
-import "./shared/database/setup.js";
-import "./config/challenges.config.js";
 import { envConfig } from "./config/env.config.js";
 import { closeDBConnection } from "./shared/database/connection.js";
 import express from "express";

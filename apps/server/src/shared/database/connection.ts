@@ -13,7 +13,7 @@ export function closeDBConnection(server: Server, signal: string) {
   console.log(`Closing database by '${signal}' command...`);
 
   const timerId = setTimeout(() => {
-    console.warn("Forcing immediate termination");
+    console.warn("\x1b[1;33mForcing immediate termination.\x1b[0;0m");
     process.exit(1);
   }, 5000);
 
@@ -26,7 +26,7 @@ export function closeDBConnection(server: Server, signal: string) {
       console.log("Database closed");
     } catch (err) {
       console.error(
-        "[connection.ts - closeDBConnection] Error in attempting to close the database",
+        `\x1b[1;31m[connection.ts] Error in attempting to close the database:\n ${err}\x1b[0;0m`,
       );
     }
 

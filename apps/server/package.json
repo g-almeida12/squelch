@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "server:dev": "nodemon --exec tsx ./src/index.ts",
+    "server:setup": "tsx ./src/config/challenges.config.ts",
     "server:build": "tsc -b ./tsconfig.json",
     "server:start": "node ./dist/index.js"
   },

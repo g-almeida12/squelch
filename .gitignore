@@ -6,4 +6,4 @@ stats.html
 .env
 todo.txt
 tsconfig.tsbuildinfo
-*.db*
+database.db*

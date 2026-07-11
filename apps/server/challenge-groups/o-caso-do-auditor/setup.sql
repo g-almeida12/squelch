@@ -1,5 +1,5 @@
 -- ============================
--- CHALLENGE: O CASO DO AUDITOR
+-- GROUP: O CASO DO AUDITOR
 -- ============================
 
 -- Creation of the tables

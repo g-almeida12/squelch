@@ -1,7 +1,6 @@
 -- ========================
--- CHALLENGE: FURTO NOTURNO
+-- GROUP: FURTO NOTURNO
 -- ========================
-
 
 -- Creation of the tables
 CREATE TABLE veiculos (

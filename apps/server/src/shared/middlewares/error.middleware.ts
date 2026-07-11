@@ -7,7 +7,7 @@ export function errorMiddleware(
   res: Response,
   _next: NextFunction,
 ) {
-  console.error("\n\nError on request: ", err);
+  console.error(`\n\n\x1b[1;31mError on request: ${err}\x1b[0;0m`);
 
   if (err instanceof ApplicationError) {
     return res.status(err.statusCode).json({

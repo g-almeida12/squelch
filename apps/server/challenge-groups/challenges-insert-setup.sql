@@ -1,4 +1,7 @@
+-- ============================
 -- GROUP: Furto Noturno
+-- ============================
+
 INSERT OR IGNORE INTO challenges 
 (position, title, validation_query, difficulty, group_slug, group_title, markdown) VALUES 
 (
@@ -40,7 +43,11 @@ INSERT OR IGNORE INTO challenges
 );
 
 
--- GROUP: O Caso do Auditor
+
+-- ============================
+-- GROUP: O CASO DO AUDITOR
+-- ============================
+
 INSERT OR IGNORE INTO challenges 
 (position, title, validation_query, difficulty, group_slug, group_title, markdown) VALUES 
 (
