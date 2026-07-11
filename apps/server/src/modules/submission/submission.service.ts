@@ -30,21 +30,23 @@ export class SubmissionService implements ISubmissionService {
     const challengeQueryInfo =
       await this.challengeService.getChallengeQueryInfo(challengeId);
 
+    // Create the sandbox database
     const folderPath = join(
       process.cwd(),
-      "challenges",
-      "groups",
+      "challenges-groups",
       challengeQueryInfo.group_slug,
-      "challenge.db",
+      "group.db",
     );
     const sandboxDb = new Database(folderPath, { readonly: true });
 
     try {
+      // Run the user query
       const userAnswerStmt = sandboxDb.prepare(submittedQuery);
       const userAnswer = userAnswerStmt.all() as QueryRunEntity[];
 
       return userAnswer;
     } catch (err: any) {
+      // Catch the SQLite error to display to the user
       if (err instanceof SqliteError) {
         switch (err.code) {
           case "SQLITE_READONLY":
@@ -92,15 +94,16 @@ export class SubmissionService implements ISubmissionService {
     queryResult: QueryRunEntity[];
     errorMessages: string[] | null;
   }> {
+    // Get the challenge answer
     const challengeQueryInfo =
       await this.challengeService.getChallengeQueryInfo(challengeId);
+    const expectedQueryResult = await this.runQuery(
+      challengeQueryInfo.validation_query,
+      challengeId,
+    );
 
     const userQueryResult = await this.runQuery(
       submission.submittedQuery,
-      challengeId,
-    );
-    const expectedQueryResult = await this.runQuery(
-      challengeQueryInfo.validation_query,
       challengeId,
     );
 
