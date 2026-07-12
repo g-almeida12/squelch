@@ -32,7 +32,7 @@ export type ChallengeResumeEntity = {
   user_id: Id;
   group_title: string;
   total_submissions: number;
-  last_submission_date: string;
+  last_submission_date: Date;
 };
 
 export type ChallengeListItemEntity = {

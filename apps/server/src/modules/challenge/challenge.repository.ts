@@ -1,5 +1,4 @@
 import { Id } from "@squelch/shared";
-import { Statement } from "better-sqlite3";
 import {
   ChallengeEntity,
   ChallengeListItemEntity,
@@ -8,82 +7,17 @@ import {
   IChallengeRepository,
 } from "./index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { db } from "../../shared/database/index.js";
+import { prisma } from "../../shared/database/index.js";
 
 export class ChallengeRepository implements IChallengeRepository {
-  // Prepared Statments
-  private getChallengeQueryInfoStmt: Statement;
-  private getChallengeResumeStmt: Statement;
-  private getChallengeListStmt: Statement;
-  private findByIdStmt: Statement;
-  constructor() {
-    this.getChallengeQueryInfoStmt = db.prepare(`
-      SELECT id, group_slug, validation_query
-      FROM challenges
-      WHERE id = @challengeId
-    `);
-    this.getChallengeResumeStmt = db.prepare(`
-      SELECT 
-        c.id, c.title, 
-        c.group_slug, 
-        c.group_title, 
-        c.difficulty, 
-        COUNT(s.id) as total_submissions, 
-        MAX(s.date) as last_submission_date
-      FROM challenges c
-      JOIN submissions s ON c.id = s.challenge_id
-      WHERE s.user_id = @userId
-      GROUP BY c.id, c.title, c.group_slug, c.group_title, c.difficulty
-      HAVING MAX(s.success) = 0
-      ORDER BY last_submission_date DESC
-      LIMIT 1
-    `);
-    this.getChallengeListStmt = db.prepare(`
-      SELECT 
-        c.id, 
-        c.title,
-        c.group_slug, 
-        c.group_title, 
-        c.difficulty, 
-        COALESCE(MAX(s.success), 0) as completed_by_user
-      FROM challenges c
-      LEFT JOIN submissions s ON c.id = s.challenge_id AND s.user_id = ?
-      GROUP BY c.id
-      ORDER BY c.position ASC
-    `);
-    this.findByIdStmt = db.prepare(`
-      SELECT 
-        id, 
-        title, 
-        group_slug, 
-        group_title, 
-        markdown, 
-        difficulty, 
-        validation_query, 
-        COALESCE(
-          (SELECT MAX(success) 
-          FROM submissions 
-          WHERE challenge_id = @challengeId 
-          AND user_id = @userId),
-          0
-        ) as completed_by_user
-      FROM challenges
-      WHERE id = @challengeId
-    `);
-  }
-
   async getChallengeQueryInfo(
     challengeId: Id,
   ): Promise<ChallengeQueryEntity | null> {
     try {
-      const challengeQueryInfo = this.getChallengeQueryInfoStmt.get({
-        challengeId,
-      }) as ChallengeQueryEntity | undefined;
-      if (!challengeQueryInfo) {
-        return null;
-      }
-
-      return challengeQueryInfo;
+      return await prisma.challenge.findUnique({
+        where: { id: challengeId },
+        select: { id: true, group_slug: true, validation_query: true },
+      });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -91,14 +25,24 @@ export class ChallengeRepository implements IChallengeRepository {
 
   async getChallengeResume(userId: Id): Promise<ChallengeResumeEntity | null> {
     try {
-      const ChallengeResumeDTO = this.getChallengeResumeStmt.get({
-        userId,
-      }) as ChallengeResumeEntity | undefined;
-      if (!ChallengeResumeDTO) {
-        return null;
-      }
-
-      return ChallengeResumeDTO;
+      return (
+        await prisma.$queryRaw<(ChallengeResumeEntity | null)[]>`
+          SELECT 
+            c.id, c.title, 
+            c.group_slug, 
+            c.group_title, 
+            c.difficulty, 
+            COUNT(s.id)::int as total_submissions, 
+            MAX(s.date) as last_submission_date
+          FROM challenges c
+          JOIN submissions s ON c.id = s.challenge_id
+          WHERE s.user_id = ${userId}
+          GROUP BY c.id, c.title, c.group_slug, c.group_title, c.difficulty
+          HAVING MAX(s.success::int) = 0
+          ORDER BY last_submission_date DESC
+          LIMIT 1
+        `
+      )[0];
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -106,11 +50,19 @@ export class ChallengeRepository implements IChallengeRepository {
 
   async getChallengeList(userId: Id): Promise<ChallengeListItemEntity[]> {
     try {
-      const challengeList = this.getChallengeListStmt.all(
-        userId,
-      ) as ChallengeListItemEntity[];
-
-      return challengeList;
+      return await prisma.$queryRaw<ChallengeListItemEntity[]>`
+        SELECT
+          c.id,
+          c.title,
+          c.group_slug,
+          c.group_title,
+          c.difficulty,
+          COALESCE(BOOL_OR(s.success), false) AS completed_by_user
+        FROM challenges c
+        LEFT JOIN submissions s ON c.id = s.challenge_id AND s.user_id = ${userId}
+        GROUP BY c.id
+        ORDER BY c.position ASC
+      `;
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -118,14 +70,27 @@ export class ChallengeRepository implements IChallengeRepository {
 
   async findById(challengeId: Id, userId: Id): Promise<ChallengeEntity | null> {
     try {
-      const challenge = this.findByIdStmt.get({ challengeId, userId }) as
-        | ChallengeEntity
-        | undefined;
-      if (!challenge) {
-        return null;
-      }
-
-      return challenge;
+      return (
+        await prisma.$queryRaw<(ChallengeEntity | null)[]>`
+            SELECT 
+              id, 
+              title, 
+              group_slug, 
+              group_title, 
+              markdown, 
+              difficulty, 
+              validation_query, 
+              COALESCE(
+                (SELECT BOOL_OR(success)
+                FROM submissions 
+                WHERE challenge_id = ${challengeId} 
+                AND user_id = ${userId}),
+                false
+              ) as completed_by_user
+            FROM challenges
+            WHERE id = ${challengeId} 
+        `
+      )[0];
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
