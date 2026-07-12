@@ -9,8 +9,6 @@ export interface ISubmissionRepository {
   findByUserId(userId: Id): Promise<SubmissionEntity[]>;
 
   findByChallengeId(challengeId: Id, userId: Id): Promise<SubmissionEntity[]>;
-
-  deleteAllUserSubmissions(userId: Id): Promise<number>;
 }
 
 export interface ISubmissionService {
@@ -31,6 +29,4 @@ export interface ISubmissionService {
   findByUserId(userId: Id): Promise<SubmissionEntity[]>;
 
   findByChallengeId(challengeId: Id, userId: Id): Promise<SubmissionEntity[]>;
-
-  deleteAllUserSubmissions(userId: Id): Promise<void>;
 }

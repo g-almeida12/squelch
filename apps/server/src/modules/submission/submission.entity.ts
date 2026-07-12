@@ -7,23 +7,21 @@ export type SubmissionEntity = {
   challenge_title: string;
   challenge_group_title: string;
   submitted_query: string;
-  date: string;
+  date: Date;
   success: boolean;
   user_query_result: string;
 };
 
-export type QueryRunEntity = {
-  [x: string]: string | number | boolean | null;
-};
+export type QueryRunEntity = Record<string, string>;
 
 export type SubmissionSave = {
   challengeId: Id;
   submittedQuery: string;
   date: Date;
   success: boolean;
-  userQueryResult: QueryResultDTO,
+  userQueryResult: QueryResultDTO;
   userId: Id;
-}
+};
 
 export function mapSubmissionDTO(submission: SubmissionEntity): SubmissionDTO {
   return {

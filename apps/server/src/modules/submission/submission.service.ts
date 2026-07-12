@@ -174,10 +174,6 @@ export class SubmissionService implements ISubmissionService {
     return submissions;
   }
 
-  async deleteAllUserSubmissions(userId: Id): Promise<void> {
-    await this.submissionRepository.deleteAllUserSubmissions(userId);
-  }
-
   private _verifyQueryRunResultErrors(
     queryValidationResult: QueryValidationResult,
   ): { errorMessages: string[] | null; success: boolean } {
