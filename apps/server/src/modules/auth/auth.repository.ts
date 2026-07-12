@@ -1,44 +1,13 @@
 import { AuthRegister } from "@squelch/shared";
-import { RunResult, Statement } from "better-sqlite3";
-import { IAuthRepository } from "./auth.interfaces.js";
-import { db } from "../../shared/database/index.js";
+import { prisma } from "../../shared/database/index.js";
 import { ApplicationError } from "../../shared/errors/index.js";
-import { RefreshTokenEntity } from "./auth.entity.js";
-import { IUserRepository, UserEntity } from "../user/index.js";
+import { UserEntity } from "../user/index.js";
+import { IAuthRepository, RefreshTokenEntity } from "./index.js";
 
 export class AuthRepository implements IAuthRepository {
-  // Prepared statments
-  private registerUserStmt: Statement;
-  private createRefreshTokenStmt: Statement;
-  private findRefreshTokenByTokenStmt: Statement;
-  private revokeTokenStmt: Statement;
-  private invalidateRefreshTokensStmt: Statement;
-  constructor(private userRepository: IUserRepository) {
-    this.userRepository = userRepository;
-    this.registerUserStmt = db.prepare(
-      "INSERT INTO users (name, email, password) VALUES (@name, @email, @password)",
-    );
-    this.createRefreshTokenStmt = db.prepare(
-      "INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (@userId, @token, @expiresAt)",
-    );
-    this.findRefreshTokenByTokenStmt = db.prepare(
-      "SELECT id, user_id, token, expires_at, revoked_at, revocation_reason FROM refresh_tokens WHERE token = ?",
-    );
-    this.revokeTokenStmt = db.prepare(
-      "UPDATE refresh_tokens SET revoked_at = @revokedAt, revocation_reason = 'ROTATION' WHERE id = @id",
-    );
-    this.invalidateRefreshTokensStmt = db.prepare(
-      "UPDATE refresh_tokens SET revoked_at = @revokedAt, revocation_reason = @revocationReason WHERE user_id = @userId",
-    );
-  }
-
   async register(newUser: AuthRegister): Promise<UserEntity> {
     try {
-      const registerResult = this.registerUserStmt.run(newUser);
-
-      return (await this.userRepository.findById(
-        registerResult.lastInsertRowid as number,
-      )) as UserEntity;
+      return await prisma.user.create({ data: newUser });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -48,9 +17,15 @@ export class AuthRepository implements IAuthRepository {
     userId: number,
     token: string,
     expiresAt: string,
-  ): Promise<RunResult> {
+  ): Promise<RefreshTokenEntity> {
     try {
-      return this.createRefreshTokenStmt.run({ userId, token, expiresAt });
+      return await prisma.refreshToken.create({
+        data: {
+          user_id: userId,
+          expires_at: expiresAt,
+          token,
+        },
+      });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
@@ -60,23 +35,24 @@ export class AuthRepository implements IAuthRepository {
     hashedToken: string,
   ): Promise<RefreshTokenEntity | null> {
     try {
-      const refreshToken = this.findRefreshTokenByTokenStmt.get(hashedToken) as
-        | RefreshTokenEntity
-        | undefined;
-      if (!refreshToken) {
-        return Promise.resolve(null);
-      }
-
-      return refreshToken;
+      return await prisma.refreshToken.findFirst({
+        where: { token: hashedToken },
+      });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }
   }
 
-  async revokeToken(id: number, revokedAt: string): Promise<RunResult> {
+  async revokeToken(
+    id: number,
+    revokedAt: string,
+  ): Promise<RefreshTokenEntity> {
     try {
-      return this.revokeTokenStmt.run({ id, revokedAt });
-    } catch (err) {
+      return await prisma.refreshToken.update({
+        where: { id },
+        data: { revoked_at: revokedAt, revocation_reason: "ROTATION" },
+      });
+    } catch (err: any) {
       throw ApplicationError.repositoryError(err);
     }
   }
@@ -84,9 +60,12 @@ export class AuthRepository implements IAuthRepository {
   async invalidateTokensByUserId(
     userId: number,
     revocationReason: "SECURITY_BREACH" | "LOGOUT",
-  ): Promise<RunResult> {
+  ): Promise<void> {
     try {
-      return this.invalidateRefreshTokensStmt.run({ userId, revocationReason });
+      await prisma.refreshToken.updateMany({
+        where: { user_id: userId },
+        data: { revocation_reason: revocationReason, revoked_at: new Date() },
+      });
     } catch (err) {
       throw ApplicationError.repositoryError(err);
     }

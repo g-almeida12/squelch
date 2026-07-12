@@ -1,13 +1,10 @@
-import Database from "better-sqlite3";
 import { Server } from "http";
-import { join } from "path";
+import { PrismaClient } from "./generated/client.js";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { envConfig } from "../../config/env.config.js";
 
-const dbPath = join(process.cwd(), "database.db");
-
-export const db = new Database(dbPath);
-
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
+const pgAdapter = new PrismaPg({ connectionString: envConfig.DATABASE_URL });
+export const prisma = new PrismaClient({ adapter: pgAdapter });
 
 export function closeDBConnection(server: Server, signal: string) {
   console.log(`Closing database by '${signal}' command...`);
@@ -15,14 +12,13 @@ export function closeDBConnection(server: Server, signal: string) {
   const timerId = setTimeout(() => {
     console.warn("\x1b[1;33mForcing immediate termination.\x1b[0;0m");
     process.exit(1);
-  }, 5000);
+  }, 10_000);
 
   server.close(() => {
     console.log("Server closed");
     clearTimeout(timerId);
 
     try {
-      db.close();
       console.log("Database closed");
     } catch (err) {
       console.error(

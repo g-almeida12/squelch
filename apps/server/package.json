@@ -7,6 +7,8 @@
   "scripts": {
     "server:dev": "nodemon --exec tsx ./src/index.ts",
     "server:setup": "tsx ./src/config/challenges.config.ts",
+    "server:migrate": "npx prisma migrate dev",
+    "server:generate": "npx prisma generate",
     "server:build": "tsc -b ./tsconfig.json",
     "server:start": "node ./dist/index.js"
   },
@@ -15,6 +17,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@squelch/shared": "*",
     "@types/cookie-parser": "^1.4.10",
     "argon2": "^0.44.0",
@@ -24,6 +28,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "pg": "^8.22.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -33,6 +38,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "nodemon": "^3.1.14",
+    "prisma": "^7.8.0",
     "tsx": "^4.22.0",
     "typescript": "^6.0.3"
   }

@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client"
+  output = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String 
+
+  submissions Submission[]
+  refresh_tokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Challenge {
+  id Int @id @default(autoincrement())
+  position Int
+  title String @unique
+  markdown String
+  validation_query String
+  difficulty Difficulty
+  group_slug String
+  group_title String
+
+  submissions Submission[]
+
+  @@index([group_slug])
+  @@map("challenges")
+}
+
+model Submission {
+  id Int @id @default(autoincrement())
+  user_id Int
+  challenge_id Int
+  success Boolean
+  submitted_query String
+  user_query_result String
+  date DateTime
+
+  user User @relation(fields: [user_id],  references: [id], onDelete: Cascade)
+  challenge Challenge @relation(fields: [challenge_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("submissions")
+}
+
+model RefreshToken {
+  id Int @id @default(autoincrement())
+  user_id Int
+  token String
+  expires_at DateTime
+  revoked_at DateTime?
+  revocation_reason RevocationReason?
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("refresh_tokens")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum RevocationReason {
+  SECURITY_BREACH
+  ROTATION
+  LOGOUT
+}

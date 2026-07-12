@@ -1,5 +1,4 @@
 import { AuthRegister, AuthLogin, Id } from "@squelch/shared";
-import { RunResult } from "better-sqlite3";
 import { AuthEntity, RefreshTokenEntity } from "./index.js";
 import { UserEntity } from "../user/index.js";
 
@@ -10,18 +9,18 @@ export interface IAuthRepository {
     userId: Id,
     token: string,
     expiresAt: string,
-  ): Promise<RunResult>;
+  ): Promise<RefreshTokenEntity>;
 
   findRefreshTokenByToken(
     hashedToken: string,
   ): Promise<RefreshTokenEntity | null>;
 
-  revokeToken(id: Id, revokedAt: string): Promise<RunResult>;
+  revokeToken(id: Id, revokedAt: string): Promise<RefreshTokenEntity>;
 
   invalidateTokensByUserId(
     userId: Id,
     revocationReason: "SECURITY_BREACH" | "LOGOUT",
-  ): Promise<RunResult>;
+  ): Promise<void>;
 }
 
 export interface IAuthService {

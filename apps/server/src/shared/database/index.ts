@@ -1,1 +1,1 @@
-export { closeDBConnection, db} from './connection.js';
+export { closeDBConnection, prisma } from './connection.js';

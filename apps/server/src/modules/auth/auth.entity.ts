@@ -11,8 +11,8 @@ export type RefreshTokenEntity = {
   id: Id;
   user_id: Id;
   token: string;
-  expires_at: string;
-  revoked_at: string;
+  expires_at: Date;
+  revoked_at: Date | null;
   revocation_reason: "ROTATION" | "SECURITY_BREACH" | "LOGOUT" | null;
 };
 

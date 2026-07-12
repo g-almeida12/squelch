@@ -20,7 +20,7 @@ export function mapUserDTO(user: UserEntity): UserDTO {
   return {
     name: user.name,
     email: user.email,
-    id: user.id,
+    id: user.id,  
   };
 }
 

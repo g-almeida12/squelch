@@ -1,6 +1,7 @@
 node_modules
 dist
 .VSCodeCounter
+/src/generated/prisma
 
 stats.html
 .env
