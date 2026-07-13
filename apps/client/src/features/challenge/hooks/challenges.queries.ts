@@ -21,7 +21,6 @@ export function useGetChallenge(id: number) {
       return response.data.body;
     },
     enabled: !!id,
-    refetchOnWindowFocus: false,
   });
 }
 
@@ -36,7 +35,6 @@ export function useGetChallengeList() {
 
       return response.data.body;
     },
-    refetchOnWindowFocus: false,
   });
 }
 
@@ -51,6 +49,5 @@ export function useGetChallengeResume() {
 
       return response.data.body;
     },
-    refetchOnWindowFocus: false,
   });
 }

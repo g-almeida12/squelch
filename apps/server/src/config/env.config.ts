@@ -5,7 +5,6 @@ export const envConfig = {
   PORT: process.env.PORT as string,
   API_URL: process.env.API_URL as string,
   APP_URL: process.env.APP_URL as string,
-  NODE_ENV: process.env.NODE_ENV as string,
   JWT_SECRET: process.env.JWT_SECRET as string,
   DATABASE_URL: process.env.DATABASE_URL as string,
 } as const;

@@ -26,11 +26,9 @@ export function useLoginUser() {
   return useMutation<AuthDTO, ExtendedErrorPayload, AuthLogin>({
     mutationFn: async (user) => {
       const response = await api.post(API_ROUTES.LOGIN, user);
-      console.log('1', response.data);
       return response.data.body;
     },
     onSuccess: async (user) => {
-      console.log('2', user);
       queryClient.clear();
       sessionStorage.clear();
       sessionStorage.setItem('xsrf-token', user.xsrfToken);

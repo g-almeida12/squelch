@@ -31,7 +31,6 @@ export function LoginPage() {
   const handleLoginSubmittion = (user: AuthLogin) => {
     loginMutation.mutate(user, {
       onSuccess: (loggedUser) => {
-        console.log("3", loggedUser);
         queryClient.setQueryData(userQueryKeys.profile(), loggedUser);
         navigate(APP_ROUTES.HOME);
       },

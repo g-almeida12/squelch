@@ -32,7 +32,6 @@ api.interceptors.response.use(
     }
 
     if (err.response?.status === 401 && !originalRequest._retry) {
-      console.log("tentou de novo");
       originalRequest._retry = true;
 
       try {
