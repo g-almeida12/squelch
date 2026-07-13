@@ -47,15 +47,17 @@ export class SubmissionService implements ISubmissionService {
       return userAnswer;
     } catch (err: any) {
       // Catch the SQLite error to display to the user
+      if (
+        err instanceof TypeError &&
+        err.message.includes("does not return data")
+      ) {
+        throw new ApplicationError("Apenas SELECTs são permitidos.", 422, [
+          { field: "submittedQuery", message: err.message },
+        ]);
+      }
+
       if (err instanceof SqliteError) {
         switch (err.code) {
-          case "SQLITE_READONLY":
-            throw new ApplicationError(
-              "Query de alteração enviada. Apenas SELECTs são permitidos",
-              422,
-              [{ field: "submittedQuery", message: err.message }],
-            );
-
           case "SQLITE_ERROR": {
             let errorMessage: string;
             const sqliteErrorMessage = err.message.toLowerCase();
@@ -81,6 +83,7 @@ export class SubmissionService implements ISubmissionService {
         throw err;
       }
 
+      console.log(err);
       throw new ApplicationError("Erro desconhecido do servidor", 500);
     }
   }
