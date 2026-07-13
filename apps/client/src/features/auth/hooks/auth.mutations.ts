@@ -2,7 +2,6 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import type { AuthRegister, AuthDTO, AuthLogin } from "@squelch/shared";
 import api from "../../../api/axios.api";
 import { API_ROUTES } from "../../../config/constants";
-import { userQueryKeys } from "../../user/hooks/user.query-keys";
 import type { ExtendedErrorPayload } from "../../../types";
 
 export function useRegisterUser() {
@@ -13,8 +12,10 @@ export function useRegisterUser() {
       const response = await api.post(API_ROUTES.REGISTER, newUser);
       return response.data;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
+    onSuccess: async (user) => {
+      queryClient.clear();
+      sessionStorage.clear();
+      sessionStorage.setItem('xsrf-token', user.xsrfToken);
     },
   });
 }
@@ -27,8 +28,10 @@ export function useLoginUser() {
       const response = await api.post(API_ROUTES.LOGIN, user);
       return response.data;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: userQueryKeys.all });
+    onSuccess: async (user) => {
+      queryClient.clear();
+      sessionStorage.clear();
+      sessionStorage.setItem('xsrf-token', user.xsrfToken);
     },
   });
 }
