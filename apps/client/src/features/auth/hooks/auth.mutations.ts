@@ -10,7 +10,7 @@ export function useRegisterUser() {
   return useMutation<AuthDTO, ExtendedErrorPayload, AuthRegister>({
     mutationFn: async (newUser) => {
       const response = await api.post(API_ROUTES.REGISTER, newUser);
-      return response.data;
+      return response.data.body;
     },
     onSuccess: async (user) => {
       queryClient.clear();
@@ -26,9 +26,11 @@ export function useLoginUser() {
   return useMutation<AuthDTO, ExtendedErrorPayload, AuthLogin>({
     mutationFn: async (user) => {
       const response = await api.post(API_ROUTES.LOGIN, user);
-      return response.data;
+      console.log('1', response.data);
+      return response.data.body;
     },
     onSuccess: async (user) => {
+      console.log('2', user);
       queryClient.clear();
       sessionStorage.clear();
       sessionStorage.setItem('xsrf-token', user.xsrfToken);
@@ -42,7 +44,7 @@ export function useLogoutUser() {
   return useMutation<null, ExtendedErrorPayload, null>({
     mutationFn: async () => {
       const response = await api.post(API_ROUTES.LOGOUT, {});
-      return response.data;
+      return response.data.body;
     },
     onSuccess: () => {
       queryClient.clear();
