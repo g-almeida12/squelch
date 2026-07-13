@@ -18,7 +18,7 @@ export function useRunQuery() {
   >({
     mutationFn: async ({ id, submittedQuery }) => {
       const response = await api.post(
-        API_ROUTES.QUERY_RUN(id),
+        API_ROUTES.EXECUTION_RUN(id),
         { submittedQuery },
         {
           withCredentials: true,
@@ -41,7 +41,7 @@ export function useValidateQuery() {
   >({
     mutationFn: async ({ id, submission }) => {
       const response = await api.post(
-        API_ROUTES.VALIDATION_RUN(id),
+        API_ROUTES.SUBMISSION_RUN(id),
         submission,
         { withCredentials: true, withXSRFToken: true },
       );

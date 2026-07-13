@@ -1,7 +1,6 @@
 import Database from "better-sqlite3";
 import { existsSync, readFileSync, readdirSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
-import { db } from "../shared/database/connection.js";
 
 function populateChallengeDatabases() {
   console.log("\nPopulating challenges databases...");
@@ -42,7 +41,7 @@ function populateChallengeDatabases() {
         } catch (err) {
           unlinkSync(templateDb);
           console.error(
-            `\n\n\x1b[1;31m[challenges.config.ts] Error on attempting to populate a database:${err}\x1b[0;0m\n`,
+            `\n\n\x1b[1;31m[challenges.config.ts] Error on attempting to populate a database: \nb${err}\x1b[0;0m`,
           );
         }
       } else {
@@ -54,37 +53,4 @@ function populateChallengeDatabases() {
   console.log("\nSuccessfully populated challenge databases.\n");
 }
 
-// !ADAPT TO PRISMA LATER
-function insertChallengeTableRows() {
-  console.log("\nInserting challenges on database...");
-
-  const challengesSetupFile = join(
-    process.cwd(),
-    "challenge-groups",
-    "challenges-insert-setup.sql",
-  );
-  if (!existsSync(challengesSetupFile)) {
-    console.error(
-      `[challenges.config.ts] SQL file for challenge insertion setup not created.`,
-    );
-    process.exit(1);
-  }
-
-  const challengeInsertionSetup = readFileSync(challengesSetupFile, "utf-8");
-  const runSetupTransaction = db.transaction((sqlSetup: string) =>
-    db.exec(sqlSetup),
-  );
-
-  try {
-    runSetupTransaction(challengeInsertionSetup);
-    console.log("\nSuccessfully inserted challenges on database.\n");
-  } catch (err) {
-    console.error(
-      `\x1b[1;31m[challenges.config.ts] Fatal error on attempting to insert challenges on database:\n${err}\x1b[0;0m`,
-    );
-    process.exit(1);
-  }
-}
-
 populateChallengeDatabases();
-// insertChallengeTableRows();

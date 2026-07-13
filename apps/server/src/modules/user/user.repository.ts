@@ -23,15 +23,13 @@ export class UserRepository implements IUserRepository {
         >`
           SELECT 
             c.group_slug, 
-            COUNT(c.id)::int AS total,
-            COUNT(
-              DISTINCT CASE WHEN
-              s.success = true
-              AND s.user_id = ${userId} 
-              THEN s.challenge_id END
-            )::int AS completed
+            COUNT(DISTINCT c.id)::int AS total,
+            COUNT(DISTINCT s.challenge_id)::int AS completed
           FROM challenges c
-          LEFT JOIN submissions s ON c.id = s.challenge_id
+          LEFT JOIN submissions s ON 
+            c.id = s.challenge_id
+            AND s.success = true
+            AND s.user_id = ${userId}
           GROUP BY c.group_slug
         `,
         prisma.$queryRaw<{ challenge_id: number }[]>`

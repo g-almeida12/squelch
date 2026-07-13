@@ -10,7 +10,7 @@ submissionRouter.use(authenticationMiddleware);
 
 // Run query route
 submissionRouter.post(
-  "/challenges/:challengeId/queries/run",
+  "/challenges/:challengeId/executions",
   async (req, res) => {
     const { success, statusCode, body } = await submissionController.runQuery(
       req.body?.submittedQuery,
@@ -21,9 +21,9 @@ submissionRouter.post(
   },
 );
 
-// Validation route
+// Submission route
 submissionRouter.post(
-  "/challenges/:challengeId/submissions/run",
+  "/challenges/:challengeId/submissions",
   async (req: AuthRequest, res) => {
     const { success, statusCode, body } =
       await submissionController.validateAndSave(

@@ -23,7 +23,7 @@ export const userRepository = new UserRepository();
 export const userService = new UserService(userRepository);
 export const userController = new UserController(userService);
 
-export const authRepository = new AuthRepository(userRepository);
+export const authRepository = new AuthRepository();
 export const authService = new AuthService(authRepository, userRepository);
 export const authController = new AuthController(authService);
 

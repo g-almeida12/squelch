@@ -23,9 +23,10 @@ export const API_ROUTES = {
   USER_PROGRESS: "/users/progress",
 
   // Submission URL
-  QUERY_RUN: (id: number) => `/challenges/${id}/queries/run` as const,
-  VALIDATION_RUN: (id: number) => `/challenges/${id}/submissions/run` as const,
-  CHALLENGES_SUBMISSIONS: (id: number) => `/challenges/${id}/submissions` as const,
+  EXECUTION_RUN: (id: number) => `/challenges/${id}/executions` as const,
+  SUBMISSION_RUN: (id: number) => `/challenges/${id}/submissions` as const,
+  CHALLENGES_SUBMISSIONS: (id: number) =>
+    `/challenges/${id}/submissions` as const,
   SUBMISSION: (id: number) => `/submissions/${id}` as const,
   USER_SUBMISSIONS: "/submissions",
 

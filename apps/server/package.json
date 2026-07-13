@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "server:dev": "nodemon --exec tsx ./src/index.ts",
-    "server:setup": "tsx ./src/config/challenges.config.ts",
+    "server:setup": "tsx ./src/shared/database/prisma/seed.ts",
     "server:migrate": "npx prisma migrate dev",
     "server:generate": "npx prisma generate",
     "server:build": "tsc -b ./tsconfig.json",

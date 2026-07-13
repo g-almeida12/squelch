@@ -50,12 +50,14 @@ export function compareQueryResults(
 
   // verify if the user result's values are correct
   const wrongField: string[] = [];
-  const userSet: Set<string> = new Set([
-    userAnswer.map((obj) => userFields.map((f) => `${f}:${obj[f]}`)).join("|"),
-  ]);
+  const userSet: Set<string> = new Set(
+    userAnswer.map((row) =>
+      userFields.map((f) => `${f}:[${row[f]}]`).join("|"),
+    ),
+  );
   for (let i = 0; i < expectedAnswer.length; i++) {
     const stringObj = expectedFields
-      .map((f) => `${f}:${expectedAnswer[i][f]}`)
+      .map((f) => `${f}:[${expectedAnswer[i][f]}]`)
       .join("|");
 
     if (!userSet.has(stringObj)) {

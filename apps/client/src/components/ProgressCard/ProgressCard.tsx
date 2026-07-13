@@ -48,7 +48,7 @@ export function ProgressCard({
               strokeDasharray={2 * Math.PI * 18}
               strokeDashoffset={
                 2 * Math.PI * 18 -
-                Math.min((progress ?? 0) / (finalProgress ?? 1), 1) *
+                Math.min((progress || 0) / (finalProgress || 1), 1) *
                   (2 * Math.PI * 18)
               }
               strokeLinecap="round"

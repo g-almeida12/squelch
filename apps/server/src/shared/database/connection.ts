@@ -14,18 +14,19 @@ export function closeDBConnection(server: Server, signal: string) {
     process.exit(1);
   }, 10_000);
 
-  server.close(() => {
+  server.close(async () => {
     console.log("Server closed");
-    clearTimeout(timerId);
 
     try {
+      await prisma.$disconnect();
       console.log("Database closed");
     } catch (err) {
       console.error(
-        `\x1b[1;31m[connection.ts] Error in attempting to close the database:\n ${err}\x1b[0;0m`,
+        `\n\n\x1b[1;31m[connection.ts] Error in attempting to close the database: \n${err}\x1b[0;0m`,
       );
+    } finally {
+      clearTimeout(timerId);
+      process.exit(0);
     }
-
-    process.exit(0);
   });
 }

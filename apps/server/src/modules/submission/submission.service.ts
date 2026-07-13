@@ -33,7 +33,7 @@ export class SubmissionService implements ISubmissionService {
     // Create the sandbox database
     const folderPath = join(
       process.cwd(),
-      "challenges-groups",
+      "challenge-groups",
       challengeQueryInfo.group_slug,
       "group.db",
     );
