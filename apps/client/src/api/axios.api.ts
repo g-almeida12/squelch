@@ -31,10 +31,8 @@ api.interceptors.response.use(
       return Promise.reject(formatGenericError(err));
     }
 
-    if (
-      err.response?.status === 403 ||
-      (err.response?.status === 401 && !originalRequest._retry)
-    ) {
+    if (err.response?.status === 401 && !originalRequest._retry) {
+      console.log("tentou de novo");
       originalRequest._retry = true;
 
       try {
