@@ -1,7 +1,5 @@
 # SQUELCH
 
-#### Video Demo: <CHANGE_TO_URL>
-
 #### Website: http://squelch-sql.vercel.app/landing-page
 
 ## Description:
@@ -24,7 +22,8 @@ Squelch leverages a modern, robust, and lightweight stack to deliver a fast, int
   - **Zod**, **React Query** & **React Hook Form** for smooth server state management, robust form handling, and strict input validation.
 - **Backend**:
   - **Node.js** & **Express** to power the REST API and handle business rules.
-  - **Better-SQLite3** for fast, synchronous, and isolated SQLite database execution.
+  - **Better-SQLite3** for fast, synchronous, and isolated SQLite database challenge execution.
+  - **PostgreSQL** for the main database, storing crucial data.
   - **Zod** for client input validation and sanitization, ensuring request payloads conform to exact schemas before reaching the business logic.
 - **Tooling & Shared**:
   - **TypeScript** across the entire monorepo to ensure type safety and prevent runtime bugs.
@@ -32,6 +31,7 @@ Squelch leverages a modern, robust, and lightweight stack to deliver a fast, int
 - **Deployment & Hosting**:
   - **Vercel** for hosting the frontend, ensuring fast load times and global edge delivery.
   - **Render** for hosting the backend Node.js API, handling runtime processes, and keeping database states active.
+  - **Supabase** for keeping the PostgreSQL connection alive.
 
 ---
 
@@ -91,7 +91,7 @@ The backend is built using a lightweight approach to Domain-Driven Design (DDD) 
 
 Here is how the backend is structured:
 
-#### Challenge Seeding & Databases (`server/challenges`)
+#### Challenge Seeding & Databases (`server/challenge-groups`)
 
 Located at the root of the server, this folder is dedicated to setting up and storing the database files for the mysteries.
 
@@ -108,7 +108,7 @@ The application logic lives inside the `src` directory, which is divided into th
 
 This folder handles the environment setup. It loads environment variables and hosts a **Dependency Injection Factory** that instantiates and exports controllers, services, and repositories for the application. 
 
-*Note: Database provisioning and seeding (such as generating the standalone SQLite challenge files via `challenges.config.ts`) have been decoupled from the application startup. These are now managed as manual, on-demand CLI tasks (run with `npm run setup`) to ensure a faster and more predictable server boot time.*
+*Note: Database provisioning and seeding (such as generating the standalone SQLite challenge files via `challenges.config.ts`) have been decoupled from the application startup. These are now managed as manual, on-demand CLI tasks. Run `npm run server:populate -w server` to create and populate the challenge databases, and `npm run server:setup -w server` to insert the challenges on the main database.*
 
 ##### 2. `modules`
 
@@ -147,27 +147,34 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
 ### Setup Steps
 
-1. **Clone the repository**
-   Clone the Squelch repository at https://github.com/g-almeida12/squelch.git:
+1. **Clone the repository:**
+  Clone the Squelch repository at https://github.com/g-almeida12/squelch.git:
 
-```bash
-git clone https://github.com/g-almeida12/squelch.git
-cd squelch
-```
+  ```bash
+  git clone https://github.com/g-almeida12/squelch.git
+  cd squelch
+  ```
 
-2. **Install all dependencies**
-   This command installs all required packages for the client, server, and shared directories at once using npm workspaces:
+2. **Install all dependencies:**
+  This command installs all required packages for the client, server, and shared directories at once using npm workspaces:
 
-```bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
-3. **Set up Environment Variables**
-   Navigate to apps/server and create a .env file based on the provided .env.example (setting up your JWT secrets, database paths, and port numbers)
+3. **Set up Environment Variables:**
+  Navigate to apps/server and create a .env file based on the provided .env.example (setting up your JWT secrets, database paths, and port numbers)
 
-4. **start the application**
-   Run the start script to build the `packages/shared` and initiate the server API and client APP:
+4. **Insert the challenges on the main database:**
+  Run this script to insert the local challenges on your database (connected by the `DATABASE_URL` key of .env):
+  ```bash
+  npm run server:setup -w server
+  ```
 
-```bash
-npm run start
-```
+
+5. **start the application:**
+  Run the start script to build the `packages/shared` and initiate the server API and client APP:
+
+  ```bash
+  npm run start
+  ```
