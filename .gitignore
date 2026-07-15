@@ -5,6 +5,6 @@ dist
 
 stats.html
 .env
-todo.txt
+TODO.txt
 tsconfig.tsbuildinfo
 database.db*
