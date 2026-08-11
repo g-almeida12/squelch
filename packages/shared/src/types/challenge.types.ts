@@ -1,4 +1,4 @@
-import type { Id } from "./";
+import type { Id } from "./index.js";
 
 export type ChallengeDifficultiesDTO = "EASY" | "MEDIUM" | "HARD";
 

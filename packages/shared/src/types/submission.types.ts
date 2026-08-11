@@ -3,7 +3,7 @@ import type {
   QueryResultDTOSchema,
   SubmissionValidationSchema,
   SubmissionDTOSchema,
-} from "../schemas";
+} from "../schemas/index.js";
 
 export type QueryResultDTO = z.infer<typeof QueryResultDTOSchema>;
 

@@ -3,7 +3,7 @@ import {
   UserUpdateSchema,
   UserDTOSchema,
   UserProgressDTOSchema,
-} from "../schemas";
+} from "../schemas/index.js";
 
 export type UserUpdate = z.infer<typeof UserUpdateSchema>;
 

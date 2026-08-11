@@ -11,6 +11,7 @@
     "client:tailwind": "tailwindcss init -p"
   },
   "dependencies": {
+    "@squelch/shared": "*",
     "@hookform/resolvers": "^5.4.0",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-focus-scope": "^1.1.10",
