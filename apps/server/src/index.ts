@@ -23,6 +23,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.get("/health", (_req, res) => {
+  return res.status(200).json({ status: "ok" });
+});
+
 app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", challengeRouter);
